@@ -7,7 +7,6 @@
 #include <time.h>
 
 #define ERROR 0
-#define TODO_OK 1
 
 #define CADENA 100
 
@@ -35,5 +34,9 @@ int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo);
 char* crearVecPos(size_t tam);
 void ubicacionAleatoria(char* vec, int tam, char letra, int cant);
 void guardarEscenario(char* vec, int tam, const char* nombArchivo);
+
+int generarMovimiento();
+void ponerEnColaMovimiento();
+
 
 #endif // CONFIGURACION
