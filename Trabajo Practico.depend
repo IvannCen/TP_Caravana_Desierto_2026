@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1779630193 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\cola.c
+	"cola.h"
+
+1779630193 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1776804073 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.c
+	"configuracion.h"
+
+1779632726 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+

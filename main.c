@@ -1,4 +1,5 @@
 #include "configuracion.h"
+#include "cola.h"
 
 int main()
 {
@@ -40,5 +41,30 @@ int main()
     guardarEscenario(posiciones,config.cantidad_posiciones,"caravana.txt");
 
     free(posiciones);
+
+    //para probar lo de los movimientos en la cola
+
+    tCola colaEventos;
+    crearCola(&colaEventos);
+
+    //pruebo simulando que el jugador tiro el dado y va para adelante
+    tMovimiento movJugador={'J',3,'F'};
+    //ahora simulo que la maquina movio al bandido
+    tMovimiento movBandido={'B',2,'B'};
+
+    //ahora lo acolo
+    aColar(&colaEventos,&movJugador,sizeof(tMovimiento));
+    aColar(&colaEventos,&movBandido,sizeof(tMovimiento));
+
+    //desencolo y proceso lo que paso
+    tMovimiento movProcesado;
+    while(sacarDeCola(&colaEventos,&movProcesado,sizeof(tMovimiento)))
+    {
+        if(movProcesado.entidad == 'J')
+            printf("Resolviendo: El Jugador se mueve %d casillas hacia %c.\n", movProcesado.casillas, movProcesado.sentido);
+        else if(movProcesado.entidad == 'B')
+            printf("Resolviendo: Un Bandido se mueve %d casillas hacia %c.\n", movProcesado.casillas, movProcesado.sentido);
+    }
+    printf("Cola vaciada correctamente.\n");
     return 0;
 }
