@@ -1,18 +1,36 @@
 # depslib dependency file v1.0
-1779630193 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\cola.c
-	"cola.h"
-
-1779630193 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\cola.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-
-1776804073 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.c
+1777052599 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 
-1779632726 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.h
+1779631687 c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
+
+1779628634 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
+	"TDA_ListaDobleCircular.h"
+
+1779628711 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1779629460 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\cola.c
+	"cola.h"
+	"configuracion.h"
+
+1779628634 c:\users\cristian\documents\github\tp_caravana_desierto_2026\cola.h
+
+1779631737 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_coladinamica.c
+	"cola.h"
+	"configuracion.h"
+
+1779631687 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\menu.c
+	"menu.h"
+
+1779630974 c:\users\cristian\documents\github\tp_caravana_desierto_2026\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
 

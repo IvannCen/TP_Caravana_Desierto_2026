@@ -1,4 +1,5 @@
 #include "configuracion.h"
+#include "cola.h"
 
 int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo)
 {
@@ -15,27 +16,27 @@ int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo)
         {
             switch(contador)
             {
-                case 0:
-                    fscanf(arch,"%d",&c->cantidad_posiciones);
-                    break;
-                case 1:
-                    fscanf(arch,"%d",&c->vidas_inicio);
-                    break;
-                case 2:
-                    fscanf(arch,"%d",&c->maximo_bandidos);
-                    break;
-                case 3:
-                    fscanf(arch,"%d",&c->maximo_premios);
-                    break;
-                case 4:
-                    fscanf(arch,"%d",&c->maximo_vidas_extra);
-                    break;
-                case 5:
-                    fscanf(arch,"%d",&c->maximo_oasis);
-                    break;
-                case 6:
-                    fscanf(arch,"%d",&c->maximo_tormentas);
-                    break;
+            case 0:
+                fscanf(arch,"%d",&c->cantidad_posiciones);
+                break;
+            case 1:
+                fscanf(arch,"%d",&c->vidas_inicio);
+                break;
+            case 2:
+                fscanf(arch,"%d",&c->maximo_bandidos);
+                break;
+            case 3:
+                fscanf(arch,"%d",&c->maximo_premios);
+                break;
+            case 4:
+                fscanf(arch,"%d",&c->maximo_vidas_extra);
+                break;
+            case 5:
+                fscanf(arch,"%d",&c->maximo_oasis);
+                break;
+            case 6:
+                fscanf(arch,"%d",&c->maximo_tormentas);
+                break;
             }
             contador++;
         }
@@ -96,3 +97,10 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
     }
     fclose(arch);
 }
+
+int tirarDado()
+{
+    return rand()%6 + 1;
+}
+
+

@@ -54,8 +54,8 @@ int sacarDeCola(tCola *c, void *dato, unsigned tam)
     memcpy(dato, elim->dato, MIN(elim->tamDato, tam));
     c->pri = elim->sig;
 
-    free(elim);
     free(elim->dato);
+    free(elim);
 
     if(!(c->pri))
         c->ult = NULL;
@@ -81,8 +81,8 @@ void vaciarCola(tCola *c)
     {
         elim = c->pri;
         c->pri = elim->sig;
-        free(elim);
         free(elim->dato);
+        free(elim);
     }
     c->ult = NULL;
 }

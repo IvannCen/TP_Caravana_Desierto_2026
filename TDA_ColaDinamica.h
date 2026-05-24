@@ -1,5 +1,5 @@
-#ifndef COLA_H_INCLUDED
-#define COLA_H_INCLUDED
+#ifndef TDA_COLADINAMICA_H_INCLUDED
+#define TDA_COLADINAMICA_H_INCLUDED
 
 #define MIN(X,Y) ((X)<(Y) ? (X) : (Y))
 #define COLA_VACIA 3
@@ -26,4 +26,5 @@ int ponerEnCola(tCola *c, const void *dato, unsigned tam);
 int sacarDeCola(tCola *c, void *dato, unsigned tam);
 int verPrimero(const tCola *c, void *dato, unsigned tam);
 void vaciarCola(tCola *c);
-#endif // COLA_H_INCLUDED
+
+#endif // TDA_COLADINAMICA_H_INCLUDED
