@@ -1,16 +1,17 @@
 #include "TDA_ListaDobleCircular.h"
+#include "tablero.h"
 
-void crearListaDoble(tLista *pl)
+void crearListaDoble(tListaDobleC *pl)
 {
     *pl = NULL;
 }
 
-int listaVacia(const tLista *pl)
+int listaVacia(const tListaDobleC *pl)
 {
     return *pl == NULL;
 }
 
-int ponerAlFinalEnListaCircular(tLista *pl, const void *dato, unsigned tam)
+int ponerAlFinalEnListaCircular(tListaDobleC *pl, const void *dato, unsigned tam)
 {
     tNodo *nue, *pri;
 
@@ -46,3 +47,27 @@ int ponerAlFinalEnListaCircular(tLista *pl, const void *dato, unsigned tam)
 
     return 1;
 }
+
+void mostrarListaDeIzqADer(tListaDobleC *pl, void (* mostrar)(const void *a))
+{
+    tNodo *act;
+
+    if(!(*pl))
+        return;
+
+
+
+    act = (*pl)->sig;
+
+    if(act)
+    {
+        do
+        {
+            mostrar(act->dato);
+            act = act->sig;
+        }
+        while(act != (*pl)->sig);
+    }
+}
+
+

@@ -12,10 +12,13 @@ typedef struct sNodo
     struct sNodo *sig;
 } tNodo;
 
-typedef tNodo *tLista;
+typedef tNodo *tListaDobleC;
 
-void crearListaDoble(tLista *pl);
-int listaVacia(const tLista *pl);
-int ponerAlFinalEnListaCircular(tLista *pl, const void *dato, unsigned tam);
+void crearListaDoble(tListaDobleC *pld);
+int listaVacia(const tListaDobleC *pld);
+int ponerAlFinalEnListaCircular(tListaDobleC *pld, const void *dato, unsigned tam);
+
+void mostrarListaDeIzqADer(tListaDobleC *pld, void (* mostrar)(const void *a));
+void mostrarCasillero(const void *a);
 
 #endif // TDA_LISTADOBLECIRCULAR_H_INCLUDED
