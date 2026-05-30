@@ -1,4 +1,4 @@
-#include "cola.h"
+#include "TDA_ColaDinamica.h"
 #include "configuracion.h"
 
 void crearCola(tCola *c)
