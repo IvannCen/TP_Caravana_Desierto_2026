@@ -47,7 +47,6 @@ int main()
     tJugador jugador;
     tJuego juego;
     char nombre[] = "jugador1";
-    int dir, pasos;
 
     inicializarJuego(&juego, 15);
     crearJugador(&jugador, nombre, 3);
@@ -55,21 +54,9 @@ int main()
 
     mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
-    while(1==1)
+    while(juego.estadoPartida == 0)
     {
-        printf("\n\nAprete ENTER para tirar el dado virtual...");
-        getchar();
-
-        pasos = tirarDado();
-
-        printf("\nEl dado cayo en: %d\n", pasos);
-
-        dir = pedirDireccion();
-
-        moverJugadorConRebote(&jugador, pasos, dir, &juego);
-
-        mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
-        printf("\n");
+        turno(&jugador, &juego);
 
     }
 

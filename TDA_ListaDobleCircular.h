@@ -4,15 +4,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct sNodo
+typedef struct sNodoLista
 {
     void *dato;
     unsigned tamDato;
-    struct sNodo *ant;
-    struct sNodo *sig;
-} tNodo;
+    struct sNodoLista *ant;
+    struct sNodoLista *sig;
+} tNodoLista;
 
-typedef tNodo *tListaDobleC;
+typedef tNodoLista *tListaDobleC;
 
 void crearListaDoble(tListaDobleC *pld);
 int listaVacia(const tListaDobleC *pld);
