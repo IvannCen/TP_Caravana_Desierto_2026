@@ -44,8 +44,7 @@ char* crearVecPos(size_t tam);
 void ubicacionAleatoria(char* vec, int tam, char letra, int cant);
 void guardarEscenario(char* vec, int tam, const char* nombArchivo);
 
-int generarMovimiento();
-void ponerEnColaMovimiento();
+
 
 
 #endif // CONFIGURACION
