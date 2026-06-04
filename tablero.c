@@ -292,25 +292,25 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     switch (c->componente)
     {
         case 'S':
-            printf("Lograste llegar a la ciudad refugio !!\n");
+            printf("Lograste llegar a la ciudad refugio !!\n\n");
             juego->estadoPartida = 1;
             break;
         case 'P':
-            printf("Obtuviste un punto !!\n");
+            printf("Obtuviste un punto !!\n\n");
             j->puntos++;
             c->componente = '.';
             break;
         case 'V':
-            printf("Obtuviste una vida extra !!\n");
+            printf("Obtuviste una vida extra !!\n\n");
             j->cantVidas++;
             c->componente = '.';
             break;
         case 'O':
-            printf("Estas en un oasis lo que te genera proteccion !!\n");
+            printf("Estas en un oasis lo que te genera proteccion !!\n\n");
             j->protegido = 1;
             break;
         case 'T':
-            printf("Estas en una tormenta lo que te hace perder el proximo turno\n");
+            printf("Estas en una tormenta lo que te hace perder el proximo turno\n\n");
             if (!j->protegido)
                 j->pierdeTurno = 1;
             break;
@@ -322,7 +322,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
     if (c->cantBandidos > 0 && !(j->protegido))
     {
-        printf("¡Te atrapo un bandido!\n");
+        printf("¡Te atrapo un bandido!\n\n");
         (j->cantVidas)--;
 
         int k=0;
@@ -351,7 +351,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
         if (j->cantVidas == 0)
         {
-            printf("Perdiste te quedaste sin vidas, mas suerte la proxima\n");
+            printf("Perdiste te quedaste sin vidas, mas suerte la proxima\n\n");
             juego->estadoPartida = -1; // perdio
         }
     }
@@ -363,13 +363,13 @@ void turno(tJugador *j, tJuego *juego)
 
     if (j->pierdeTurno)
     {
-        printf("\nEstas atrapado en la tormenta de arena. Pierdes este turno...\n");
+        printf("\nEstas atrapado en la tormenta de arena. Pierdes este turno...\n\n");
 
         for(int i=0; i<3; i++)
         {
             printf("\n.");
         }
-        printf("\nLos bandidos se mueven mientras estas aturdido!\n");
+        printf("\n\nLos bandidos se mueven mientras estas aturdido!\n");
         j->pierdeTurno = 0;
 
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
