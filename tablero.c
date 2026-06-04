@@ -1,5 +1,6 @@
 #include "tablero.h"
 #include "TDA_ListaDobleCircular.h"
+#include "TDA_ListaSimple.h"
 
 
 void inicializarJuego(tJuego *juego, int cantPos)
@@ -7,6 +8,10 @@ void inicializarJuego(tJuego *juego, int cantPos)
     crearListaDoble(&juego->tablero);
     crearCola(&juego->colaMovimientos);
     crearTablero(&juego->tablero, cantPos);
+
+    crearLista(&juego->bandidos);
+    juego->IdBandido = 1;
+
 
     juego->nodoInicio = juego->tablero->sig;
     juego->nodoSalida = juego->tablero;
@@ -46,6 +51,63 @@ void ubicarJugador(tJuego *juego, tJugador *j)
     tCasillero *casillero = (tCasillero *)inicio->dato;
     casillero->hayJugador = 1;
     j->posActual = inicio;
+}
+
+void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion)
+{
+    tNodoLista *pos;
+    tCasillero *c;
+    int cantPos = config->cantidad_posiciones;
+    int cantCompPuestos = 0;
+    int i;
+
+    while (cantCompPuestos < cantComp)
+    {
+        int salto = (rand() % (cantPos - zonaExclusion - 2)) + zonaExclusion + 1;
+
+        pos = juego->nodoInicio;
+
+        for (i = 0; i < salto; i++)
+            pos = pos->sig;
+
+        c = (tCasillero *) pos->dato;
+
+        if (tipo == 'B')
+        {
+            c->cantBandidos++;
+            agregarBandido(&juego->bandidos, juego->IdBandido++, pos);
+            c->componente = tipo;
+        }
+        else
+        {
+            if (c->componente != '.')
+                continue;
+            c->componente = tipo;
+        }
+        cantCompPuestos++;
+    }
+}
+
+void ponerTodosLosComponentes(tJuego *juego, tConfiguracion *config)
+{
+    ponerComponentesEnTablero(juego, config, 'B', config->maximo_bandidos, 6);
+    ponerComponentesEnTablero(juego, config, 'P', config->maximo_premios, 0);
+    ponerComponentesEnTablero(juego, config, 'V', config->maximo_vidas_extra, 0);
+    ponerComponentesEnTablero(juego, config, 'O', config->maximo_oasis, 0);
+    ponerComponentesEnTablero(juego, config, 'T', config->maximo_tormentas, 0);
+}
+
+void agregarBandido(tListaSimple *pl, int id, tNodoLista *posicion)
+{
+    tBandido bandido;
+
+    bandido.id = id;
+    bandido.posActual = posicion;
+    bandido.vivo = 1;
+
+    ponerEnListaAlFinal(pl, &bandido, sizeof(tBandido));
+
+    ((tCasillero*)posicion->dato)->cantBandidos++;
 }
 
 int pedirDireccion()
@@ -239,7 +301,7 @@ void turno(tJugador *j, tJuego *juego)
 
     direccion = pedirDireccion();
 
-    // 1 — encolar movimientos
+    //  encolar movimientos
     ponerEnColarMovimientoJugador(&juego->colaMovimientos, direccion, pasos);
 //    encolarMovimientosBandidos(&juego->colaMovimientos, juego->bandidos, j);
 
@@ -248,6 +310,7 @@ void turno(tJugador *j, tJuego *juego)
 
     // 3 — actualizar pantalla
 //    mostrarTablero(juego->tablero);
+
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
 }
 
@@ -262,8 +325,9 @@ void mostrarCasillero(const void *a)
         else
             printf("[%c J] ", casillero.componente);
     }
+    else if(casillero.cantBandidos > 0)
+        printf("[B] ");
     else
-    {
         printf("[%c] ", casillero.componente);
-    }
+
 }

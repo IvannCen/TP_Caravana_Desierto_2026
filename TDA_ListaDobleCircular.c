@@ -6,7 +6,7 @@ void crearListaDoble(tListaDobleC *pl)
     *pl = NULL;
 }
 
-int listaVacia(const tListaDobleC *pl)
+int listaDobleVacia(const tListaDobleC *pl)
 {
     return *pl == NULL;
 }

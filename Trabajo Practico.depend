@@ -1,20 +1,23 @@
 # depslib dependency file v1.0
-1780438591 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
+1780603005 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
 
-1780147375 c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.h
+1780602713 c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
+	"TDA_ListaDobleCircular.h"
+	"TDA_ColaDinamica.h"
+	"TDA_ListaSimple.h"
 
-1780408596 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
+1780599814 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
 
-1780408690 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
+1780599807 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -36,26 +39,33 @@
 	<stdlib.h>
 	<string.h>
 
-1780147375 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.c
+1780602725 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
-	"TDA_ColaDinamica.h"
 
-1780439529 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.c
+1780604168 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
+	"TDA_ListaSimple.h"
 
-1780438660 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.h
+1780602713 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ColaDinamica.h"
+	"TDA_ListaSimple.h"
 
 1780408596 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_coladinamica.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1780067161 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
-	"TDA_ColaDinamica.h"
+1780599932 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
+	"TDA_ListaSimple.h"
+
+1780599926 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
 

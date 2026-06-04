@@ -4,8 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "configuracion.h"
 #include "TDA_ListaDobleCircular.h"
 #include "TDA_ColaDinamica.h"
+#include "TDA_ListaSimple.h"
+
 
 typedef struct
 {
@@ -38,6 +41,8 @@ typedef struct
     tNodoLista *nodoInicio;
     tNodoLista *nodoSalida;
     tCola colaMovimientos;
+    tListaSimple bandidos;
+    int IdBandido;
     int estadoPartida; /// 1 victoria, 0 sigue jugando
 } tJuego;
 
@@ -55,6 +60,10 @@ void crearTablero(tListaDobleC *pld, int cantPos);
 void crearJugador(tJugador *j, const char *nombreJ, int cantVidas);
 void ubicarJugador(tJuego *juego, tJugador *j);
 void turno(tJugador *j, tJuego *juego);
+
+void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion);
+void ponerTodosLosComponentes(tJuego *juego, tConfiguracion *config);
+void agregarBandido(tListaSimple *pl, int id, tNodoLista *posicion);
 
 int pedirDireccion();
 int tirarDado();

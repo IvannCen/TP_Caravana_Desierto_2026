@@ -15,7 +15,7 @@ typedef struct sNodoLista
 typedef tNodoLista *tListaDobleC;
 
 void crearListaDoble(tListaDobleC *pld);
-int listaVacia(const tListaDobleC *pld);
+int listaDobleVacia(const tListaDobleC *pld);
 int ponerAlFinalEnListaCircular(tListaDobleC *pld, const void *dato, unsigned tam);
 
 void mostrarListaDeIzqADer(tListaDobleC *pld, void (* mostrar)(const void *a));

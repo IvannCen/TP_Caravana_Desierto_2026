@@ -6,6 +6,12 @@
 #include <string.h>
 #include <time.h>
 
+
+#include "TDA_ListaDobleCircular.h"
+#include "TDA_ColaDinamica.h"
+#include "TDA_ListaSimple.h"
+
+
 #define ERROR 0
 
 #define CADENA 100
@@ -30,10 +36,8 @@ typedef struct
     int maximo_tormentas;
 }tConfiguracion;
 
-int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo);
-char* crearVecPos(size_t tam);
-void ubicacionAleatoria(char* vec, int tam, char letra, int cant);
-void guardarEscenario(char* vec, int tam, const char* nombArchivo);
+int cargarConfiguracion(tConfiguracion* config, const char* nombarch);
+
 
 
 
