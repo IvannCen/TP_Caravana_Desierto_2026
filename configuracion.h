@@ -19,15 +19,6 @@
 #define TORMENTA 'T'
 #define BANDIDO 'B'
 
-//para probar movimientos en la cola
-//despues lo puedo mover a un juego.h cuando se haga
-typedef struct
-{
-    char entidad;//ya sea jugador o bandido
-    int casillas;//cantidad de pos que se mueve
-    char sentido;//adelante (F) o atras (B)
-}tMovimiento;
-
 typedef struct
 {
     int cantidad_posiciones;
