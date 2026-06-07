@@ -46,6 +46,26 @@ void ubicarJugador(tJuego *juego, tJugador *j)
     j->posActual = inicio;
 }
 
+void ubicarBandidos(tJuego *juego, tBandido *bandidos, int cantBandidos)
+{
+    tNodo *actual = juego->tablero->sig; 
+    int bEncontrados = 0;
+    
+    do
+    {
+        tCasillero *cas = (tCasillero *)actual->dato;
+        if (cas->componente == 'B' && bEncontrados < cantBandidos)
+        {
+            bandidos[bEncontrados].id = bEncontrados + 1;
+            bandidos[bEncontrados].posActual = actual;
+            bandidos[bEncontrados].vivo = 1;
+            bEncontrados++;
+        }
+        actual = actual->sig;
+        
+    } while (actual != juego->tablero->sig && bEncontrados < cantBandidos);
+}
+
 int pedirDireccion()
 {
     int dir;
@@ -151,5 +171,56 @@ void mostrarCasillero(const void *a)
     else
     {
         printf("[%c] ", casillero.componente);
+    }
+}
+
+void moverBandidos(tBandido *bandidos, int cantBandidos, tJugador *jugador)
+{
+    int i, k, pasosAdelante, pasosAtras, pasosAMover;
+    char direccionMasCorta;
+    tCasillero *actual, *nuevo;
+
+    // Recorremos el vector que contiene a todos los bandidos
+    for (i = 0; i < cantBandidos; i++)
+    {
+        // Solo movemos a los bandidos que siguen vivos en la partida
+        if (bandidos[i].vivo)
+        {
+            // 1. La "IA" del bandido: calcular la distancia más corta hacia el jugador
+            pasosAdelante = pasosHastaNodo(bandidos[i].posActual, jugador->posActual, 1);
+            pasosAtras    = pasosHastaNodo(bandidos[i].posActual, jugador->posActual, 2);
+
+            if (pasosAdelante <= pasosAtras)
+            {
+                direccionMasCorta = 1; // Le conviene ir para Adelante
+            }
+            else
+            {
+                direccionMasCorta = 2; // Le conviene ir para Atrás
+            }
+
+            // 2. El bandido tira su propio dado virtual
+            pasosAMover = tirarDado();
+
+            // 3. Actualizar el casillero de ORIGEN (restamos un bandido de esa posición)
+            actual = (tCasillero *)bandidos[i].posActual->dato;
+            if (actual->cantBandidos > 0)
+            {
+                actual->cantBandidos--;
+            }
+
+            // 4. Mover el puntero del bandido nodo a nodo
+            for (k = 0; k < pasosAMover; k++)
+            {
+                if (direccionMasCorta == 1)
+                    bandidos[i].posActual = bandidos[i].posActual->sig;
+                else
+                    bandidos[i].posActual = bandidos[i].posActual->ant;
+            }
+
+            // 5. Actualizar el casillero de DESTINO (sumamos el bandido a su nueva posición)
+            nuevo = (tCasillero *)bandidos[i].posActual->dato;
+            nuevo->cantBandidos++;
+        }
     }
 }

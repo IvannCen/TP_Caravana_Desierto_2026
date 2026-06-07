@@ -51,4 +51,7 @@ void moverJugadorConRebote(tJugador *j, int pasos, char direccion, tJuego *juego
 void moverJugador(tJugador *j, int pasos, char direccion);
 void mostrarCasillero(const void *a);
 
+// cosas bandidos
+void ubicarBandidos(tJuego *juego, tBandido *bandidos, int cantBandidos);
+void moverBandidos(tBandido *bandidos, int cantBandidos, tJugador *jugador);
 #endif // TABLERO_H_INCLUDED
