@@ -1,14 +1,21 @@
 #include "tablero.h"
 #include "TDA_ListaDobleCircular.h"
+#include "TDA_ListaSimple.h"
 
 
 void inicializarJuego(tJuego *juego, int cantPos)
 {
     crearListaDoble(&juego->tablero);
+    crearCola(&juego->colaMovimientos);
     crearTablero(&juego->tablero, cantPos);
+
+    crearLista(&juego->bandidos);
+    juego->IdBandido = 1;
+
 
     juego->nodoInicio = juego->tablero->sig;
     juego->nodoSalida = juego->tablero;
+    juego->estadoPartida = 0;
 }
 
 void crearTablero(tListaDobleC *pld, int cantPos)
@@ -40,30 +47,67 @@ void crearJugador(tJugador *j, const char *nombreJ, int cantVidas)
 
 void ubicarJugador(tJuego *juego, tJugador *j)
 {
-    tNodo *inicio = juego->tablero->sig;
+    tNodoLista *inicio = juego->tablero->sig;
     tCasillero *casillero = (tCasillero *)inicio->dato;
     casillero->hayJugador = 1;
     j->posActual = inicio;
 }
 
-void ubicarBandidos(tJuego *juego, tBandido *bandidos, int cantBandidos)
+void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion)
 {
-    tNodo *actual = juego->tablero->sig; 
-    int bEncontrados = 0;
-    
-    do
+    tNodoLista *pos;
+    tCasillero *c;
+    int cantPos = config->cantidad_posiciones;
+    int cantCompPuestos = 0;
+    int i;
+
+    while (cantCompPuestos < cantComp)
     {
-        tCasillero *cas = (tCasillero *)actual->dato;
-        if (cas->componente == 'B' && bEncontrados < cantBandidos)
+        int salto = (rand() % (cantPos - zonaExclusion - 2)) + zonaExclusion + 1;
+
+        pos = juego->nodoInicio;
+
+        for (i = 0; i < salto; i++)
+            pos = pos->sig;
+
+        c = (tCasillero *) pos->dato;
+
+        if (tipo == 'B')
         {
-            bandidos[bEncontrados].id = bEncontrados + 1;
-            bandidos[bEncontrados].posActual = actual;
-            bandidos[bEncontrados].vivo = 1;
-            bEncontrados++;
+            c->cantBandidos++;
+            agregarBandido(&juego->bandidos, juego->IdBandido++, pos);
+            c->componente = tipo;
         }
-        actual = actual->sig;
-        
-    } while (actual != juego->tablero->sig && bEncontrados < cantBandidos);
+        else
+        {
+            if (c->componente != '.')
+                continue;
+            c->componente = tipo;
+        }
+        cantCompPuestos++;
+    }
+}
+
+void ponerTodosLosComponentes(tJuego *juego, tConfiguracion *config)
+{
+    ponerComponentesEnTablero(juego, config, 'B', config->maximo_bandidos, 6);
+    ponerComponentesEnTablero(juego, config, 'P', config->maximo_premios, 0);
+    ponerComponentesEnTablero(juego, config, 'V', config->maximo_vidas_extra, 0);
+    ponerComponentesEnTablero(juego, config, 'O', config->maximo_oasis, 0);
+    ponerComponentesEnTablero(juego, config, 'T', config->maximo_tormentas, 0);
+}
+
+void agregarBandido(tListaSimple *pl, int id, tNodoLista *posicion)
+{
+    tBandido bandido;
+
+    bandido.id = id;
+    bandido.posActual = posicion;
+    bandido.vivo = 1;
+
+    ponerEnListaAlFinal(pl, &bandido, sizeof(tBandido));
+
+    ((tCasillero*)posicion->dato)->cantBandidos++;
 }
 
 int pedirDireccion()
@@ -87,14 +131,14 @@ int pedirDireccion()
 
 int tirarDado()
 {
-    return rand() % 6 + 1;
+    return (rand() % 6) + 1;
 }
 
 
-int pasosHastaNodo(tNodo *origen, tNodo *destino, char direccion)
+int pasosHastaNodo(tNodoLista *origen, tNodoLista *destino, int direccion)
 {
     int pasos = 0;
-    tNodo *actual = origen;
+    tNodoLista *actual = origen;
     do
     {
         if (direccion == 1)
@@ -107,12 +151,12 @@ int pasosHastaNodo(tNodo *origen, tNodo *destino, char direccion)
     return pasos;
 }
 
-void moverJugadorConRebote(tJugador *j, int pasos, char direccion, tJuego *juego)
+void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)
 {
-    tNodo *limite;
+    tNodoLista *limite;
     int pasosHastaLimite;
     int sobrantes;
-    char direccionRebote;
+    int direccionRebote;
 
     if(direccion == 1)
         limite =  juego->nodoSalida;
@@ -137,7 +181,7 @@ void moverJugadorConRebote(tJugador *j, int pasos, char direccion, tJuego *juego
     }
 }
 
-void moverJugador(tJugador *j, int pasos, char direccion)
+void moverJugador(tJugador *j, int pasos, int direccion)
 {
     int i;
     tCasillero *actual, *nuevo;
@@ -157,9 +201,122 @@ void moverJugador(tJugador *j, int pasos, char direccion)
     nuevo->hayJugador = 1;
 }
 
+void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos)
+{
+    tMovimiento mov;
+    mov.movimientoDe = 'J';
+    mov.idBandido = -1;
+    mov.direccion = direccion;
+    mov.pasos = pasos;
+    ponerEnCola(cola, &mov, sizeof(tMovimiento));
+}
+
+void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
+{
+    tMovimiento mov;
+    while (!colaVacia(cola))
+    {
+        sacarDeCola(cola, &mov, sizeof(tMovimiento));
+
+        if (mov.movimientoDe == 'J')
+        {
+            moverJugadorConRebote(j, mov.pasos, mov.direccion, juego);
+            aplicarEfectos(j, juego);
+            // registrar en historial formato FX o BX
+//            registrarMovimiento(j, mov.direccion, mov.pasos);
+        }
+    }
+}
+
+void aplicarEfectos(tJugador *j, tJuego *juego)
+{
+    tCasillero *c = (tCasillero *)j->posActual->dato;
+
+    switch (c->componente)
+    {
+    case 'S':
+        printf("Lograste llegar a la ciudad refugio !!\n");
+        juego->estadoPartida = 1;   // victoria
+        break;
+    case 'P':
+        printf("Obtuviste un punto !!\n");
+        j->puntos++;
+        c->componente = '.';   // el premio desaparece
+        break;
+    case 'V':
+        printf("Obtuviste una vida extra !!\n");
+        j->cantVidas++;
+        c->componente = '.';    // la vida tambien desaparece
+        break;
+    case 'O':
+        printf("Estas en un oasis lo que te genera proteccion !!\n");
+        j->protegido = 1;      // protección para el turno siguiente
+        break;
+    case 'T':
+        printf("Estas en una tormenta lo que te hace perder el proximo turno\n");
+        if (!j->protegido)
+            j->pierdeTurno = 1;
+        break;
+    case '.':
+        break;
+    }
+
+    if (c->cantBandidos > 0 && !(j->protegido))
+    {
+        printf("Te atrapo un bandido\n");
+        (j->cantVidas)--;
+
+        // eliminar solo un bandido del casillero
+//        eliminarUnBandidoEnNodo(juego->bandidos, j->posicion);
+
+        c->hayJugador = 0;
+        ubicarJugador(juego, j);
+
+        if (j->cantVidas == 0)
+        {
+            printf("Perdiste te quedaste sin vidas, mas suerte la proxima\n");
+            juego->estadoPartida = -1;
+        }
+    }
+}
+
+void turno(tJugador *j, tJuego *juego)
+{
+    int pasos, direccion;
+
+    if (j->pierdeTurno)
+    {
+        j->pierdeTurno = 0;
+        return;
+    }
+
+    if (j->protegido)
+        j->protegido = 0;
+
+    printf("\n\nAprete ENTER para tirar el dado virtual...");
+    getchar();
+
+    pasos = tirarDado();
+    printf("\nEl dado cayo en: %d\n", pasos);
+
+    direccion = pedirDireccion();
+
+    //  encolar movimientos
+    ponerEnColarMovimientoJugador(&juego->colaMovimientos, direccion, pasos);
+//    encolarMovimientosBandidos(&juego->colaMovimientos, juego->bandidos, j);
+
+    // 2 — procesar cola
+    procesarCola(&juego->colaMovimientos, j, juego);
+
+    // 3 — actualizar pantalla
+//    mostrarTablero(juego->tablero);
+
+    mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
+}
+
 void mostrarCasillero(const void *a)
 {
-    const tCasillero casillero = *(const tCasillero *)a;
+    tCasillero casillero = *(tCasillero *)a;
 
     if(casillero.hayJugador)
     {
@@ -168,59 +325,9 @@ void mostrarCasillero(const void *a)
         else
             printf("[%c J] ", casillero.componente);
     }
+    else if(casillero.cantBandidos > 0)
+        printf("[B] ");
     else
-    {
         printf("[%c] ", casillero.componente);
-    }
-}
 
-void moverBandidos(tBandido *bandidos, int cantBandidos, tJugador *jugador)
-{
-    int i, k, pasosAdelante, pasosAtras, pasosAMover;
-    char direccionMasCorta;
-    tCasillero *actual, *nuevo;
-
-    // Recorremos el vector que contiene a todos los bandidos
-    for (i = 0; i < cantBandidos; i++)
-    {
-        // Solo movemos a los bandidos que siguen vivos en la partida
-        if (bandidos[i].vivo)
-        {
-            // 1. La "IA" del bandido: calcular la distancia mÃ¡s corta hacia el jugador
-            pasosAdelante = pasosHastaNodo(bandidos[i].posActual, jugador->posActual, 1);
-            pasosAtras    = pasosHastaNodo(bandidos[i].posActual, jugador->posActual, 2);
-
-            if (pasosAdelante <= pasosAtras)
-            {
-                direccionMasCorta = 1; // Le conviene ir para Adelante
-            }
-            else
-            {
-                direccionMasCorta = 2; // Le conviene ir para AtrÃ¡s
-            }
-
-            // 2. El bandido tira su propio dado virtual
-            pasosAMover = tirarDado();
-
-            // 3. Actualizar el casillero de ORIGEN (restamos un bandido de esa posiciÃ³n)
-            actual = (tCasillero *)bandidos[i].posActual->dato;
-            if (actual->cantBandidos > 0)
-            {
-                actual->cantBandidos--;
-            }
-
-            // 4. Mover el puntero del bandido nodo a nodo
-            for (k = 0; k < pasosAMover; k++)
-            {
-                if (direccionMasCorta == 1)
-                    bandidos[i].posActual = bandidos[i].posActual->sig;
-                else
-                    bandidos[i].posActual = bandidos[i].posActual->ant;
-            }
-
-            // 5. Actualizar el casillero de DESTINO (sumamos el bandido a su nueva posiciÃ³n)
-            nuevo = (tCasillero *)bandidos[i].posActual->dato;
-            nuevo->cantBandidos++;
-        }
-    }
 }

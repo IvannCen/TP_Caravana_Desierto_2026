@@ -6,16 +6,16 @@ void crearListaDoble(tListaDobleC *pl)
     *pl = NULL;
 }
 
-int listaVacia(const tListaDobleC *pl)
+int listaDobleVacia(const tListaDobleC *pl)
 {
     return *pl == NULL;
 }
 
 int ponerAlFinalEnListaCircular(tListaDobleC *pl, const void *dato, unsigned tam)
 {
-    tNodo *nue, *pri;
+    tNodoLista *nue, *pri;
 
-    nue = (tNodo *)malloc(sizeof(tNodo));
+    nue = (tNodoLista *)malloc(sizeof(tNodoLista));
     if(!nue)
         return 0;
 
@@ -50,7 +50,7 @@ int ponerAlFinalEnListaCircular(tListaDobleC *pl, const void *dato, unsigned tam
 
 void mostrarListaDeIzqADer(tListaDobleC *pl, void (* mostrar)(const void *a))
 {
-    tNodo *act;
+    tNodoLista *act;
 
     if(!(*pl))
         return;
