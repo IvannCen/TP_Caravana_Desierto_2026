@@ -48,6 +48,8 @@ typedef struct
     //agrego  nuevas variables para almacenar los bandidos y para saber cuantos hay activos
     tBandido* vecBandidos;
     int cantBandidosActivos;
+
+    tNodoLista* posAnteriorJugador; //para guardar donde estuvo el jugador y con eso que los bandidos se muevan
 } tJuego;
 
 typedef struct
