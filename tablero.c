@@ -67,7 +67,8 @@ void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos)
             juego->cantBandidosActivos++;
         }
         aux = aux->sig;
-    }while(aux != juego->tablero);
+    }
+    while(aux != juego->tablero);
 }
 
 int pedirDireccion()
@@ -187,7 +188,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                 {
                     printf("\n¡Un bandido (ID: %d) te ha emboscado!\n", b->id);
                     j->cantVidas--;
-                    
+
                     b->vivo = 0; // El bandido muere tras el ataque
                     casDestino->cantBandidos--;
                     if (casDestino->componente == 'B') casDestino->componente = '.';
@@ -214,32 +215,32 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
     switch (c->componente)
     {
-        case 'S':
-            printf("Lograste llegar a la ciudad refugio !!\n\n");
-            juego->estadoPartida = 1;
-            break;
-        case 'P':
-            printf("Obtuviste un punto !!\n\n");
-            j->puntos++;
-            c->componente = '.';
-            break;
-        case 'V':
-            printf("Obtuviste una vida extra !!\n\n");
-            j->cantVidas++;
-            c->componente = '.';
-            break;
-        case 'O':
-            printf("Estas en un oasis lo que te genera proteccion !!\n\n");
-            j->protegido = 1;
-            break;
-        case 'T':
-            printf("Estas en una tormenta lo que te hace perder el proximo turno\n\n");
-            if (!j->protegido)
-                j->pierdeTurno = 1;
-            break;
-        case '.':
-        case 'I':
-            break;
+    case 'S':
+        printf("Lograste llegar a la ciudad refugio !!\n\n");
+        juego->estadoPartida = 1;
+        break;
+    case 'P':
+        printf("Obtuviste un punto !!\n\n");
+        j->puntos++;
+        c->componente = '.';
+        break;
+    case 'V':
+        printf("Obtuviste una vida extra !!\n\n");
+        j->cantVidas++;
+        c->componente = '.';
+        break;
+    case 'O':
+        printf("Estas en un oasis lo que te genera proteccion !!\n\n");
+        j->protegido = 1;
+        break;
+    case 'T':
+        printf("Estas en una tormenta lo que te hace perder el proximo turno\n\n");
+        if (!j->protegido)
+            j->pierdeTurno = 1;
+        break;
+    case '.':
+    case 'I':
+        break;
     }
 
 
@@ -257,9 +258,9 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
             {
                 juego->vecBandidos[k].vivo = 0; // El bandido muere tras el ataque
                 c->cantBandidos--;
-                if (c->componente == 'B') 
+                if (c->componente == 'B')
                     c->componente = '.';
-                
+
                 bandidoEncontrado = 1;
             }
             k++;
@@ -352,7 +353,7 @@ void mostrarCasillero(const void *a)
 void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)
 {
     int i;
-    for(i=0;i<juego->cantBandidosActivos;i++)
+    for(i=0; i<juego->cantBandidosActivos; i++)
     {
         if(juego->vecBandidos[i].vivo)
         {
