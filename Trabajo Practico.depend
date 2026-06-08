@@ -138,7 +138,7 @@
 	<stdlib.h>
 	<string.h>
 
-1780947403 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1780948421 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
@@ -161,7 +161,7 @@
 	<stdlib.h>
 	<string.h>
 
-1780945959 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1780949105 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 
