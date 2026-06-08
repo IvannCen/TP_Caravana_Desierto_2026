@@ -44,6 +44,10 @@ typedef struct
     tListaSimple bandidos;
     int IdBandido;
     int estadoPartida; /// 1 victoria, 0 sigue jugando
+
+    //agrego  nuevas variables para almacenar los bandidos y para saber cuantos hay activos
+    tBandido* vecBandidos;
+    int cantBandidosActivos;
 } tJuego;
 
 typedef struct
@@ -55,10 +59,12 @@ typedef struct
 } tMovimiento;
 
 /// TABLERO Y CREAR JUGADOR
-void inicializarJuego(tJuego *juego, int cantPos);
-void crearTablero(tListaDobleC *pld, int cantPos);
+void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos);
+void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos);
 void crearJugador(tJugador *j, const char *nombreJ, int cantVidas);
-void ubicarJugador(tJuego *juego, tJugador *j);
+// void ubicarJugador(tJuego *juego, tJugador *j);
+/// agrego una funcion para la ubicacion de las entidades en el tablero
+void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos); 
 void turno(tJugador *j, tJuego *juego);
 
 void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion);
@@ -69,10 +75,14 @@ int pedirDireccion();
 int tirarDado();
 
 /// MOVIMIENTO DE JUGADOR
-int pasosHastaNodo(tNodoLista *origen, tNodoLista *destino, int direccion);
+// int pasosHastaNodo(tNodoLista *origen, tNodoLista *destino, int direccion);
 void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego);
 void moverJugador(tJugador *j, int pasos, int direccion);
 void mostrarCasillero(const void *a);
+
+/// MOVIMIENTO DE BANDIDO
+void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador);
+void moverBandidoSinRebote(tBandido* b, int pasos, int direccion, tJuego* juego);
 
 /// COLA DE MOVIMIENTO
 void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos);
