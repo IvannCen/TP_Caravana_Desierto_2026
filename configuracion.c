@@ -1,5 +1,5 @@
 #include "configuracion.h"
-#include "cola.h"
+#include "TDA_ColaDinamica.h"
 
 int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo)
 {
@@ -98,9 +98,6 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
     fclose(arch);
 }
 
-int tirarDado()
-{
-    return rand()%6 + 1;
-}
+
 
 

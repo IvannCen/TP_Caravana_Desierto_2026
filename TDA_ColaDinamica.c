@@ -1,5 +1,4 @@
-#include "cola.h"
-#include "configuracion.h"
+#include "TDA_ColaDinamica.h"
 
 void crearCola(tCola *c)
 {
@@ -19,9 +18,9 @@ int colaLlena(const tCola *c, unsigned tam)
 
 int ponerEnCola(tCola *c, const void *dato, unsigned tam)
 {
-    tNodo *nue;
+    tNodoCola *nue;
 
-    if(!(nue = (tNodo*)malloc(sizeof(tNodo))))
+    if(!(nue = (tNodoCola*)malloc(sizeof(tNodoCola))))
         return ERROR_SIN_MEM;
 
     if(!(nue->dato = malloc(tam)))
@@ -46,7 +45,7 @@ int ponerEnCola(tCola *c, const void *dato, unsigned tam)
 
 int sacarDeCola(tCola *c, void *dato, unsigned tam)
 {
-    tNodo *elim = c->pri;
+    tNodoCola *elim = c->pri;
 
     if(!(elim))
         return COLA_VACIA;
@@ -75,7 +74,7 @@ int verPrimero(const tCola *c, void *dato, unsigned tam)
 
 void vaciarCola(tCola *c)
 {
-    tNodo *elim;
+    tNodoCola *elim;
 
     while(c->pri)
     {
