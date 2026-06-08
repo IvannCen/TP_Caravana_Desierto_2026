@@ -56,6 +56,7 @@ void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos)
         {
             jugador->posActual = aux;
             cas->hayJugador = 1;
+            juego->posAnteriorJugador = aux; //al inicio, la anterior es el inicio
         }
         else if(cas->componente == 'B')
         {
@@ -330,6 +331,8 @@ void turno(tJugador *j, tJuego *juego)
     // procesar cola
     procesarCola(&juego->colaMovimientos, j, juego);
 
+    juego->posAnteriorJugador = j->posActual; // guardo la posicion donde quedó el jugador al terminar el turno, asi los bandidos la usan para moverse
+
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
 }
 
@@ -355,6 +358,7 @@ void mostrarCasillero(const void *a)
     {
         printf("[%c] ", casillero.componente);
     }
+    printf("\n");
 }
 
 void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)
@@ -367,12 +371,12 @@ void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)
             int posB = tirarDado();
 
             tCasillero* casBandido = (tCasillero*)juego->vecBandidos[i].posActual->dato;
-            tCasillero* casJugador = (tCasillero*)jugador->posActual->dato;
+            tCasillero* casJugadorAnterior = (tCasillero*)juego->posAnteriorJugador->dato;
 
             tMovimiento mov;
             mov.movimientoDe = 'B';
             mov.idBandido = juego->vecBandidos[i].id;
-            mov.direccion = (casJugador->posicion > casBandido->posicion) ? 1 : 2;
+            mov.direccion = (casJugadorAnterior->posicion > casBandido->posicion) ? 1 : 2;
             mov.pasos = posB;
             ponerEnCola(cola, &mov, sizeof(tMovimiento));
 

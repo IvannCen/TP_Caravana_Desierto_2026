@@ -54,9 +54,6 @@ void mostrarListaDeIzqADer(tListaDobleC *pl, void (* mostrar)(const void *a))
 
     if(!(*pl))
         return;
-
-
-
     act = (*pl)->sig;
 
     if(act)
@@ -65,8 +62,7 @@ void mostrarListaDeIzqADer(tListaDobleC *pl, void (* mostrar)(const void *a))
         {
             mostrar(act->dato);
             act = act->sig;
-        }
-        while(act != (*pl)->sig);
+        }while(act != (*pl)->sig);
     }
 }
 
