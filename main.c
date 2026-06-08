@@ -68,7 +68,7 @@ int main()
                 if(juego.vecBandidos)
                 {
                     free(juego.vecBandidos);
-                    juego.vecBandidos = NULL; // Buena práctica dejar el puntero en NULL
+                    juego.vecBandidos = NULL;
                 }
 
                 printf("\nPartida finalizada.\n");

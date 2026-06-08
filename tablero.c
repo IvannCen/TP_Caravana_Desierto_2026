@@ -194,7 +194,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                 tCasillero* casDestino = (tCasillero*)b->posActual->dato;
                 if (casDestino->hayJugador == 1 && !j->protegido)
                 {
-                    printf("\n¡Un bandido te ha emboscado! Perdés una vida y volves al inicio.\n");
+                    printf("¡Un bandido te ha emboscado! Perdés una vida y volves al inicio.\n\n");
                     j->cantVidas--;
                     b->vivo = 0; // El bandido muere tras el ataque
                     casDestino->cantBandidos--;
@@ -316,7 +316,20 @@ void turno(tJugador *j, tJuego *juego)
     if (j->protegido)
         j->protegido = 0;
 
-    printf("\n\nPresione ENTER para arrojar el dado virtual...");
+    printf("\nVidas actuales: ");
+    for(int k = 0; k < j->cantVidas; k++)
+    {
+        printf("♡ ");
+    }
+    printf("(x%d)", j->cantVidas);
+
+    printf("\nPuntos actuales: ");
+    for(int k = 0; k < j->puntos; k++)
+    {
+        printf("★ ");
+    }
+    printf("(x%d)\n", j->puntos);
+    printf("\nPresione ENTER para arrojar el dado virtual...");
     getchar();
 
     pasos = tirarDado();
