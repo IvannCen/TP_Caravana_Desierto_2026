@@ -31,11 +31,13 @@ int main()
         switch(opcionElegida)
         {
             case 1:
-                printf("\n=== NUEVA PARTIDA ===\n");
-                printf("Ingrese su nombre: ");
+                system("cls");
+                printf("\n=== NUEVA PARTIDA ===\n\n");
+                printf("Ingrese su nombre:");
                 fflush(stdin);
                 scanf("%49s", nombre); // Leemos el nombre ingresado por el jugador
                 while(getchar() != '\n');
+                system("cls");
                 // Creamos un escenario nuevo para ESTA partida en particular
                 char* posiciones = crearVecPos(config.cantidad_posiciones);
 
@@ -74,13 +76,17 @@ int main()
                 break;
 
             case 2:
+                system("cls");
                 printf("\n=== RANKING DE JUGADORES ===\n");
                 // FALTA IMPLEMENTAR EL ARBOL BINARIO PARA EL RANKING
                 system("pause");
                 break;
 
             case 3:
+                system("cls");
+                printf("==============================================\n");
                 printf("\nSaliendo del juego... ¡Hasta la próxima!\n");
+                printf("==============================================\n");
                 break;
 
             default:

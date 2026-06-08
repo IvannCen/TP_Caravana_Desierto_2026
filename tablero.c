@@ -78,15 +78,22 @@ int pedirDireccion()
 
     do
     {
-        printf("\n===Direccion del movimiento===\n");
-        printf("1. Adelante\n");
-        printf("2. Atras\n");
+        printf("\n=== Indique la dirección del movimiento ===\n");
+        printf("1. Adelante.\n");
+        printf("2. Atrás.\n");
         printf("Opcion: ");
         scanf("%d", &dir);
         //para limpiar el buffer porque me toma el enter como una nueva opcion
         while(getchar() != '\n');
-
-        printf("\n");
+        system("cls");
+        if (dir != 1 && dir != 2)
+        {
+            printf("\nOpción invalida. Por favor, ingrese 1 o 2.\n");
+        }
+        else
+        {
+            printf("\n");
+        }
 
     }
     while(dir != 1 && dir != 2);
@@ -187,9 +194,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                 tCasillero* casDestino = (tCasillero*)b->posActual->dato;
                 if (casDestino->hayJugador == 1 && !j->protegido)
                 {
-                    printf("\n¡Un bandido (ID: %d) te ha emboscado!\n", b->id);
                     j->cantVidas--;
-
                     b->vivo = 0; // El bandido muere tras el ataque
                     casDestino->cantBandidos--;
                     if (casDestino->componente == 'B') casDestino->componente = '.';
@@ -201,7 +206,8 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
 
                     if (j->cantVidas == 0)
                     {
-                        printf("Perdiste, te quedaste sin vidas...\n");
+                        printf("Te quedaste sin vidas.\n\n");
+                        printf("GAME OVER.\n\n");
                         juego->estadoPartida = -1;
                     }
                 }
@@ -217,37 +223,40 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     switch (c->componente)
     {
     case 'S':
-        printf("Lograste llegar a la ciudad refugio !!\n\n");
+        printf("¡Felicidades, lograste llegar a la ciudad refugio!\n\n");
         juego->estadoPartida = 1;
         break;
     case 'P':
-        printf("Obtuviste un punto !!\n\n");
+        printf("¡Obtuviste un punto!\n\n");
         j->puntos++;
         c->componente = '.';
         break;
     case 'V':
-        printf("Obtuviste una vida extra !!\n\n");
+        printf("¡Obtuviste una vida extra!\n\n");
         j->cantVidas++;
         c->componente = '.';
         break;
     case 'O':
-        printf("Estas en un oasis lo que te genera proteccion !!\n\n");
+        printf("Estás en un oasis ¡tenés inmunidad para el siguiente turno!\n\n");
         j->protegido = 1;
         break;
     case 'T':
-        printf("Estas en una tormenta lo que te hace perder el proximo turno\n\n");
+        printf("Estás en una tormenta, perdés el próximo turno.\n\n");
         if (!j->protegido)
             j->pierdeTurno = 1;
         break;
     case '.':
+        printf("El casillero está vacío, no se aplica ningún efecto.\n\n");
+        break;
     case 'I':
+        printf("Volviste al inicio.\n\n");
         break;
     }
 
 
     if (c->cantBandidos > 0 && !(j->protegido))
     {
-        printf("¡Te atrapo un bandido!\n\n");
+        printf("¡Te atrapó un bandido! Perdés una vida y volvés al inicio.\n\n");
         (j->cantVidas)--;
 
         int k=0;
@@ -276,7 +285,8 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
         if (j->cantVidas == 0)
         {
-            printf("Perdiste te quedaste sin vidas, mas suerte la proxima\n\n");
+            printf("Te quedaste sin vidas.\n\n");
+            printf("GAME OVER.\n\n");
             juego->estadoPartida = -1; // perdio
         }
     }
@@ -288,15 +298,13 @@ void turno(tJugador *j, tJuego *juego)
 
     if (j->pierdeTurno)
     {
-        printf("\nEstas atrapado en la tormenta de arena. Pierdes este turno...\n\n");
-
+        printf("\n\nLos bandidos se mueven mientras estas aturdido!\n");
         for(int i=0; i<3; i++)
         {
-            printf("\n.");
+            printf(".\n");
         }
-        printf("\n\nLos bandidos se mueven mientras estas aturdido!\n");
+        printf("\n");
         j->pierdeTurno = 0;
-
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
         procesarCola(&juego->colaMovimientos, j, juego);
         mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
@@ -307,11 +315,11 @@ void turno(tJugador *j, tJuego *juego)
     if (j->protegido)
         j->protegido = 0;
 
-    printf("\n\nAprete ENTER para tirar el dado virtual...");
+    printf("\n\nPresione ENTER para arrojar el dado virtual...");
     getchar();
 
     pasos = tirarDado();
-    printf("\nEl dado cayo en: %d\n", pasos);
+    printf("\nEl dado cayó en: %d\n", pasos);
 
     direccion = pedirDireccion();
 
