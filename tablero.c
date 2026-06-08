@@ -321,8 +321,6 @@ void turno(tJugador *j, tJuego *juego)
     // procesar cola
     procesarCola(&juego->colaMovimientos, j, juego);
 
-    // actualizar pantalla
-//    mostrarTablero(juego->tablero);
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
 }
 
