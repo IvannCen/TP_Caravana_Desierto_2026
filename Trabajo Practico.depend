@@ -116,11 +116,11 @@
 	"tablero.h"
 	<windows.h>
 
-1780946869 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
+1780952079 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
 
-1780946382 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
+1780952079 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -129,7 +129,7 @@
 	"TDA_ColaDinamica.h"
 	"TDA_ListaSimple.h"
 
-1780945353 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
+1780952129 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -139,18 +139,18 @@
 	<stdlib.h>
 	<string.h>
 
-1780945353 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listasimple.h
+1780952079 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listasimple.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1780951405 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1780952699 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
 	<windows.h>
 
-1780950722 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
+1780952079 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -167,14 +167,14 @@
 	<stdlib.h>
 	<string.h>
 
-1780952024 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1780953493 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 
 1780874984 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_coladinamica.c
 	"TDA_ColaDinamica.h"
 
-1780950722 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
+1780952130 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
 
