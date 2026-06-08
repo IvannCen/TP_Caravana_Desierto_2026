@@ -35,7 +35,7 @@ int main()
                 printf("Ingrese su nombre: ");
                 fflush(stdin);
                 scanf("%49s", nombre); // Leemos el nombre ingresado por el jugador
-
+                while(getchar() != '\n');
                 // Creamos un escenario nuevo para ESTA partida en particular
                 char* posiciones = crearVecPos(config.cantidad_posiciones);
 
