@@ -62,7 +62,7 @@ typedef struct
 void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos);
 void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos);
 void crearJugador(tJugador *j, const char *nombreJ, int cantVidas);
-// void ubicarJugador(tJuego *juego, tJugador *j);
+
 /// agrego una funcion para la ubicacion de las entidades en el tablero
 void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos); 
 void turno(tJugador *j, tJuego *juego);

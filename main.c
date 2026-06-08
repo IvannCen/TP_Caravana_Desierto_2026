@@ -32,7 +32,6 @@ int main()
     crearJugador(&jugador, nombre, 3);
 
     ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
-    // ubicarJugador(&juego, &jugador);
 
     mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
