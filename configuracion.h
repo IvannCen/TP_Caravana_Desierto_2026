@@ -39,7 +39,4 @@ typedef struct
 int cargarConfiguracion(tConfiguracion* config, const char* nombarch);
 
 
-
-
-
 #endif // CONFIGURACION
