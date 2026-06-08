@@ -42,14 +42,6 @@ void crearJugador(tJugador *j, const char *nombreJ, int cantVidas)
     j->puntos = 0;
 }
 
-// void ubicarJugador(tJuego *juego, tJugador *j)
-// {
-//     tNodoLista *inicio = juego->tablero->sig;
-//     tCasillero *casillero = (tCasillero *)inicio->dato;
-//     casillero->hayJugador = 1;
-//     j->posActual = inicio;
-// }
-
 void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos)
 {
     juego->vecBandidos = (tBandido*)malloc(maxBandidos * sizeof(tBandido));
@@ -104,23 +96,6 @@ int tirarDado()
 {
     return (rand() % 6) + 1;
 }
-
-
-// int pasosHastaNodo(tNodoLista *origen, tNodoLista *destino, int direccion)
-// {
-//     int pasos = 0;
-//     tNodoLista *actual = origen;
-//     do
-//     {
-//         if (direccion == 1)
-//             actual = actual->sig;
-//         else
-//             actual = actual->ant;
-//         pasos++;
-//     }
-//     while (actual != destino && actual != origen);
-//     return pasos;
-// }
 
 void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)
 {
@@ -232,58 +207,6 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
         }
     }
 }
-
-// void aplicarEfectos(tJugador *j, tJuego *juego)
-// {
-//     tCasillero *c = (tCasillero *)j->posActual->dato;
-
-//     switch (c->componente)
-//     {
-//     case 'S':
-//         printf("Lograste llegar a la ciudad refugio !!\n");
-//         juego->estadoPartida = 1;   // victoria
-//         break;
-//     case 'P':
-//         printf("Obtuviste un punto !!\n");
-//         j->puntos++;
-//         c->componente = '.';   // el premio desaparece
-//         break;
-//     case 'V':
-//         printf("Obtuviste una vida extra !!\n");
-//         j->cantVidas++;
-//         c->componente = '.';    // la vida tambien desaparece
-//         break;
-//     case 'O':
-//         printf("Estas en un oasis lo que te genera proteccion !!\n");
-//         j->protegido = 1;      // protecci�n para el turno siguiente
-//         break;
-//     case 'T':
-//         printf("Estas en una tormenta lo que te hace perder el proximo turno\n");
-//         if (!j->protegido)
-//             j->pierdeTurno = 1;
-//         break;
-//     case '.':
-//         break;
-//     }
-
-//     if (c->cantBandidos > 0 && !(j->protegido))
-//     {
-//         printf("Te atrapo un bandido\n");
-//         (j->cantVidas)--;
-
-//         // eliminar solo un bandido del casillero
-// //        eliminarUnBandidoEnNodo(juego->bandidos, j->posicion);
-
-//         c->hayJugador = 0;
-//         ubicarJugador(juego, j);
-
-//         if (j->cantVidas == 0)
-//         {
-//             printf("Perdiste te quedaste sin vidas, mas suerte la proxima\n");
-//             juego->estadoPartida = -1;
-//         }
-//     }
-// }
 
 void aplicarEfectos(tJugador *j, tJuego *juego)
 {
