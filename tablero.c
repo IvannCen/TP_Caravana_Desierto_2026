@@ -193,6 +193,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                 tCasillero* casDestino = (tCasillero*)b->posActual->dato;
                 if (casDestino->hayJugador == 1 && !j->protegido)
                 {
+                    printf("\n¡Un bandido te ha emboscado! Perdés una vida y volves al inicio.\n");
                     j->cantVidas--;
                     b->vivo = 0; // El bandido muere tras el ataque
                     casDestino->cantBandidos--;
