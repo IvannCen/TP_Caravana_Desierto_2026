@@ -144,13 +144,13 @@
 	<stdlib.h>
 	<string.h>
 
-1780948421 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1780951405 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
 	<windows.h>
 
-1780945776 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
+1780950722 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -167,14 +167,14 @@
 	<stdlib.h>
 	<string.h>
 
-1780950664 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1780952024 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 
 1780874984 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_coladinamica.c
 	"TDA_ColaDinamica.h"
 
-1780945353 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
+1780950722 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
 

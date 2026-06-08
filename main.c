@@ -51,11 +51,11 @@ int main()
                 inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
                 free(posiciones); // Ya está cargado en la LDE, lo liberamos
 
-                // Usamos las vidas del config en lugar de hardcodear un 3
+                // Usamos las vidas del config
                 crearJugador(&jugador, nombre, config.vidas_inicio);
 
                 ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
-
+                //esto imprime el mapa
                 mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
                 // Bucle de LA PARTIDA

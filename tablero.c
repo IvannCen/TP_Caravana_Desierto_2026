@@ -20,7 +20,7 @@ void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos)
 
     for(i = 0; i < cantPos; i++)
     {
-        casillero.posicion = i+1;
+        casillero.posicion = i + 1;
         casillero.componente = *(vecpos + i);
         casillero.cantBandidos = 0;
         casillero.hayJugador = 0;
@@ -182,7 +182,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
             moverJugadorConRebote(j, mov.pasos, mov.direccion, juego);
             aplicarEfectos(j, juego);
             // registrar en historial formato FX o BX
-//            registrarMovimiento(j, mov.direccion, mov.pasos);
+            // registrarMovimiento(j, mov.direccion, mov.pasos);
         }
         else if(mov.movimientoDe == 'B')
         {
@@ -338,8 +338,13 @@ void turno(tJugador *j, tJuego *juego)
 
 void mostrarCasillero(const void *a)
 {
-    tCasillero casillero = *(tCasillero *)a;
+    tCasillero casillero = *(const tCasillero *)a;
 
+    // 1. Agregamos la impresión de la posición al inicio
+    // El "%02d" asegura que los números del 1 al 9 tengan un cero adelante (01, 02...)
+    printf("%02d: ", casillero.posicion);
+
+    // 2. El resto de tu lógica queda intacta
     if(casillero.hayJugador)
     {
         if(casillero.componente == '.')
@@ -358,6 +363,7 @@ void mostrarCasillero(const void *a)
     {
         printf("[%c] ", casillero.componente);
     }
+
     printf("\n");
 }
 
