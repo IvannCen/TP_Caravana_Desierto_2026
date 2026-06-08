@@ -1,6 +1,29 @@
 #include "configuracion.h"
 #include "TDA_ColaDinamica.h"
 
+int mostrarMenuPrincipal()
+{
+    int opcion;
+        // Limpieza de consola (compatible con Windows)
+        system("cls"); 
+
+        printf("\n========================================\n");
+        printf("         CARAVANA DEL DESIERTO          \n");
+        printf("========================================\n\n");
+        printf("  1. Jugar una nueva partida\n");
+        printf("  2. Ver el ranking de jugadores\n");
+        printf("  3. Salir del juego\n\n");
+        printf("========================================\n");
+        printf(" Ingrese una opcion: ");
+        
+        scanf("%d", &opcion);
+
+        // Limpiamos el buffer de entrada por si el usuario ingresa caracteres raros
+        fflush(stdin); 
+
+    return opcion;
+}
+
 int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo)
 {
     FILE* arch = fopen(nombArchivo,"rt");
