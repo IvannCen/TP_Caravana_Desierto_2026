@@ -319,14 +319,14 @@ void turno(tJugador *j, tJuego *juego)
     printf("\nVidas actuales: ");
     for(int k = 0; k < j->cantVidas; k++)
     {
-        printf("♡ ");
+        printf("\xE2\x99\xA5 ");
     }
     printf("(x%d)", j->cantVidas);
 
     printf("\nPuntos actuales: ");
     for(int k = 0; k < j->puntos; k++)
     {
-        printf("★ ");
+        printf("\xE2\x98\x85 ");
     }
     printf("(x%d)\n", j->puntos);
     printf("\nPresione ENTER para arrojar el dado virtual...");
