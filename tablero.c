@@ -464,4 +464,5 @@ void mostrarMovimientoHistorial(const void *a)
     {
         printf("B%d ", movH->pasos);
     }
+    printf("\n");
 }

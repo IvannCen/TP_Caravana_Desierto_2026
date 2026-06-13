@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1781381870 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
+1781390119 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"

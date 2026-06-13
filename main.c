@@ -75,8 +75,8 @@ int main()
                 }
 
                 printf("\nPartida finalizada.\n");
-//                printf("\nHistorial de movimientos:\n");
-//                mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
+                printf("\nHistorial de movimientos:\n");
+                mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
                 system("pause");
                 break;
 
