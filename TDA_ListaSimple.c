@@ -76,3 +76,18 @@ int ponerEnListaAlFinal(tListaSimple *l, const void *dato, unsigned tam)
 
     return TODO_OK;
 }
+
+void mostrarLista(const tListaSimple *pl, void (*mostrar)(const void *a))
+{
+    tNodoListaS *act;
+    if(!(*pl))
+        return;
+
+    act = *pl;
+
+    while(act)
+    {
+        mostrar(act->dato);
+        act = act->sig;
+    }
+}

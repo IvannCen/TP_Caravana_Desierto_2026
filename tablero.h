@@ -25,25 +25,32 @@ typedef struct
     int puntos;
     int pierdeTurno;
     int protegido;
-    tNodoLista *posActual;
+    int posActual;
+    tListaSimple historialMovimientos;
 } tJugador;
 
 typedef struct
 {
     int id;
-    tNodoLista *posActual;
+    int posActual;
     int vivo;
 } tBandido;
 
 typedef struct
 {
     tListaDobleC tablero;
-    tNodoLista *nodoInicio;
-    tNodoLista *nodoSalida;
+    int posInicio;
+    int posSalida;
     tCola colaMovimientos;
     tListaSimple bandidos;
     int IdBandido;
-    int estadoPartida; /// 1 victoria, 0 sigue jugando
+    int estadoPartida; /// 1 victoria, 0 sigue jugando, -1 perdio
+
+    //agrego  nuevas variables para almacenar los bandidos y para saber cuantos hay activos
+    tBandido* vecBandidos;
+    int cantBandidosActivos;
+
+    int posAnteriorJugador; //para guardar donde estuvo el jugador y con eso que los bandidos se muevan
 } tJuego;
 
 typedef struct
@@ -54,11 +61,19 @@ typedef struct
     int pasos;
 } tMovimiento;
 
+typedef struct
+{
+    char direccion;
+    int pasos;
+} tMovHistorico;
+
 /// TABLERO Y CREAR JUGADOR
-void inicializarJuego(tJuego *juego, int cantPos);
-void crearTablero(tListaDobleC *pld, int cantPos);
+void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos);
+void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos);
 void crearJugador(tJugador *j, const char *nombreJ, int cantVidas);
-void ubicarJugador(tJuego *juego, tJugador *j);
+
+/// agrego una funcion para la ubicacion de las entidades en el tablero
+void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos);
 void turno(tJugador *j, tJuego *juego);
 
 void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion);
@@ -69,15 +84,23 @@ int pedirDireccion();
 int tirarDado();
 
 /// MOVIMIENTO DE JUGADOR
-int pasosHastaNodo(tNodoLista *origen, tNodoLista *destino, int direccion);
 void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego);
-void moverJugador(tJugador *j, int pasos, int direccion);
+void moverJugador(tJugador *j, tJuego *juego, int pasos, int direccion);
 void mostrarCasillero(const void *a);
+void registrarMovimiento(tJugador *j, tMovimiento *mov);
+
+/// MOVIMIENTO DE BANDIDO
+void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador);
+void moverBandidoSinRebote(tBandido* b, int pasos, int direccion, tJuego* juego);
 
 /// COLA DE MOVIMIENTO
 void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos);
 void procesarCola(tCola *cola, tJugador *j, tJuego *juego);
 
 void aplicarEfectos(tJugador *j, tJuego *juego);
+
+int cmpCasillero(const void *a, const void *b);
+void mostrarMovimientoHistorial(const void *a);
+
 
 #endif // TABLERO_H_INCLUDED
