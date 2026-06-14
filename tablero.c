@@ -326,7 +326,7 @@ void turno(tJugador *j, tJuego *juego)
     printf("\nPuntos actuales: ");
     for(int k = 0; k < j->puntos; k++)
     {
-        printf("\xE2\x98\x85 ");
+        printf("\xE2\x98\x86 ");
     }
     printf("(x%d)\n", j->puntos);
     printf("\nPresione ENTER para arrojar el dado virtual...");
