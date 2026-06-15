@@ -250,7 +250,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego) ///MODIFICADA
         modificoCasillero = 1;
         break;
     case 'O':
-        printf("Estás en un oasis: ¡Tenés inmunidad para el siguiente turno!\n\n");
+        printf("Estás en un oasis: ¡Tenés inmunidad para el siguiente turno y los bandidos no pueden interceptarte!\n\n");
         j->protegido = 1;
         break;
     case 'T':
@@ -320,11 +320,11 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
     if (j->pierdeTurno)
     {
         printf("\n\n¡Los bandidos se mueven mientras estas aturdido!\n");
-        for(int i=0; i<3; i++)
-        {
-            printf(".\n");
-        }
-        printf("\n");
+//        for(int i=0; i<3; i++)
+//        {
+//            printf(".\n");
+//        }
+//        printf("\n");
         j->pierdeTurno = 0;
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
         procesarCola(&juego->colaMovimientos, j, juego);
@@ -352,7 +352,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
     getchar();
 
     pasos = tirarDado();
-    printf("\nEl dado cay� en: %d\n", pasos);
+    printf("\nEl dado cayó en: %d\n", pasos);
 
     direccion = pedirDireccion();
 
