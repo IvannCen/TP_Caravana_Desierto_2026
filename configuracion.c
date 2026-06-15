@@ -14,11 +14,11 @@ int mostrarMenuPrincipal()
         printf("  2. Ver el ranking de jugadores\n");
         printf("  3. Salir del juego\n\n");
         printf("========================================\n");
-        printf(" Ingrese una opcion: ");
+        printf(" Ingrese una opción: ");
 
         scanf("%d", &opcion);
 
-        // Limpiamos el buffer de entrada por si el usuario ingresa caracteres raros
+        // limpieza de buffer
         fflush(stdin);
 
     return opcion;

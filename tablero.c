@@ -96,9 +96,9 @@ int pedirDireccion()
 
     do
     {
-        printf("\n=== Indique la dirección del movimiento ===\n");
+        printf("\n=== Indique la direcciÃ³n del movimiento ===\n");
         printf("1. Adelante.\n");
-        printf("2. Atrás.\n");
+        printf("2. AtrÃ¡s.\n");
         printf("Opcion: ");
         scanf("%d", &dir);
         //para limpiar el buffer porque me toma el enter como una nueva opcion
@@ -106,7 +106,7 @@ int pedirDireccion()
         system("cls");
         if (dir != 1 && dir != 2)
         {
-            printf("\nOpción invalida. Por favor, ingrese 1 o 2.\n");
+            printf("\nOpciÃ³n invalida. Por favor, ingrese 1 o 2.\n");
         }
         else
         {
@@ -155,7 +155,7 @@ void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)
         // Tramo 1: Le pedimos al TDA viajar exactamente hasta el extremo ('S' o 'I')
         obtenerElementoDesplazado(&juego->tablero, &actual, pasosHastaLimite, direccion, &limite, sizeof(tCasillero), cmpCasillero);
 
-        // Tramo 2: Desde ese extremo, le pedimos al TDA rebotar los pasos sobrantes en dirección contraria
+        // Tramo 2: Desde ese extremo, le pedimos al TDA rebotar los pasos sobrantes en direcciï¿½n contraria
         obtenerElementoDesplazado(&juego->tablero, &limite, sobrantes, direccionRebote, &destino, sizeof(tCasillero), cmpCasillero);
     }
 
@@ -234,32 +234,32 @@ void aplicarEfectos(tJugador *j, tJuego *juego) ///MODIFICADA
     switch (casillero.componente)
     {
     case 'S':
-        printf("¡Felicidades, lograste llegar a la ciudad refugio!\n\n");
+        printf("Â¡Felicidades, lograste llegar a la ciudad refugio!\n\n");
         juego->estadoPartida = 1;
         break;
     case 'P':
-        printf("¡Obtuviste un punto!\n\n");
+        printf("Â¡Obtuviste un punto!\n\n");
         j->puntos++;
         casillero.componente = '.';
         modificoCasillero = 1;
         break;
     case 'V':
-        printf("¡Obtuviste una vida extra!\n\n");
+        printf("Â¡Obtuviste una vida extra!\n\n");
         j->cantVidas++;
         casillero.componente = '.';
         modificoCasillero = 1;
         break;
     case 'O':
-        printf("Estás en un oasis ¡tenés inmunidad para el siguiente turno!\n\n");
+        printf("EstÃ¡s en un oasis: Â¡TenÃ©s inmunidad para el siguiente turno!\n\n");
         j->protegido = 1;
         break;
     case 'T':
-        printf("Estás en una tormenta, perdés el próximo turno.\n\n");
+        printf("EstÃ¡s en una tormenta: perdÃ©s el prÃ³ximo turno.\n\n");
         if (!j->protegido)
             j->pierdeTurno = 1;
         break;
     case '.':
-        printf("El casillero está vacío, no se aplica ningún efecto.\n\n");
+        printf("El casillero estÃ¡ vacÃ­o... por ahora.\n\n");
         break;
     case 'I':
         printf("Volviste al inicio.\n\n");
@@ -271,9 +271,8 @@ void aplicarEfectos(tJugador *j, tJuego *juego) ///MODIFICADA
 
     if (casillero.cantBandidos > 0 && !(j->protegido))
     {
-        printf("¡Te atrapó un bandido! Perdés una vida y volvés al inicio.\n\n");
+        printf("Â¡Te atrapÃ³ un bandido! PerdÃ©s una vida y volvÃ©s al inicio.\n\n");
         (j->cantVidas)--;
-
         k = 0;
         bandidoEncontrado = 0;
 
@@ -291,10 +290,11 @@ void aplicarEfectos(tJugador *j, tJuego *juego) ///MODIFICADA
             k++;
         }
 
-        casillero.hayJugador = 0; // desaparece de la casilla donde fue atrapado
+        casillero.hayJugador = 0; // desaparece de la casilla donde lo encontraron
+
         actualizarEnListaCircular(&juego->tablero, &casillero, sizeof(tCasillero), cmpCasillero);
 
-        j->posActual = juego->posInicio; // el puntero al inicio
+        j->posActual = juego->posInicio; // y se va al principio devuelta
 
         casInicio.posicion = juego->posInicio;
         buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
@@ -319,7 +319,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
     if (j->pierdeTurno)
     {
-        printf("\n\nLos bandidos se mueven mientras estas aturdido!\n");
+        printf("\n\nÂ¡Los bandidos se mueven mientras estas aturdido!\n");
         for(int i=0; i<3; i++)
         {
             printf(".\n");
@@ -352,7 +352,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
     getchar();
 
     pasos = tirarDado();
-    printf("\nEl dado cayó en: %d\n", pasos);
+    printf("\nEl dado cayï¿½ en: %d\n", pasos);
 
     direccion = pedirDireccion();
 
@@ -363,7 +363,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
     // procesar cola
     procesarCola(&juego->colaMovimientos, j, juego);
 
-    juego->posAnteriorJugador = j->posActual; // guardo la posicion donde quedó el jugador al terminar el turno, asi los bandidos la usan para moverse
+    juego->posAnteriorJugador = j->posActual; // guardo la posicion donde quedï¿½ el jugador al terminar el turno, asi los bandidos la usan para moverse
 
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
 }
@@ -372,11 +372,11 @@ void mostrarCasillero(const void *a)
 {
     tCasillero casillero = *(const tCasillero *)a;
 
-    // 1. Agregamos la impresión de la posición al inicio
-    // El "%02d" asegura que los números del 1 al 9 tengan un cero adelante (01, 02...)
+    // 1. Agregamos la impresiï¿½n de la posiciï¿½n al inicio
+    // El "%02d" asegura que los nï¿½meros del 1 al 9 tengan un cero adelante (01, 02...)
     printf("%02d: ", casillero.posicion);
 
-    // 2. El resto de tu lógica queda intacta
+    // 2. El resto de tu lï¿½gica queda intacta
     if(casillero.hayJugador)
     {
         if(casillero.componente == '.')
