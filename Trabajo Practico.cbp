@@ -39,6 +39,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="TDA_ListaDobleCircular.h" />
+		<Unit filename="TDA_ListaSimple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA_ListaSimple.h" />
 		<Unit filename="configuracion.c">
 			<Option compilerVar="CC" />
 		</Unit>
