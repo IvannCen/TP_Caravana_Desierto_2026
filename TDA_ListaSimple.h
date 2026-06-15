@@ -1,5 +1,6 @@
 #ifndef TDA_LISTASIMPLE_H_INCLUDED
 #define TDA_LISTASIMPLE_H_INCLUDED
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,6 +28,6 @@ int ponerEnListaAlFinal(tListaSimple *l, const void *dato, unsigned tam);
 int sacarDeListaAlPrincipio(tListaSimple *l, void *dato, unsigned tam);
 int verPrimeroEnLista(const tListaSimple *l, void *dato, unsigned tam);
 
-
+void mostrarLista(const tListaSimple *pl, void (*mostrar)(const void *a));
 
 #endif // TDA_LISTASIMPLE_H_INCLUDED

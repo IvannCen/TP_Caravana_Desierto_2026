@@ -2,7 +2,10 @@
 #include "TDA_ListaDobleCircular.h"
 #include "tablero.h"
 #include <windows.h>
-// Si tenÃ©s mostrarMenuPrincipal() en otro archivo, acordate de incluir su .h acÃ¡
+#define nomArch "config.txt"
+
+
+// Si tenés mostrarMenuPrincipal() en otro archivo, acordate de incluir su .h acá
 // int mostrarMenuPrincipal();
 
 int main()
@@ -17,7 +20,7 @@ int main()
 
     // ACA SE CARGA LA CONFIG DEL MAPA
     tConfiguracion config;
-    if(!cargarConfiguracion(&config, "config.txt"))
+    if(!cargarConfiguracion(&config, nomArch))
     {
         printf("Error en el archivo de configuracion...");
         return 1;
@@ -49,7 +52,7 @@ int main()
 
                 // Inicializamos todo
                 inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
-                free(posiciones); // Ya estÃ¡ cargado en la LDE, lo liberamos
+                free(posiciones); // Ya está cargado en la LDE, lo liberamos
 
                 // Usamos las vidas del config
                 crearJugador(&jugador, nombre, config.vidas_inicio);
@@ -72,6 +75,8 @@ int main()
                 }
 
                 printf("\nPartida finalizada.\n");
+                printf("\nHistorial de movimientos:\n");
+                mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
                 system("pause");
                 break;
 
@@ -85,12 +90,12 @@ int main()
             case 3:
                 system("cls");
                 printf("==============================================\n");
-                printf("\nSaliendo del juego... Â¡Hasta la prÃ³xima!\n");
+                printf("\nSaliendo del juego... ¡Hasta la próxima!\n");
                 printf("==============================================\n");
                 break;
 
             default:
-                printf("\nOpciÃ³n invalida, por favor ingresar un nÃºmero entre 1 y 3.\n\n");
+                printf("\nOpción invalida, por favor ingresar un número entre 1 y 3.\n\n");
                 system("pause");
         }
 

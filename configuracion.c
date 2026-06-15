@@ -5,7 +5,7 @@ int mostrarMenuPrincipal()
 {
     int opcion;
         // Limpieza de consola (compatible con Windows)
-        system("cls"); 
+        system("cls");
 
         printf("\n========================================\n");
         printf("         CARAVANA DEL DESIERTO          \n");
@@ -14,12 +14,12 @@ int mostrarMenuPrincipal()
         printf("  2. Ver el ranking de jugadores\n");
         printf("  3. Salir del juego\n\n");
         printf("========================================\n");
-        printf(" Ingrese una opcion: ");
-        
+        printf(" Ingrese una opción: ");
+
         scanf("%d", &opcion);
 
-        // Limpiamos el buffer de entrada por si el usuario ingresa caracteres raros
-        fflush(stdin); 
+        // limpieza de buffer
+        fflush(stdin);
 
     return opcion;
 }
@@ -120,5 +120,3 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
     }
     fclose(arch);
 }
-
-
