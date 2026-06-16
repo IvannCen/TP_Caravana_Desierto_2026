@@ -4,10 +4,6 @@
 #include <windows.h>
 #define nomArch "config.txt"
 
-
-// Si tenés mostrarMenuPrincipal() en otro archivo, acordate de incluir su .h acá
-// int mostrarMenuPrincipal();
-
 int main()
 {
     SetConsoleOutputCP(CP_UTF8);
@@ -36,11 +32,12 @@ int main()
             case 1:
                 system("cls");
                 printf("\n=== NUEVA PARTIDA ===\n\n");
-                printf("Ingrese su nombre:");
+                printf("Ingrese su nombre: ");
                 fflush(stdin);
-                scanf("%49s", nombre); // Leemos el nombre ingresado por el jugador
+                scanf("%49s", nombre);
                 while(getchar() != '\n');
                 system("cls");
+
                 // Creamos un escenario nuevo para ESTA partida en particular
                 char* posiciones = crearVecPos(config.cantidad_posiciones);
 
@@ -50,15 +47,13 @@ int main()
                 ubicacionAleatoria(posiciones, config.cantidad_posiciones, OASIS, config.maximo_oasis);
                 ubicacionAleatoria(posiciones, config.cantidad_posiciones, TORMENTA, config.maximo_tormentas);
 
-                // Inicializamos todo
                 inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
-                free(posiciones); // Ya está cargado en la LDE, lo liberamos
+                free(posiciones);
 
-                // Usamos las vidas del config
                 crearJugador(&jugador, nombre, config.vidas_inicio);
 
                 ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
-                //esto imprime el mapa
+
                 mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
                 // Bucle de LA PARTIDA
@@ -67,7 +62,8 @@ int main()
                     turno(&jugador, &juego);
                 }
 
-                // Limpiamos los bandidos al terminar la partida
+                guardarPuntaje(jugador.nombre, jugador.puntos);
+
                 if(juego.vecBandidos)
                 {
                     free(juego.vecBandidos);
@@ -82,8 +78,11 @@ int main()
 
             case 2:
                 system("cls");
-                printf("\n=== RANKING DE JUGADORES ===\n");
-                // FALTA IMPLEMENTAR EL ARBOL BINARIO PARA EL RANKING
+                printf("\n=== RANKING DE JUGADORES ===\n\n");
+
+                mostrarRanking();
+
+                printf("\n");
                 system("pause");
                 break;
 

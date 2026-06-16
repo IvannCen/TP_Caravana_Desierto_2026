@@ -124,7 +124,7 @@ int tirarDado()
     return (rand() % 6) + 1;
 }
 
-void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)
+void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)    ///MODIFICADA
 {
     int pasosHastaLimite, sobrantes, direccionRebote;
     tCasillero actual, destino, limite;
@@ -175,12 +175,11 @@ void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos)
     ponerEnCola(cola, &mov, sizeof(tMovimiento));
 }
 
-void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
+void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
 {
     tMovimiento mov;
     tMovHistorico movH;
     tBandido* b;
-
 
     while (!colaVacia(cola))
     {
@@ -189,21 +188,64 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
         if (mov.movimientoDe == 'J')
         {
             moverJugadorConRebote(j, mov.pasos, mov.direccion, juego);
+            aplicarEfectos(j, juego);
+
             movH.direccion = mov.direccion;
             movH.pasos = mov.pasos;
             ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
-
         }
         else if(mov.movimientoDe == 'B')
         {
-            b = &juego->vecBandidos[mov.idBandido - 1];
+            b = &juego->vecBandidos[mov.idBandido - 1]; // idBandido arranca en 1, el índice en 0
+
             if(b->vivo)
             {
                 moverBandidoSinRebote(b, mov.pasos, mov.direccion, juego);
+
+                if(b->posActual == j->posActual)
+                {
+                    if(j->protegido > 0)
+                        printf("\n¡Un bandido cayo en tu casillero, pero el Oasis te salvo. Bien ahi che!\n");
+                    else
+                    {
+                        printf("\n¡Un bandido te atrapo! Perdes una vida y volves al inicio.\n\n");
+
+                        j->cantVidas--;
+                        b->vivo = 0;
+
+                        j->pierdeTurno = 0;
+                        j->protegido = 0;
+
+                        tCasillero casDestino;
+                        casDestino.posicion = j->posActual;
+                        buscarEnListaCircular(&juego->tablero, &casDestino, sizeof(tCasillero), cmpCasillero);
+
+                        casDestino.cantBandidos--;
+                        if (casDestino.componente == 'B' && casDestino.cantBandidos == 0)
+                            casDestino.componente = '.';
+
+                        casDestino.hayJugador = 0;
+                        actualizarEnListaCircular(&juego->tablero, &casDestino, sizeof(tCasillero), cmpCasillero);
+
+                        j->posActual = juego->posInicio;
+
+                        tCasillero casInicio;
+                        casInicio.posicion = juego->posInicio;
+                        buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+
+                        casInicio.hayJugador = 1;
+                        actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+
+                        if(j->cantVidas == 0)
+                        {
+                            printf("Te quedaste sin vidas... mas suerte la proxima.\n");
+                            juego->estadoPartida = -1;
+                        }
+                    }
+                }
             }
         }
     }
-
 }
 
 void registrarMovimiento(tJugador *j, tMovimiento *mov)
@@ -220,111 +262,104 @@ void registrarMovimiento(tJugador *j, tMovimiento *mov)
     ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
 }
 
+
 void aplicarEfectos(tJugador *j, tJuego *juego)
 {
-    int modificoCasillero = 0;
-    int k, bandidoEncontrado;
-    tCasillero casillero, casInicio;
+    tCasillero c;
+    c.posicion = j->posActual;
+    buscarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 
-    casillero.posicion = j->posActual;
-    buscarEnListaCircular(&juego->tablero, &casillero, sizeof(tCasillero), cmpCasillero);
-
-    switch (casillero.componente)
+    if (c.componente == 'O')
     {
-    case 'S':
-        printf("\n¡Felicidades, lograste llegar a la ciudad refugio!\n");
-        juego->estadoPartida = 1;
-        break;
-    case 'P':
-        printf("\n¡Obtuviste un punto!\n");
-        j->puntos++;
-        casillero.componente = '.';
-        modificoCasillero = 1;
-        break;
-    case 'V':
-        printf("\n¡Obtuviste una vida extra!\n");
-        j->cantVidas++;
-        casillero.componente = '.';
-        modificoCasillero = 1;
-        break;
-    case 'O':
-        j->protegido = 1;
-        if (casillero.cantBandidos > 0)
-        {
-            printf("\n¡Te atrapo un bandido pero estas en un oasis y tenes inmunidad!\n");
-        }
-        else
-        {
-            printf("\nEstás en un oasis: ¡Tenés inmunidad para el siguiente turno y los bandidos no pueden interceptarte!\n");
-        }
-        break;
-    case 'T':
-        printf("\nEstás en una tormenta: perdés el próximo turno.\n");
-        if (!j->protegido)
-            j->pierdeTurno = 1; // Te aturde solo si no tenías escudo previo
-        break;
-    case '.':
-        // Mensaje opcional si te salva la inmunidad en terreno vacio
-        if (casillero.cantBandidos > 0 && j->protegido)
-        {
-            printf("\n¡Un bandido intentó atraparte pero tu inmunidad te salvó!\n");
-        }
-        else
-        {
-            printf("\nEl casillero está vacío... por ahora.\n");
-        }
-        break;
-    case 'I':
-        printf("\nVolviste al inicio.\n");
-        break;
+        printf("\n¡Llegaste a un Oasis seguro! Consigues protección por este turno\n");
+        j->protegido = 2;
     }
 
-    if (modificoCasillero)
-        actualizarEnListaCircular(&juego->tablero, &casillero, sizeof(tCasillero), cmpCasillero);
-
-    if (casillero.cantBandidos > 0 && !(j->protegido))
+    if (c.cantBandidos > 0)
     {
-        printf("\n¡Te atrapó un bandido! Perdés una vida y volvés al inicio.\n\n");
-        (j->cantVidas)--;
-        k = 0;
-        bandidoEncontrado = 0;
-
-        while(k < juego->cantBandidosActivos && !bandidoEncontrado)
+        if (j->protegido > 0)
+            printf("\n¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n");
+        else
         {
-            if(juego->vecBandidos[k].vivo && juego->vecBandidos[k].posActual == j->posActual)
+            printf("\n¡Te atrapo un bandido! Perdes una vida y volves al inicio.\n");
+            j->cantVidas--;
+
+            int k = 0;
+            int bandidoEncontrado = 0;
+            while (k < juego->cantBandidosActivos && !bandidoEncontrado)
             {
-                juego->vecBandidos[k].vivo = 0;
-                casillero.cantBandidos--;
-                if (casillero.componente == 'B')
-                    casillero.componente = '.';
+                if (juego->vecBandidos[k].vivo == 1 && juego->vecBandidos[k].posActual == j->posActual)
+                {
+                    juego->vecBandidos[k].vivo = 0;
+                    c.cantBandidos--;
 
-                bandidoEncontrado = 1;
+                    if (c.componente == 'B' && c.cantBandidos == 0)
+                        c.componente = '.';
+
+                    bandidoEncontrado = 1;
+                }
+                k++;
             }
-            k++;
-        }
 
-        casillero.hayJugador = 0;
-        actualizarEnListaCircular(&juego->tablero, &casillero, sizeof(tCasillero), cmpCasillero);
+            c.hayJugador = 0;
+            actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 
-        j->posActual = juego->posInicio;
+            j->posActual = juego->posInicio;
 
-        casInicio.posicion = juego->posInicio;
-        buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+            tCasillero casInicio;
+            casInicio.posicion = juego->posInicio;
+            buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+            casInicio.hayJugador = 1;
+            actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
 
-        casInicio.hayJugador = 1;
-        actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
-        j->pierdeTurno = 0;
-
-        if (j->cantVidas == 0)
-        {
-            printf("Te quedaste sin vidas.\n\n");
-            printf("GAME OVER.\n\n");
-            juego->estadoPartida = -1;
+            if (j->cantVidas == 0)
+            {
+                printf("Perdiste, te quedaste sin vidas... mas suerte la proxima.\n");
+                juego->estadoPartida = -1;
+            }
+            return;
         }
     }
+
+    switch (c.componente)
+    {
+        case 'S':
+            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n");
+            juego->estadoPartida = 1;
+            break;
+
+        case 'P':
+            printf("\n[PREMIO] ¡Obtuviste un punto extra!\n");
+            j->puntos++;
+            c.componente = '.';
+            break;
+
+        case 'V':
+            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n");
+            j->cantVidas++;
+            c.componente = '.';
+            break;
+
+        case 'T':
+            if (j->protegido > 0)
+            {
+                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n");
+            }
+            else
+            {
+                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n");
+                j->pierdeTurno = 1;
+            }
+            break;
+
+        case '.':
+        case 'I':
+        case 'O':
+            break;
+    }
+
+    actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 }
-
-
 
 void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 {
@@ -332,7 +367,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
     if (j->pierdeTurno)
     {
-        printf("\n¡Los bandidos se mueven mientras estas aturdido!\n\n");
+        printf("\n\n¡Los bandidos se mueven mientras estas aturdido!\n");
 //        for(int i=0; i<3; i++)
 //        {
 //            printf(".\n");
@@ -345,8 +380,8 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
         return;
     }
 
-    if (j->protegido)
-        j->protegido = 0;
+    if (j->protegido>0)
+        j->protegido--;
 
     printf("\nVidas actuales: ");
     for(int k = 0; k < j->cantVidas; k++)
@@ -379,15 +414,17 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
     juego->posAnteriorJugador = j->posActual; // guardo la posicion donde qued� el jugador al terminar el turno, asi los bandidos la usan para moverse
 
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
-
-    aplicarEfectos(j, juego);
 }
 
 void mostrarCasillero(const void *a)
 {
     tCasillero casillero = *(const tCasillero *)a;
+
+    // 1. Agregamos la impresi�n de la posici�n al inicio
+    // El "%02d" asegura que los n�meros del 1 al 9 tengan un cero adelante (01, 02...)
     printf("%02d: ", casillero.posicion);
 
+    // 2. El resto de tu l�gica queda intacta
     if(casillero.hayJugador)
     {
         if(casillero.componente == '.')
@@ -406,6 +443,7 @@ void mostrarCasillero(const void *a)
     {
         printf("[%c] ", casillero.componente);
     }
+
     printf("\n");
 }
 
@@ -425,7 +463,7 @@ void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)  
 
             mov.movimientoDe = 'B';
             mov.idBandido = juego->vecBandidos[i].id;
-            mov.direccion = (posJugadorAnterior > posBandido) ? 1 : 2;
+            mov.direccion = (posJugadorAnterior > posBandido) ? 1 : (posJugadorAnterior < posBandido) ? 2 : (rand() %2 + 1);
             mov.pasos = pasosB;
             ponerEnCola(cola, &mov, sizeof(tMovimiento));
 
@@ -467,12 +505,8 @@ void mostrarMovimientoHistorial(const void *a)
     const tMovHistorico *movH = (const tMovHistorico *)a;
 
     if (movH->direccion == 1)
-    {
         printf("F%d ", movH->pasos);
-    }
     else
-    {
         printf("B%d ", movH->pasos);
-    }
     printf("\n");
 }
