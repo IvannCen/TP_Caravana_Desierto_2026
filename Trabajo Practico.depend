@@ -124,11 +124,15 @@
 1781511001 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
 	"TDA_ListaSimple.h"
 
-<<<<<<< Updated upstream
-1781570009 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
-=======
-1781571274 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
->>>>>>> Stashed changes
+1781511001 ated upstream
+
+1781571938 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+	"tablero.h"
+	"TDA_ListaDobleCircular.h"
+	"TDA_ListaSimple.h"
+	"TDA_ColaDinamica.h"
+
+1781571274 shed changes
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"

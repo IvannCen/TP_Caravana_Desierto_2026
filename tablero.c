@@ -201,10 +201,6 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
             if(b->vivo)
             {
                 moverBandidoSinRebote(b, mov.pasos, mov.direccion, juego);
-<<<<<<< Updated upstream
-                // Eliminamos la lógica de colisión manual de acá.
-                // Tu función aplicarEfectos ya lo ataja perfectamente.
-=======
 
                 if(b->posActual == j->posActual)
                 {
@@ -247,7 +243,6 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                         }
                     }
                 }
->>>>>>> Stashed changes
             }
         }
     }
@@ -329,7 +324,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     switch (c.componente)
     {
         case 'S':
-            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n");
+            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
             juego->estadoPartida = 1;
             break;
 
@@ -340,7 +335,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
             break;
 
         case 'V':
-            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n");
+            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
             j->cantVidas++;
             c.componente = '.';
             break;
@@ -348,11 +343,11 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         case 'T':
             if (j->protegido > 0)
             {
-                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n");
+                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n\n");
             }
             else
             {
-                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n");
+                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n\n");
                 j->pierdeTurno = 1;
             }
             break;
