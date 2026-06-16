@@ -48,11 +48,14 @@ int main()
                 ubicacionAleatoria(posiciones, config.cantidad_posiciones, TORMENTA, config.maximo_tormentas);
 
                 inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
-                free(posiciones);
 
                 crearJugador(&jugador, nombre, config.vidas_inicio);
 
                 ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
+
+                guardarEscenario(posiciones, config.cantidad_posiciones, "caravana.txt");
+
+                free(posiciones);
 
                 mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
@@ -73,6 +76,11 @@ int main()
                 printf("\nPartida finalizada.\n");
                 printf("\nHistorial de movimientos:\n");
                 mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
+
+                vaciarLista(&jugador.historialMovimientos);
+                vaciarCola(&juego.colaMovimientos);
+                vaciarListaDoble(&juego.tablero);
+
                 system("pause");
                 break;
 
