@@ -336,7 +336,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         case 'T':
             if (j->protegido > 0)
             {
-                printf("[!] Una tormenta de arena te rodea ¡Pero el escudo del Oasis te mantiene firme!\n\n");
+                printf("[PROTECCION] Una tormenta de arena te rodea ¡Pero el escudo del Oasis te mantiene firme!\n\n");
             }
             else
             {
@@ -362,11 +362,30 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
     if (j->pierdeTurno)
     {
-        printf("\n[ATURDIMIENTO] ¡Los bandidos se mueven mientras estas aturdido!\n\n");
+
+        int hayBandidosVivos = 0;
+        int i = 0;
+
+        while (i < juego->cantBandidosActivos && hayBandidosVivos == 0)
+        {
+            if (juego->vecBandidos[i].vivo == 1)
+            {
+                hayBandidosVivos = 1;
+            }
+            i++;
+        }
+
+        if (hayBandidosVivos)
+            printf("\n[ATURDIMIENTO] ¡Los bandidos se mueven mientras estas aturdido!\n\n");
+        else
+            printf("\nEl viento aulla, pero afortunadamente ya no quedan amenazas en el desierto.\n\n");
+
         j->pierdeTurno = 0;
+
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
         procesarCola(&juego->colaMovimientos, j, juego);
-        mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
+        if(hayBandidosVivos)
+            mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
         return;
     }
 

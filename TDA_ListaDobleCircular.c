@@ -142,3 +142,25 @@ int obtenerElementoDesplazado(tListaDobleC *pl, const void *datoOrigen, int paso
 
     return TODO_OK;
 }
+
+int vaciarListaDoble(tListaDobleC* pld)
+{
+    int cant=0;
+    tNodoLista* act = *pld;
+
+    if(act)
+    {
+        while(act->ant)
+            act=act->ant;
+        while(act)
+        {
+            tNodoLista* aux = act->sig;
+            free(act->dato);
+            free(act);
+            act=aux;
+            cant++;
+        }
+        *pld = NULL;
+    }
+    return cant;
+}
