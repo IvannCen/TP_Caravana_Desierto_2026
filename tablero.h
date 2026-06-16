@@ -78,7 +78,6 @@ void turno(tJugador *j, tJuego *juego);
 
 void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion);
 void ponerTodosLosComponentes(tJuego *juego, tConfiguracion *config);
-void agregarBandido(tListaSimple *pl, int id, tNodoLista *posicion);
 
 int pedirDireccion();
 int tirarDado();

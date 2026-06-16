@@ -10,7 +10,7 @@
 #include "TDA_ListaDobleCircular.h"
 #include "TDA_ColaDinamica.h"
 #include "TDA_ListaSimple.h"
-
+#include "TDA_ArbolBinarioBusqueda.h"
 
 #define ERROR 0
 #define TODO_OK 1
@@ -36,6 +36,38 @@ typedef struct
     int maximo_oasis;
     int maximo_tormentas;
 }tConfiguracion;
+
+// ESTRUCTURAS PARA LA GESTION DE DATOS
+
+typedef struct
+{
+    int idJugador;
+    char nombre[50];
+    int estado;
+}tRegistroJugador;
+
+typedef struct
+{
+    int idPartida;
+    int idJugador;
+    int puntosObtenidos;
+    int cantMovimientos;
+}tRegistroPartida;
+
+typedef struct
+{
+    char nombre[50];
+    long posArchivo;
+}tIndiceJugador;
+
+//PROTOTIPOS DE LAS FUNCIONES DE ARCHIVOS INDEXADOS Y ARBOLES
+
+int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice);
+int guardarIndiceBinario(const tArbolBinBusq* pa, const char* Indice);
+void guardarIndiceEnArchivoAux(const tArbolBinBusq* pa, FILE* arch);
+int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* Jugadores, int* idJugador, long* posArchivo);
+int registrarNuevaPartida(const char* Partidas, int idJugador, int puntos, int movimientos);
+int cmpIndiceJugador(const void* a, const void* b);
 
 // ESTRUCTURA PARA EL RANKING
 typedef struct

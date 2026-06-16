@@ -13,6 +13,10 @@ int main()
     int opcionElegida;
     char nombre[50];
 
+    tArbolBinBusq indiceJugadores;
+    crearArbolBinBusq(&indiceJugadores);
+    cargarIndiceBinario(&indiceJugadores, "indice.dat");
+
     // ACA SE CARGA LA CONFIG DEL MAPA
     tConfiguracion config;
     if(!cargarConfiguracion(&config, nomArch))
@@ -35,6 +39,11 @@ int main()
                 fflush(stdin);
                 scanf("%49s", nombre);
                 while(getchar() != '\n');
+
+                int idJugadorActual;
+                long posArchivoActual;
+                buscarODarDeAltaJugador(&indiceJugadores, nombre, "jugadores.dat", &idJugadorActual, &posArchivoActual);
+
                 system("cls");
 
                 // Creamos un escenario nuevo para ESTA partida en particular
@@ -56,15 +65,19 @@ int main()
 
                 free(posiciones);
 
+                int turnosJugador = 0;
+
                 mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
                 // Bucle de LA PARTIDA
                 while(juego.estadoPartida == 0)
                 {
                     turno(&jugador, &juego);
+                    turnosJugador++;
                 }
 
                 guardarPuntaje(jugador.nombre, jugador.puntos);
+                registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
 
                 if(juego.vecBandidos)
                 {
@@ -98,6 +111,10 @@ int main()
                 printf("==============================================\n");
                 printf("Saliendo del juego... ¡Hasta la próxima!\n");
                 printf("==============================================\n");
+
+                guardarIndiceBinario(&indiceJugadores, "indice.dat");
+                vaciarArbolBinBusq(&indiceJugadores);
+
                 break;
 
             default:

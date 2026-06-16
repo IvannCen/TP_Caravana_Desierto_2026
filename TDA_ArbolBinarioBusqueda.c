@@ -1,14 +1,14 @@
 #include "TDA_ArbolBinarioBusqueda.h"
 
-void crearArbolBinBusq(tArbolBinBusq *p)
+void crearArbolBinBusq(tArbolBinBusq* p)
 {
     *p = NULL;
 }
 
 // Inserta de forma recursiva: los menores a la izquierda, los mayores a la derecha
-int insertarEnArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*cmp)(const void *, const void *))
+int insertarEnArbolBinBusq(tArbolBinBusq* p, const void* d, unsigned tam, int (*cmp)(const void*, const void*))
 {
-    tNodoArbol *nue;
+    tNodoArbol* nue;
     int comp;
 
     if(*p)
@@ -42,7 +42,7 @@ int insertarEnArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*
 }
 
 // Recorre recursivamente: Derecha -> Raíz -> Izquierda (Para que salga de MAYOR a MENOR)
-void recorrerArbolInOrdenInverso(const tArbolBinBusq *p, void (*accion)(const void *))
+void recorrerArbolInOrdenInverso(const tArbolBinBusq* p, void (*accion)(const void*))
 {
     if(!*p)
         return;
@@ -52,7 +52,25 @@ void recorrerArbolInOrdenInverso(const tArbolBinBusq *p, void (*accion)(const vo
     recorrerArbolInOrdenInverso(&(*p)->izq, accion);
 }
 
-void vaciarArbolBinBusq(tArbolBinBusq *p)
+int buscarEnArbolBinBusq(const tArbolBinBusq* p, void* d, unsigned tam, int (*cmp)(const void*, const void*))
+{
+    int comp;
+    if (!*p)
+        return ERROR;
+    comp = cmp(d, (*p)->dato);
+    if (comp == 0)
+    {
+        memcpy(d, (*p)->dato, tam);
+        return TODO_OK;
+    }
+
+    if(comp < 0)
+        return buscarEnArbolBinBusq(&(*p)->izq, d, tam, cmp);
+    else
+        return buscarEnArbolBinBusq(&(*p)->der, d, tam, cmp);
+}
+
+void vaciarArbolBinBusq(tArbolBinBusq* p)
 {
     if(!*p)
         return;
