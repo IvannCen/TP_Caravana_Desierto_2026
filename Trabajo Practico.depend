@@ -153,7 +153,7 @@
 	"TDA_ColaDinamica.h"
 	"TDA_ListaSimple.h"
 
-1781630141 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.h
+1781651827 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -181,7 +181,7 @@
 1780945127 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_coladinamica.c
 	"TDA_ColaDinamica.h"
 
-1781625974 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_listadoblecircular.c
+1781632841 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_listadoblecircular.c
 	"TDA_ListaDobleCircular.h"
 
 1781558634 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_listasimple.c
@@ -197,7 +197,7 @@
 	<stdlib.h>
 	<string.h>
 
-1781632446 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\main.c
+1781650698 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"

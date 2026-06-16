@@ -122,53 +122,111 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
     fclose(arch);
 }
 
-
 int cmpRanking(const void *a, const void *b)
 {
-    tRegistroRanking *r1 = (tRegistroRanking *)a;
-    tRegistroRanking *r2 = (tRegistroRanking *)b;
-    return r1->puntos - r2->puntos;
+    tRegistroJugador* r1 = (tRegistroJugador*)a;
+    tRegistroJugador* r2 = (tRegistroJugador*)b;
+    return r1->estado - r2->estado;
 }
 
 void mostrarJugadorRanking(const void *a)
 {
-    tRegistroRanking *r = (tRegistroRanking *)a;
-    printf("Jugador: %-20s | Puntos: %d\n", r->nombre, r->puntos);
-}
-
-void guardarPuntaje(const char* nombre, int puntos)
-{
-    FILE *archPuntos = fopen("ranking.txt", "at");
-    if(archPuntos)
-    {
-        fprintf(archPuntos, "%s|%d\n", nombre, puntos);
-        fclose(archPuntos);
-    }
+    tRegistroJugador* r = (tRegistroJugador*)a;
+    printf("Jugador: %-20s | Puntos: %d\n", r->nombre, r->estado);
 }
 
 void mostrarRanking()
 {
+    FILE* archJug = fopen("jugadores.dat", "rb");
+    FILE* archPart = fopen("partidas.dat", "rb");
+
+    if(!archJug || !archPart)
+    {
+        printf("Todavia no hay datos suficientes para armar el ranking.\n");
+        if(archJug)
+            fclose(archJug);
+        if(archPart)
+            fclose(archPart);
+        return;
+    }
+
+    fseek(archJug, 0, SEEK_END);
+    long cantJugadores = ftell(archJug) / sizeof(tRegistroJugador);
+    rewind(archJug);
+
+    if(cantJugadores == 0)
+    {
+        printf("Todavia no hay jugadores registrados.\n");
+        fclose(archJug);
+        fclose(archPart);
+        return;
+    }
+
+    tRegistroJugador* tabla = (tRegistroJugador*)calloc(cantJugadores, sizeof(tRegistroJugador));
+    if(!tabla)
+    {
+        fclose(archJug);
+        fclose(archPart);
+        return;
+    }
+
+    tRegistroJugador regJ;
+    while(fread(&regJ, sizeof(tRegistroJugador), 1, archJug))
+    {
+        tabla[regJ.idJugador-1].idJugador = regJ.idJugador;
+        strcpy(tabla[regJ.idJugador - 1].nombre, regJ.nombre);
+        tabla[regJ.idJugador-1].estado = 0;
+    }
+
+    fclose(archJug);
+
+    tRegistroPartida regP;
+    while(fread(&regP, sizeof(tRegistroPartida), 1, archPart))
+        tabla[regP.idJugador - 1].estado += regP.puntosObtenidos;
+    fclose(archPart);
+
     tArbolBinBusq arbolRanking;
     crearArbolBinBusq(&arbolRanking);
 
-    FILE *archRank = fopen("ranking.txt", "rt");
-    if(!archRank)
+    int i;
+    for(i = 0; i < cantJugadores; i++)
     {
-        printf("Todavia no hay partidas registradas.\n");
+        if(tabla[i].estado > 0)
+            insertarEnArbolBinBusq(&arbolRanking, &tabla[i], sizeof(tRegistroJugador), cmpRanking);
     }
-    else
-    {
-        tRegistroRanking reg;
-        while(fscanf(archRank, "%[^|]|%d\n", reg.nombre, &reg.puntos) == 2)
-        {
-            insertarEnArbolBinBusq(&arbolRanking, &reg, sizeof(tRegistroRanking), cmpRanking);
-        }
-        fclose(archRank);
 
+    printf("--------------------------------------------------\n");
+    printf("%-20s | %s\n", "JUGADOR", "PUNTOS HISTORICOS");
+    printf("--------------------------------------------------\n");
+
+    if(arbolRanking == NULL)
+        printf("Ningun jugador ha sumado puntos todavia.\n");
+    else
         recorrerArbolInOrdenInverso(&arbolRanking, mostrarJugadorRanking);
-    }
+
+    printf("--------------------------------------------------\n");
 
     vaciarArbolBinBusq(&arbolRanking);
+    free(tabla);
+
+//    FILE *archRank = fopen("ranking.txt", "rt");
+//    if(!archRank)
+//    {
+//        printf("Todavia no hay partidas registradas.\n");
+//    }
+//    else
+//    {
+//        tRegistroRanking reg;
+//        while(fscanf(archRank, "%[^|]|%d\n", reg.nombre, &reg.puntos) == 2)
+//        {
+//            insertarEnArbolBinBusq(&arbolRanking, &reg, sizeof(tRegistroRanking), cmpRanking);
+//        }
+//        fclose(archRank);
+//
+//        recorrerArbolInOrdenInverso(&arbolRanking, mostrarJugadorRanking);
+//    }
+//
+//    vaciarArbolBinBusq(&arbolRanking);
 }
 
 int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice)
