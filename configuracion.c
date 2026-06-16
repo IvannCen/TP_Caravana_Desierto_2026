@@ -1,5 +1,6 @@
 #include "configuracion.h"
 #include "TDA_ColaDinamica.h"
+#include "TDA_ArbolBinarioBusqueda.h"
 
 int mostrarMenuPrincipal()
 {
@@ -119,4 +120,53 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
         i++;
     }
     fclose(arch);
+}
+
+
+int cmpRanking(const void *a, const void *b)
+{
+    tRegistroRanking *r1 = (tRegistroRanking *)a;
+    tRegistroRanking *r2 = (tRegistroRanking *)b;
+    return r1->puntos - r2->puntos;
+}
+
+void mostrarJugadorRanking(const void *a)
+{
+    tRegistroRanking *r = (tRegistroRanking *)a;
+    printf("Jugador: %-20s | Puntos: %d\n", r->nombre, r->puntos);
+}
+
+void guardarPuntaje(const char* nombre, int puntos)
+{
+    FILE *archPuntos = fopen("ranking.txt", "at");
+    if(archPuntos)
+    {
+        fprintf(archPuntos, "%s|%d\n", nombre, puntos);
+        fclose(archPuntos);
+    }
+}
+
+void mostrarRanking()
+{
+    tArbolBinBusq arbolRanking;
+    crearArbolBinBusq(&arbolRanking);
+
+    FILE *archRank = fopen("ranking.txt", "rt");
+    if(!archRank)
+    {
+        printf("Todavia no hay partidas registradas.\n");
+    }
+    else
+    {
+        tRegistroRanking reg;
+        while(fscanf(archRank, "%[^|]|%d\n", reg.nombre, &reg.puntos) == 2)
+        {
+            insertarEnArbolBinBusq(&arbolRanking, &reg, sizeof(tRegistroRanking), cmpRanking);
+        }
+        fclose(archRank);
+
+        recorrerArbolInOrdenInverso(&arbolRanking, mostrarJugadorRanking);
+    }
+
+    vaciarArbolBinBusq(&arbolRanking);
 }

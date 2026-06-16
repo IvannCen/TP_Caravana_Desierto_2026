@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="TDA_ArbolBinarioBusqueda.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA_ArbolBinarioBusqueda.h" />
 		<Unit filename="TDA_ColaDinamica.c">
 			<Option compilerVar="CC" />
 		</Unit>
