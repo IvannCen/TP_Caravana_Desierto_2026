@@ -170,3 +170,116 @@ void mostrarRanking()
 
     vaciarArbolBinBusq(&arbolRanking);
 }
+
+int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice)
+{
+    FILE* arch = fopen(Indice, "rb");
+    if(!arch)
+        return ERROR;
+
+    tIndiceJugador reg;
+    while(fread(&reg, sizeof(tIndiceJugador),1,arch))
+        insertarEnArbolBinBusq(pa,&reg,sizeof(tIndiceJugador), cmpIndiceJugador);
+    fclose(arch);
+    return TODO_OK;
+}
+
+void guardarIndiceEnArchivoAux(const tArbolBinBusq* pa, FILE* arch)
+{
+    if(!*pa)
+        return;
+
+    fwrite((*pa)->dato, (*pa)->tamDato, 1, arch);
+    guardarIndiceEnArchivoAux(&(*pa)->izq, arch);
+    guardarIndiceEnArchivoAux(&(*pa)->der, arch);
+}
+
+int guardarIndiceBinario(const tArbolBinBusq* pa, const char* Indice)
+{
+    FILE* arch = fopen(Indice, "wb");
+    if(!arch)
+        return ERROR;
+
+    guardarIndiceEnArchivoAux(pa, arch);
+    fclose(arch);
+    return TODO_OK;
+}
+
+int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* Jugadores, int* idJugador, long* posArchivo)
+{
+    tIndiceJugador indiceBuscado;
+    strcpy(indiceBuscado.nombre, nombre);
+    if (buscarEnArbolBinBusq(pa, &indiceBuscado, sizeof(tIndiceJugador), cmpIndiceJugador) == TODO_OK)
+    {
+        *posArchivo = indiceBuscado.posArchivo;
+        FILE* arch = fopen(Jugadores, "rb");
+        if(arch)
+        {
+            fseek(arch, *posArchivo, SEEK_SET);
+            tRegistroJugador reg;
+            fread(&reg, sizeof(tRegistroJugador), 1, arch);
+            *idJugador = reg.idJugador;
+            fclose(arch);
+        }
+        return TODO_OK;
+    }
+    else
+    {
+        FILE* arch = fopen(Jugadores, "a+b");
+        if(!arch)
+            return ERROR;
+
+        fseek(arch, 0, SEEK_END);
+        long offset = ftell(arch);
+
+        int nuevoId = (offset / sizeof(tRegistroJugador)) + 1;
+
+        tRegistroJugador nuevoReg;
+        nuevoReg.idJugador = nuevoId;
+        strcpy(nuevoReg.nombre, nombre);
+        nuevoReg.estado = 1;
+
+        fwrite(&nuevoReg, sizeof(tRegistroJugador), 1, arch);
+        fclose(arch);
+
+        tIndiceJugador nuevoIndice;
+        strcpy(nuevoIndice.nombre, nombre);
+        nuevoIndice.posArchivo = offset;
+
+        insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
+
+        *idJugador = nuevoId;
+        *posArchivo = offset;
+
+        return TODO_OK;
+    }
+}
+
+int registrarNuevaPartida(const char* Partidas, int idJugador, int puntos, int movimientos)
+{
+    FILE* arch = fopen(Partidas, "a+b");
+    if(!arch)
+        return ERROR;
+
+    fseek(arch,0,SEEK_SET);
+    long offset = ftell(arch);
+    int idPartida = (offset / sizeof(tRegistroPartida)) + 1;
+
+    tRegistroPartida reg;
+    reg.idPartida = idPartida;
+    reg.idJugador = idJugador;
+    reg.puntosObtenidos = puntos;
+    reg.cantMovimientos = movimientos;
+
+    fwrite(&reg, sizeof(tRegistroPartida), 1, arch);
+    fclose(arch);
+
+    return TODO_OK;
+}
+
+int cmpIndiceJugador(const void* a, const void* b)
+{
+    tIndiceJugador* i1 = (tIndiceJugador*)a;
+    tIndiceJugador* i2 = (tIndiceJugador*)b;
+    return strcmp(i1->nombre, i2->nombre);
+}

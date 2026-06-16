@@ -10,17 +10,18 @@
 
 typedef struct sNodoArbol
 {
-    void *dato;
+    void* dato;
     unsigned tamDato;
-    struct sNodoArbol *izq;
-    struct sNodoArbol *der;
+    struct sNodoArbol* izq;
+    struct sNodoArbol* der;
 } tNodoArbol;
 
-typedef tNodoArbol *tArbolBinBusq;
+typedef tNodoArbol* tArbolBinBusq;
 
-void crearArbolBinBusq(tArbolBinBusq *p);
-int insertarEnArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*cmp)(const void *, const void *));
-void recorrerArbolInOrdenInverso(const tArbolBinBusq *p, void (*accion)(const void *));
-void vaciarArbolBinBusq(tArbolBinBusq *p);
+void crearArbolBinBusq(tArbolBinBusq* p);
+int insertarEnArbolBinBusq(tArbolBinBusq* p, const void* d, unsigned tam, int (*cmp)(const void*, const void*));
+void recorrerArbolInOrdenInverso(const tArbolBinBusq* p, void (*accion)(const void*));
+int buscarEnArbolBinBusq(const tArbolBinBusq* p, void* d, unsigned tam, int (*cmp)(const void*, const void*));
+void vaciarArbolBinBusq(tArbolBinBusq* p);
 
 #endif // TDA_ARBOLBINARIOBUSQUEDA
