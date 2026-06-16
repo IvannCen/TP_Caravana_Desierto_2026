@@ -89,12 +89,12 @@ int main()
             case 3:
                 system("cls");
                 printf("==============================================\n");
-                printf("\nSaliendo del juego... ¡Hasta la próxima!\n");
+                printf("Saliendo del juego... Â¡Hasta la prÃ³xima!\n");
                 printf("==============================================\n");
                 break;
 
             default:
-                printf("\nOpción invalida, por favor ingresar un número entre 1 y 3.\n\n");
+                printf("\nOpciÃ³n invalida, por favor ingresar un nÃºmero entre 1 y 3.\n\n");
                 system("pause");
         }
 

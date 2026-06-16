@@ -99,7 +99,7 @@ int pedirDireccion()
         printf("\n=== Indique la dirección del movimiento ===\n");
         printf("1. Adelante.\n");
         printf("2. Atrás.\n");
-        printf("Opcion: ");
+        printf("Opción: ");
         scanf("%d", &dir);
         //para limpiar el buffer porque me toma el enter como una nueva opcion
         while(getchar() != '\n');
@@ -152,10 +152,8 @@ void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)
         else
             direccionRebote = 1;
 
-        // Tramo 1: Le pedimos al TDA viajar exactamente hasta el extremo ('S' o 'I')
         obtenerElementoDesplazado(&juego->tablero, &actual, pasosHastaLimite, direccion, &limite, sizeof(tCasillero), cmpCasillero);
 
-        // Tramo 2: Desde ese extremo, le pedimos al TDA rebotar los pasos sobrantes en direcci�n contraria
         obtenerElementoDesplazado(&juego->tablero, &limite, sobrantes, direccionRebote, &destino, sizeof(tCasillero), cmpCasillero);
     }
 
@@ -205,10 +203,10 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
                 if(b->posActual == j->posActual)
                 {
                     if(j->protegido > 0)
-                        printf("\n¡Un bandido cayo en tu casillero, pero el Oasis te salvo. Bien ahi che!\n");
+                        printf("[PROTECCIÓN] Un bandido cayó en tu casillero ¡Pero la inmunidad del Oasis te protege!\n\n");
                     else
                     {
-                        printf("\n¡Un bandido te atrapo! Perdes una vida y volves al inicio.\n\n");
+                        printf("[EMBOSCADA] ¡Un bandido te atrapó! Perdes una vida y volves al inicio.\n\n");
 
                         j->cantVidas--;
                         b->vivo = 0;
@@ -238,7 +236,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
 
                         if(j->cantVidas == 0)
                         {
-                            printf("Te quedaste sin vidas... GAME OVER.\n");
+                            printf("[DERROTA] ¡Te quedaste sin vidas! \n\n\t GAME OVER\n\n");
                             juego->estadoPartida = -1;
                         }
                     }
@@ -271,17 +269,17 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
     if (c.componente == 'O')
     {
-        printf("\n¡Llegaste a un Oasis seguro! Consigues protección por este turno\n");
+        printf("[INMUNIDAD] ¡Llegaste a un Oasis seguro! Tenés inmunidad para el próximo turno.\n\n");
         j->protegido = 2;
     }
 
     if (c.cantBandidos > 0)
     {
         if (j->protegido > 0)
-            printf("\n¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n");
+            printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
         else
         {
-            printf("\n¡Te atrapo un bandido! Perdes una vida y volves al inicio.\n");
+            printf("[ATRAPADO] ¡Un bandido te estaba esperando y te atrapó! Perdés una vida y volvés al inicio.\n\n");
             j->cantVidas--;
 
             int k = 0;
@@ -314,8 +312,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
             if (j->cantVidas == 0)
             {
-                printf("\n¡Te quedaste sin vidas!\n");
-                printf("GAME OVER.\n\n");
+                printf("[DERROTA] ¡Te quedaste sin vidas! \n\n\t GAME OVER\n\n");
                 juego->estadoPartida = -1;
             }
             return;
@@ -325,18 +322,18 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     switch (c.componente)
     {
         case 'S':
-            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
+            printf("[VICTORIA] ¡Felicidades! ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
             juego->estadoPartida = 1;
             break;
 
         case 'P':
-            printf("\n[PREMIO] ¡Obtuviste un punto extra!\n\n");
+            printf("[+1 PUNTO] ¡Obtuviste un punto extra! \n\n");
             j->puntos++;
             c.componente = '.';
             break;
 
         case 'V':
-            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
+            printf("[+1 VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
             j->cantVidas++;
             c.componente = '.';
             break;
@@ -344,16 +341,18 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         case 'T':
             if (j->protegido > 0)
             {
-                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n\n");
+                printf("[!] Una tormenta de arena te rodea ¡Pero el escudo del Oasis te mantiene firme!\n\n");
             }
             else
             {
-                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n\n");
+                printf("[TORMENTA] ¡Estás atrapado en una tormenta! Perdés tu proximo turno.\n\n");
                 j->pierdeTurno = 1;
             }
             break;
 
         case '.':
+            printf("[SIN EFECTOS] El casillero se encuentra vacío por el momento.\n\n");
+            break;
         case 'I':
         case 'O':
             break;
@@ -368,7 +367,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
     if (j->pierdeTurno)
     {
-        printf("\n\n¡Los bandidos se mueven mientras estas aturdido!\n");
+        printf("\n[ATURDIMIENTO] ¡Los bandidos se mueven mientras estas aturdido!\n\n");
         j->pierdeTurno = 0;
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
         procesarCola(&juego->colaMovimientos, j, juego);
