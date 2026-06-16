@@ -314,7 +314,8 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
             if (j->cantVidas == 0)
             {
-                printf("Perdiste, te quedaste sin vidas... mas suerte la proxima.\n");
+                printf("\n¡Te quedaste sin vidas!\n");
+                printf("GAME OVER.\n\n");
                 juego->estadoPartida = -1;
             }
             return;

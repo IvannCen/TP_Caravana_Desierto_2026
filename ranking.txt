@@ -2,3 +2,4 @@ Ivan|1
 ca|3
 cr|0
 a|1
+asda|1
