@@ -229,7 +229,6 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     casillero.posicion = j->posActual;
     buscarEnListaCircular(&juego->tablero, &casillero, sizeof(tCasillero), cmpCasillero);
 
-    // CAPA 1: EVALUAMOS EL TERRENO PRIMERO
     switch (casillero.componente)
     {
     case 'S':
@@ -249,12 +248,13 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         modificoCasillero = 1;
         break;
     case 'O':
-        j->protegido = 1; // Nos damos la inmunidad inmediatamente
-
-        // Verificamos si en este oasis justo hay un bandido esperando
-        if (casillero.cantBandidos > 0) {
+        j->protegido = 1;
+        if (casillero.cantBandidos > 0)
+        {
             printf("\n¡Te atrapo un bandido pero estas en un oasis y tenes inmunidad!\n");
-        } else {
+        }
+        else
+        {
             printf("\nEstás en un oasis: ¡Tenés inmunidad para el siguiente turno y los bandidos no pueden interceptarte!\n");
         }
         break;
@@ -265,9 +265,12 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         break;
     case '.':
         // Mensaje opcional si te salva la inmunidad en terreno vacio
-        if (casillero.cantBandidos > 0 && j->protegido) {
+        if (casillero.cantBandidos > 0 && j->protegido)
+        {
             printf("\n¡Un bandido intentó atraparte pero tu inmunidad te salvó!\n");
-        } else {
+        }
+        else
+        {
             printf("\nEl casillero está vacío... por ahora.\n");
         }
         break;
@@ -279,8 +282,6 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     if (modificoCasillero)
         actualizarEnListaCircular(&juego->tablero, &casillero, sizeof(tCasillero), cmpCasillero);
 
-    // CAPA 2: LUEGO DE RESOLVER EL TERRENO, EVALUAMOS LA MUERTE
-    // Si hay bandido y NO tenemos escudo (recordemos que si caímos en Oasis, el escudo ya está en 1)
     if (casillero.cantBandidos > 0 && !(j->protegido))
     {
         printf("\n¡Te atrapó un bandido! Perdés una vida y volvés al inicio.\n\n");
@@ -312,9 +313,6 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
         casInicio.hayJugador = 1;
         actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
-
-        // ¡LA SOLUCIÓN A LA TORMENTA!
-        // Limpiamos el aturdimiento porque la penalidad principal ya se cobró con la vida
         j->pierdeTurno = 0;
 
         if (j->cantVidas == 0)
