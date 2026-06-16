@@ -238,7 +238,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
 
                         if(j->cantVidas == 0)
                         {
-                            printf("Te quedaste sin vidas... mas suerte la proxima.\n");
+                            printf("Te quedaste sin vidas... GAME OVER.\n");
                             juego->estadoPartida = -1;
                         }
                     }
