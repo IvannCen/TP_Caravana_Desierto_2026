@@ -71,12 +71,12 @@
 	<stdlib.h>
 	<string.h>
 
-1781621412 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
+1781653200 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
 	"TDA_ArbolBinarioBusqueda.h"
 
-1781621352 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
+1781652967 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -86,7 +86,7 @@
 	"TDA_ListaSimple.h"
 	"TDA_ArbolBinarioBusqueda.h"
 
-1781620258 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
+1781636582 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -101,12 +101,12 @@
 	<stdlib.h>
 	<string.h>
 
-1781620258 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1781652967 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	<windows.h>
 	"configuracion.h"
 	"tablero.h"
 
-1781620258 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
+1781645789 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -118,7 +118,7 @@
 1780874984 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_coladinamica.c
 	"TDA_ColaDinamica.h"
 
-1781620258 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
+1781645789 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
 	"TDA_ListaDobleCircular.h"
 
 1781620258 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
@@ -126,7 +126,7 @@
 
 1781511001 ated upstream
 
-1781621052 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1781636582 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"
@@ -206,11 +206,11 @@
 1781631494 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
 	"TDA_ArbolBinarioBusqueda.h"
 
-1781621840 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.h
+1781645789 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1781622048 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
+1781645789 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
 	"TDA_ArbolBinarioBusqueda.h"
 

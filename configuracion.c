@@ -196,7 +196,7 @@ void mostrarRanking()
     }
 
     printf("--------------------------------------------------\n");
-    printf("%-20s | %s\n", "JUGADOR", "PUNTOS HISTORICOS");
+    printf("JUGADOR \t\t\t PUNTOS HISTORICOS\n");
     printf("--------------------------------------------------\n");
 
     if(arbolRanking == NULL)
