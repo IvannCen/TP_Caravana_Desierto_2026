@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="TDA_ArbolBinarioBusqueda.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA_ArbolBinarioBusqueda.h" />
 		<Unit filename="TDA_ColaDinamica.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -39,6 +43,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="TDA_ListaDobleCircular.h" />
+		<Unit filename="TDA_ListaSimple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA_ListaSimple.h" />
 		<Unit filename="configuracion.c">
 			<Option compilerVar="CC" />
 		</Unit>

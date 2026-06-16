@@ -13,6 +13,7 @@
 
 
 #define ERROR 0
+#define TODO_OK 1
 
 #define CADENA 100
 
@@ -36,11 +37,24 @@ typedef struct
     int maximo_tormentas;
 }tConfiguracion;
 
+// ESTRUCTURA PARA EL RANKING
+typedef struct
+{
+    char nombre[50];
+    int puntos;
+}tRegistroRanking;
+
+// PROTOTIPOS PARA EL RANKING
+int cmpIndice(const void *a, const void *b);
+int cmpRanking(const void *a, const void *b);
+void mostrarJugadorRanking(const void *a);
+void guardarPuntaje(const char* nombre, int puntos);
+void mostrarRanking();
+
 int mostrarMenuPrincipal();
 int cargarConfiguracion(tConfiguracion* config, const char* nombarch);
 int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo);
 char* crearVecPos(size_t tam);
 void ubicacionAleatoria(char* vec, int tam, char letra, int cant);
 void guardarEscenario(char* vec, int tam, const char* nombArchivo);
-
 #endif // CONFIGURACION

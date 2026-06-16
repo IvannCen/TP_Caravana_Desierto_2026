@@ -1,0 +1,16 @@
+Ivan|1
+ca|3
+cr|0
+a|1
+asda|1
+CAM|2
+A|0
+a|0
+a|2
+a|1
+a|3
+ca|1
+a|1
+q|2
+A|0
+a|1

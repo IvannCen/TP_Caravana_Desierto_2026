@@ -1,11 +1,12 @@
 #include "configuracion.h"
 #include "TDA_ColaDinamica.h"
+#include "TDA_ArbolBinarioBusqueda.h"
 
 int mostrarMenuPrincipal()
 {
     int opcion;
         // Limpieza de consola (compatible con Windows)
-        system("cls"); 
+        system("cls");
 
         printf("\n========================================\n");
         printf("         CARAVANA DEL DESIERTO          \n");
@@ -14,12 +15,12 @@ int mostrarMenuPrincipal()
         printf("  2. Ver el ranking de jugadores\n");
         printf("  3. Salir del juego\n\n");
         printf("========================================\n");
-        printf(" Ingrese una opcion: ");
-        
+        printf(" Ingrese una opción: ");
+
         scanf("%d", &opcion);
 
-        // Limpiamos el buffer de entrada por si el usuario ingresa caracteres raros
-        fflush(stdin); 
+        // limpieza de buffer
+        fflush(stdin);
 
     return opcion;
 }
@@ -122,3 +123,50 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
 }
 
 
+int cmpRanking(const void *a, const void *b)
+{
+    tRegistroRanking *r1 = (tRegistroRanking *)a;
+    tRegistroRanking *r2 = (tRegistroRanking *)b;
+    return r1->puntos - r2->puntos;
+}
+
+void mostrarJugadorRanking(const void *a)
+{
+    tRegistroRanking *r = (tRegistroRanking *)a;
+    printf("Jugador: %-20s | Puntos: %d\n", r->nombre, r->puntos);
+}
+
+void guardarPuntaje(const char* nombre, int puntos)
+{
+    FILE *archPuntos = fopen("ranking.txt", "at");
+    if(archPuntos)
+    {
+        fprintf(archPuntos, "%s|%d\n", nombre, puntos);
+        fclose(archPuntos);
+    }
+}
+
+void mostrarRanking()
+{
+    tArbolBinBusq arbolRanking;
+    crearArbolBinBusq(&arbolRanking);
+
+    FILE *archRank = fopen("ranking.txt", "rt");
+    if(!archRank)
+    {
+        printf("Todavia no hay partidas registradas.\n");
+    }
+    else
+    {
+        tRegistroRanking reg;
+        while(fscanf(archRank, "%[^|]|%d\n", reg.nombre, &reg.puntos) == 2)
+        {
+            insertarEnArbolBinBusq(&arbolRanking, &reg, sizeof(tRegistroRanking), cmpRanking);
+        }
+        fclose(archRank);
+
+        recorrerArbolInOrdenInverso(&arbolRanking, mostrarJugadorRanking);
+    }
+
+    vaciarArbolBinBusq(&arbolRanking);
+}
