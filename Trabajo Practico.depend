@@ -71,11 +71,12 @@
 	<stdlib.h>
 	<string.h>
 
-1781557159 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
+1781569806 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
+	"TDA_ArbolBinarioBusqueda.h"
 
-1781511025 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
+1781569806 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -99,7 +100,7 @@
 	<stdlib.h>
 	<string.h>
 
-1781511025 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1781569806 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	"configuracion.h"
 	"TDA_ListaDobleCircular.h"
 	"tablero.h"
@@ -123,7 +124,7 @@
 1781511001 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
 	"TDA_ListaSimple.h"
 
-1781563848 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1781570009 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"
@@ -194,5 +195,13 @@
 	<windows.h>
 
 1781560058 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
+	"TDA_ArbolBinarioBusqueda.h"
+
+1781569806 c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1781569806 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
 	"TDA_ArbolBinarioBusqueda.h"
 

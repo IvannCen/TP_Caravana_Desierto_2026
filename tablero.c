@@ -175,7 +175,7 @@ void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos)
     ponerEnCola(cola, &mov, sizeof(tMovimiento));
 }
 
-void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
+void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
 {
     tMovimiento mov;
     tMovHistorico movH;
@@ -188,61 +188,21 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
         if (mov.movimientoDe == 'J')
         {
             moverJugadorConRebote(j, mov.pasos, mov.direccion, juego);
-            aplicarEfectos(j, juego);
 
+            // Solo guardamos el historial. ¡Los efectos los pateamos para el final!
             movH.direccion = mov.direccion;
             movH.pasos = mov.pasos;
             ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
         }
         else if(mov.movimientoDe == 'B')
         {
-            b = &juego->vecBandidos[mov.idBandido - 1]; // idBandido arranca en 1, el índice en 0
+            b = &juego->vecBandidos[mov.idBandido - 1];
 
             if(b->vivo)
             {
                 moverBandidoSinRebote(b, mov.pasos, mov.direccion, juego);
-
-                if(b->posActual == j->posActual)
-                {
-                    if(j->protegido > 0)
-                        printf("\n¡Un bandido cayo en tu casillero, pero el Oasis te salvo. Bien ahi che!\n");
-                    else
-                    {
-                        printf("\n¡Un bandido te atrapo! Perdes una vida y volves al inicio.\n\n");
-
-                        j->cantVidas--;
-                        b->vivo = 0;
-
-                        j->pierdeTurno = 0;
-                        j->protegido = 0;
-
-                        tCasillero casDestino;
-                        casDestino.posicion = j->posActual;
-                        buscarEnListaCircular(&juego->tablero, &casDestino, sizeof(tCasillero), cmpCasillero);
-
-                        casDestino.cantBandidos--;
-                        if (casDestino.componente == 'B' && casDestino.cantBandidos == 0)
-                            casDestino.componente = '.';
-
-                        casDestino.hayJugador = 0;
-                        actualizarEnListaCircular(&juego->tablero, &casDestino, sizeof(tCasillero), cmpCasillero);
-
-                        j->posActual = juego->posInicio;
-
-                        tCasillero casInicio;
-                        casInicio.posicion = juego->posInicio;
-                        buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
-
-                        casInicio.hayJugador = 1;
-                        actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
-
-                        if(j->cantVidas == 0)
-                        {
-                            printf("Te quedaste sin vidas... mas suerte la proxima.\n");
-                            juego->estadoPartida = -1;
-                        }
-                    }
-                }
+                // Eliminamos la lógica de colisión manual de acá.
+                // Tu función aplicarEfectos ya lo ataja perfectamente.
             }
         }
     }
@@ -361,22 +321,21 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 }
 
-void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
+void turno(tJugador *j, tJuego *juego)
 {
     int pasos, direccion;
 
     if (j->pierdeTurno)
     {
         printf("\n\n¡Los bandidos se mueven mientras estas aturdido!\n");
-//        for(int i=0; i<3; i++)
-//        {
-//            printf(".\n");
-//        }
-//        printf("\n");
         j->pierdeTurno = 0;
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
         procesarCola(&juego->colaMovimientos, j, juego);
+
+        // 1. Imprimimos mapa
         mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
+        // 2. Evaluamos si algún bandido te alcanzó mientras estabas quieto
+        aplicarEfectos(j, juego);
         return;
     }
 
@@ -404,27 +363,26 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
     direccion = pedirDireccion();
 
-    // encolar movimientos
     ponerEnColarMovimientoJugador(&juego->colaMovimientos, direccion, pasos);
     encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
 
-    // procesar cola
+    // Resolvemos las posiciones finales en la memoria RAM
     procesarCola(&juego->colaMovimientos, j, juego);
 
-    juego->posAnteriorJugador = j->posActual; // guardo la posicion donde qued� el jugador al terminar el turno, asi los bandidos la usan para moverse
+    juego->posAnteriorJugador = j->posActual;
 
+    // 1. IMPRIMIMOS EL MAPA CON LAS POSICIONES FINALES
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
+
+    // 2. RECIÉN AHORA DISPARAMOS LOS MENSAJES Y CAMBIOS DEL TERRENO
+    aplicarEfectos(j, juego);
 }
 
 void mostrarCasillero(const void *a)
 {
     tCasillero casillero = *(const tCasillero *)a;
-
-    // 1. Agregamos la impresi�n de la posici�n al inicio
-    // El "%02d" asegura que los n�meros del 1 al 9 tengan un cero adelante (01, 02...)
     printf("%02d: ", casillero.posicion);
 
-    // 2. El resto de tu l�gica queda intacta
     if(casillero.hayJugador)
     {
         if(casillero.componente == '.')
