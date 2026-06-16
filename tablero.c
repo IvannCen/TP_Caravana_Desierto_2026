@@ -201,8 +201,53 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
             if(b->vivo)
             {
                 moverBandidoSinRebote(b, mov.pasos, mov.direccion, juego);
+<<<<<<< Updated upstream
                 // Eliminamos la lógica de colisión manual de acá.
                 // Tu función aplicarEfectos ya lo ataja perfectamente.
+=======
+
+                if(b->posActual == j->posActual)
+                {
+                    if(j->protegido > 0)
+                        printf("\n¡Un bandido cayo en tu casillero, pero el Oasis te salvo. Bien ahi che!\n\n");
+                    else
+                    {
+                        printf("\n¡Un bandido te atrapo! Perdes una vida y volves al inicio.\n\n");
+
+                        j->cantVidas--;
+                        b->vivo = 0;
+
+                        j->pierdeTurno = 0;
+                        j->protegido = 0;
+
+                        tCasillero casDestino;
+                        casDestino.posicion = j->posActual;
+                        buscarEnListaCircular(&juego->tablero, &casDestino, sizeof(tCasillero), cmpCasillero);
+
+                        casDestino.cantBandidos--;
+                        if (casDestino.componente == 'B' && casDestino.cantBandidos == 0)
+                            casDestino.componente = '.';
+
+                        casDestino.hayJugador = 0;
+                        actualizarEnListaCircular(&juego->tablero, &casDestino, sizeof(tCasillero), cmpCasillero);
+
+                        j->posActual = juego->posInicio;
+
+                        tCasillero casInicio;
+                        casInicio.posicion = juego->posInicio;
+                        buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+
+                        casInicio.hayJugador = 1;
+                        actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+
+                        if(j->cantVidas == 0)
+                        {
+                            printf("Te quedaste sin vidas... mas suerte la proxima.\n\n");
+                            juego->estadoPartida = -1;
+                        }
+                    }
+                }
+>>>>>>> Stashed changes
             }
         }
     }
@@ -231,17 +276,17 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
     if (c.componente == 'O')
     {
-        printf("\n¡Llegaste a un Oasis seguro! Consigues protección por este turno\n");
+        printf("\n¡Llegaste a un Oasis seguro! Consigues protección por este turno\n\n");
         j->protegido = 2;
     }
 
     if (c.cantBandidos > 0)
     {
         if (j->protegido > 0)
-            printf("\n¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n");
+            printf("\n¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
         else
         {
-            printf("\n¡Te atrapo un bandido! Perdes una vida y volves al inicio.\n");
+            printf("\n¡Te atrapo un bandido! Perdes una vida y volves al inicio.\n\n");
             j->cantVidas--;
 
             int k = 0;
