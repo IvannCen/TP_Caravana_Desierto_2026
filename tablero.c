@@ -175,7 +175,7 @@ void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos)
     ponerEnCola(cola, &mov, sizeof(tMovimiento));
 }
 
-void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
+void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
 {
     tMovimiento mov;
     tMovHistorico movH;
@@ -188,15 +188,15 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
         if (mov.movimientoDe == 'J')
         {
             moverJugadorConRebote(j, mov.pasos, mov.direccion, juego);
+            aplicarEfectos(j, juego);
 
-            // Solo guardamos el historial. ¡Los efectos los pateamos para el final!
             movH.direccion = mov.direccion;
             movH.pasos = mov.pasos;
             ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
         }
         else if(mov.movimientoDe == 'B')
         {
-            b = &juego->vecBandidos[mov.idBandido - 1];
+            b = &juego->vecBandidos[mov.idBandido - 1]; // idBandido arranca en 1, el índice en 0
 
             if(b->vivo)
             {
@@ -205,7 +205,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                 if(b->posActual == j->posActual)
                 {
                     if(j->protegido > 0)
-                        printf("\n¡Un bandido cayo en tu casillero, pero el Oasis te salvo. Bien ahi che!\n\n");
+                        printf("\n¡Un bandido cayo en tu casillero, pero el Oasis te salvo. Bien ahi che!\n");
                     else
                     {
                         printf("\n¡Un bandido te atrapo! Perdes una vida y volves al inicio.\n\n");
@@ -238,7 +238,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
 
                         if(j->cantVidas == 0)
                         {
-                            printf("Te quedaste sin vidas... mas suerte la proxima.\n\n");
+                            printf("Te quedaste sin vidas... mas suerte la proxima.\n");
                             juego->estadoPartida = -1;
                         }
                     }
@@ -271,17 +271,17 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
     if (c.componente == 'O')
     {
-        printf("\n¡Llegaste a un Oasis seguro! Consigues protección por este turno\n\n");
+        printf("\n¡Llegaste a un Oasis seguro! Consigues protección por este turno\n");
         j->protegido = 2;
     }
 
     if (c.cantBandidos > 0)
     {
         if (j->protegido > 0)
-            printf("\n¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
+            printf("\n¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n");
         else
         {
-            printf("\n¡Te atrapo un bandido! Perdes una vida y volves al inicio.\n\n");
+            printf("\n¡Te atrapo un bandido! Perdes una vida y volves al inicio.\n");
             j->cantVidas--;
 
             int k = 0;
@@ -324,7 +324,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     switch (c.componente)
     {
         case 'S':
-            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
+            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n");
             juego->estadoPartida = 1;
             break;
 
@@ -335,7 +335,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
             break;
 
         case 'V':
-            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
+            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n");
             j->cantVidas++;
             c.componente = '.';
             break;
@@ -343,11 +343,11 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         case 'T':
             if (j->protegido > 0)
             {
-                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n\n");
+                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n");
             }
             else
             {
-                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n\n");
+                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n");
                 j->pierdeTurno = 1;
             }
             break;
@@ -361,7 +361,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 }
 
-void turno(tJugador *j, tJuego *juego)
+void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 {
     int pasos, direccion;
 
@@ -371,11 +371,7 @@ void turno(tJugador *j, tJuego *juego)
         j->pierdeTurno = 0;
         encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
         procesarCola(&juego->colaMovimientos, j, juego);
-
-        // 1. Imprimimos mapa
         mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
-        // 2. Evaluamos si algún bandido te alcanzó mientras estabas quieto
-        aplicarEfectos(j, juego);
         return;
     }
 
@@ -406,16 +402,11 @@ void turno(tJugador *j, tJuego *juego)
     ponerEnColarMovimientoJugador(&juego->colaMovimientos, direccion, pasos);
     encolarMovimientosBandidos(&juego->colaMovimientos, juego, j);
 
-    // Resolvemos las posiciones finales en la memoria RAM
     procesarCola(&juego->colaMovimientos, j, juego);
 
     juego->posAnteriorJugador = j->posActual;
 
-    // 1. IMPRIMIMOS EL MAPA CON LAS POSICIONES FINALES
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
-
-    // 2. RECIÉN AHORA DISPARAMOS LOS MENSAJES Y CAMBIOS DEL TERRENO
-    aplicarEfectos(j, juego);
 }
 
 void mostrarCasillero(const void *a)
