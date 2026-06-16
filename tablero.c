@@ -324,18 +324,18 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     switch (c.componente)
     {
         case 'S':
-            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n");
+            printf("\n[VICTORIA] ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
             juego->estadoPartida = 1;
             break;
 
         case 'P':
-            printf("\n[PREMIO] ¡Obtuviste un punto extra!\n");
+            printf("\n[PREMIO] ¡Obtuviste un punto extra!\n\n");
             j->puntos++;
             c.componente = '.';
             break;
 
         case 'V':
-            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n");
+            printf("\n[VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
             j->cantVidas++;
             c.componente = '.';
             break;
@@ -343,11 +343,11 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         case 'T':
             if (j->protegido > 0)
             {
-                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n");
+                printf("\n[!] Una tormenta de arena te rodea, ¡pero el escudo del Oasis te mantiene firme!\n\n");
             }
             else
             {
-                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n");
+                printf("\n[TORMENTA] ¡Estas atrapado en una tormenta! Perderas tu proximo turno.\n\n");
                 j->pierdeTurno = 1;
             }
             break;
