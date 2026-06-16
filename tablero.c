@@ -3,8 +3,8 @@
 #include "TDA_ListaSimple.h"
 #include "TDA_ColaDinamica.h"
 
-
-void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos)   ///MODIFICADA
+//Acondiciono todas las estructuras, seteo las stats del inicio
+void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos)
 {
     crearListaDoble(&juego->tablero);
     crearCola(&juego->colaMovimientos);
@@ -14,8 +14,8 @@ void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos)   ///MODIF
     juego->posSalida = cantPos;
     juego->estadoPartida = 0;
 }
-
-void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos)   ///MODIFICADA
+//Generacion del tablero
+void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos)
 {
     tCasillero casillero;
     int i;
@@ -108,11 +108,6 @@ int pedirDireccion()
         {
             printf("\nOpción invalida. Por favor, ingrese 1 o 2.\n");
         }
-        else
-        {
-            printf("\n");
-        }
-
     }
     while(dir != 1 && dir != 2);
 

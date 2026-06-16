@@ -45,6 +45,7 @@ typedef struct
 }tRegistroRanking;
 
 // PROTOTIPOS PARA EL RANKING
+int cmpIndice(const void *a, const void *b);
 int cmpRanking(const void *a, const void *b);
 void mostrarJugadorRanking(const void *a);
 void guardarPuntaje(const char* nombre, int puntos);

@@ -76,7 +76,7 @@
 	"TDA_ColaDinamica.h"
 	"TDA_ArbolBinarioBusqueda.h"
 
-1781572447 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
+1781620206 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -100,11 +100,10 @@
 	<stdlib.h>
 	<string.h>
 
-1781616446 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
-	"configuracion.h"
-	"TDA_ListaDobleCircular.h"
-	"tablero.h"
+1781619708 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	<windows.h>
+	"configuracion.h"
+	"tablero.h"
 
 1781511026 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
@@ -126,7 +125,7 @@
 
 1781511001 ated upstream
 
-1781618422 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1781620143 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"

@@ -1,7 +1,6 @@
+#include <windows.h> //PARA LOS ACENTOS
 #include "configuracion.h"
-#include "TDA_ListaDobleCircular.h"
 #include "tablero.h"
-#include <windows.h>
 #define nomArch "config.txt"
 
 int main()
