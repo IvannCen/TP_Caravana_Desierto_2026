@@ -71,12 +71,12 @@
 	<stdlib.h>
 	<string.h>
 
-1781653200 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
+1781655967 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
 	"TDA_ArbolBinarioBusqueda.h"
 
-1781652967 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
+1781655953 c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -101,12 +101,12 @@
 	<stdlib.h>
 	<string.h>
 
-1781652967 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1781655953 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	<windows.h>
 	"configuracion.h"
 	"tablero.h"
 
-1781645789 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
+1781655953 c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -126,7 +126,7 @@
 
 1781511001 ated upstream
 
-1781636582 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
+1781657600 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"

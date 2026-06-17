@@ -261,6 +261,13 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     c.posicion = j->posActual;
     buscarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 
+    if(c.componente == 'S')
+    {
+        printf("[VICTORIA] ¡Felicidades! ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
+        juego->estadoPartida = 1;
+        return;
+    }
+
     if (c.componente == 'O')
     {
         printf("[INMUNIDAD] ¡Llegaste a un Oasis seguro! Tenés inmunidad para el próximo turno.\n\n");
@@ -315,41 +322,36 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
 
     switch (c.componente)
     {
-        case 'S':
-            printf("[VICTORIA] ¡Felicidades! ¡Lograste llegar a la ciudad refugio de forma segura!\n\n");
-            juego->estadoPartida = 1;
-            break;
+    case 'P':
+        printf("[+1 PUNTO] ¡Obtuviste un punto extra! \n\n");
+        j->puntos++;
+        c.componente = '.';
+        break;
 
-        case 'P':
-            printf("[+1 PUNTO] ¡Obtuviste un punto extra! \n\n");
-            j->puntos++;
-            c.componente = '.';
-            break;
+    case 'V':
+        printf("[+1 VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
+        j->cantVidas++;
+        c.componente = '.';
+        break;
 
-        case 'V':
-            printf("[+1 VIDA] ¡Encontraste suministros médicos! Obtuviste una vida extra.\n\n");
-            j->cantVidas++;
-            c.componente = '.';
-            break;
+    case 'T':
+        if (j->protegido > 0)
+        {
+            printf("[PROTECCION] Una tormenta de arena te rodea ¡Pero el escudo del Oasis te mantiene firme!\n\n");
+        }
+        else
+        {
+            printf("[TORMENTA] ¡Estás atrapado en una tormenta! Perdés tu proximo turno.\n\n");
+            j->pierdeTurno = 1;
+        }
+        break;
 
-        case 'T':
-            if (j->protegido > 0)
-            {
-                printf("[PROTECCION] Una tormenta de arena te rodea ¡Pero el escudo del Oasis te mantiene firme!\n\n");
-            }
-            else
-            {
-                printf("[TORMENTA] ¡Estás atrapado en una tormenta! Perdés tu proximo turno.\n\n");
-                j->pierdeTurno = 1;
-            }
-            break;
-
-        case '.':
-            printf("[SIN EFECTOS] El casillero se encuentra vacío por el momento.\n\n");
-            break;
-        case 'I':
-        case 'O':
-            break;
+    case '.':
+        printf("[SIN EFECTOS] El casillero se encuentra vacío por el momento.\n\n");
+        break;
+    case 'I':
+    case 'O':
+        break;
     }
 
     actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
