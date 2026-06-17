@@ -5,22 +5,22 @@
 int mostrarMenuPrincipal()
 {
     int opcion;
-        // Limpieza de consola (compatible con Windows)
-        system("cls");
 
-        printf("\n========================================\n");
-        printf("         CARAVANA DEL DESIERTO          \n");
-        printf("========================================\n\n");
-        printf("  1. Jugar una nueva partida\n");
-        printf("  2. Ver el ranking de jugadores\n");
-        printf("  3. Salir del juego\n\n");
-        printf("========================================\n");
-        printf(" Ingrese una opción: ");
+    system("cls");
 
-        scanf("%d", &opcion);
+    printf("\n========================================\n");
+    printf("         CARAVANA DEL DESIERTO          \n");
+    printf("========================================\n\n");
+    printf("  1. Jugar una nueva partida\n");
+    printf("  2. Ver el ranking de jugadores\n");
+    printf("  3. Salir del juego\n\n");
+    printf("========================================\n");
+    printf(" Ingrese una opción: ");
 
-        // limpieza de buffer
-        fflush(stdin);
+    if(scanf("%d", &opcion) != 1)
+        opcion = -1;
+
+    while(getchar() != '\n');
 
     return opcion;
 }
@@ -191,12 +191,12 @@ void mostrarRanking()
     int i;
     for(i = 0; i < cantJugadores; i++)
     {
-        if(tabla[i].estado > 0)
+        if(tabla[i].estado >= 0)
             insertarEnArbolBinBusq(&arbolRanking, &tabla[i], sizeof(tRegistroJugador), cmpRanking);
     }
 
     printf("--------------------------------------------------\n");
-    printf("JUGADOR \t\t\t PUNTOS HISTORICOS\n");
+    printf("JUGADOR \t\t\tPUNTOS HISTORICOS\n");
     printf("--------------------------------------------------\n");
 
     if(arbolRanking == NULL)
@@ -208,25 +208,6 @@ void mostrarRanking()
 
     vaciarArbolBinBusq(&arbolRanking);
     free(tabla);
-
-//    FILE *archRank = fopen("ranking.txt", "rt");
-//    if(!archRank)
-//    {
-//        printf("Todavia no hay partidas registradas.\n");
-//    }
-//    else
-//    {
-//        tRegistroRanking reg;
-//        while(fscanf(archRank, "%[^|]|%d\n", reg.nombre, &reg.puntos) == 2)
-//        {
-//            insertarEnArbolBinBusq(&arbolRanking, &reg, sizeof(tRegistroRanking), cmpRanking);
-//        }
-//        fclose(archRank);
-//
-//        recorrerArbolInOrdenInverso(&arbolRanking, mostrarJugadorRanking);
-//    }
-//
-//    vaciarArbolBinBusq(&arbolRanking);
 }
 
 int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice)
@@ -305,6 +286,8 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
         nuevoIndice.posArchivo = offset;
 
         insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
+
+        guardarIndiceBinario(pa, "indice.dat");
 
         *idJugador = nuevoId;
         *posArchivo = offset;

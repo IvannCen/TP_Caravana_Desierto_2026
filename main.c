@@ -76,7 +76,6 @@ int main()
                     turnosJugador++;
                 }
 
-//                guardarPuntaje(jugador.nombre, jugador.puntos);
                 registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
 
                 if(juego.vecBandidos)

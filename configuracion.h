@@ -69,18 +69,11 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
 int registrarNuevaPartida(const char* Partidas, int idJugador, int puntos, int movimientos);
 int cmpIndiceJugador(const void* a, const void* b);
 
-//// ESTRUCTURA PARA EL RANKING
-//typedef struct
-//{
-//    char nombre[50];
-//    int puntos;
-//}tRegistroRanking;
 
 // PROTOTIPOS PARA EL RANKING
 int cmpIndice(const void *a, const void *b);
 int cmpRanking(const void *a, const void *b);
 void mostrarJugadorRanking(const void *a);
-//void guardarPuntaje(const char* nombre, int puntos);
 void mostrarRanking();
 
 int mostrarMenuPrincipal();
