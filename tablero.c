@@ -255,7 +255,6 @@ void registrarMovimiento(tJugador *j, tMovimiento *mov)
     ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
 }
 
-
 void aplicarEfectos(tJugador *j, tJuego *juego)
 {
     tCasillero c;
@@ -406,7 +405,9 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
     }
     printf("(x%d)\n", j->puntos);
     printf("\nPresione ENTER para arrojar el dado virtual...");
-    getchar();
+
+    int c;
+    while((c = getchar()) != '\n' && c != EOF);
 
     pasos = tirarDado();
     printf("\nEl dado cayó en: %d\n", pasos);

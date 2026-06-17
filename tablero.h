@@ -12,10 +12,10 @@
 
 typedef struct
 {
-    int posicion;        /// numero de casillero en el tablero
-    char componente;     /// I J . T O S, etc..
-    int cantBandidos;    /// numero de bandidos en el casillero ya que puede haber varios en uno mismo
-    int hayJugador;      /// para saber si el jugador se encuentra en ese casillero
+    int posicion;        // numero de casillero en el tablero
+    char componente;     // I J . T O S, etc..
+    int cantBandidos;    // numero de bandidos en el casillero ya que puede haber varios en uno mismo
+    int hayJugador;      // para saber si el jugador se encuentra en ese casillero
 } tCasillero;
 
 typedef struct
