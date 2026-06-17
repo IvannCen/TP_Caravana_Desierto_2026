@@ -72,7 +72,7 @@
 	<stdlib.h>
 	<string.h>
 
-1781729904 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
+1781732615 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
 	"TDA_ArbolBinarioBusqueda.h"
@@ -102,7 +102,7 @@
 	<stdlib.h>
 	<string.h>
 
-1781730027 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
+1781732615 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\main.c
 	<windows.h>
 	"configuracion.h"
 	"tablero.h"

@@ -26,7 +26,7 @@ int main()
     {
         printf("El mapa que se intentará crear no tiene solución.\nPor favor, modifique 'config.txt' con valores logicos antes de jugar.\n");
         system("pause");
-        return 1; // Cerramos el programa para evitar un crasheo o un mapa injugable
+        return 1;
     }
     do
     {
