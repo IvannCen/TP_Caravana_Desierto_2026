@@ -1,28 +1,28 @@
 #include "TDA_ListaDobleCircular.h"
 
-void crearListaDoble(tLista *pl)
+void crearListaDoble(tListaDobleC *pl)
 {
     *pl = NULL;
 }
 
-int listaVacia(const tLista *pl)
+int listaDobleVacia(const tListaDobleC *pl)
 {
     return *pl == NULL;
 }
 
-int ponerAlFinalEnListaCircular(tLista *pl, const void *dato, unsigned tam)
+int ponerAlFinalEnListaCircular(tListaDobleC *pl, const void *dato, unsigned tam)
 {
-    tNodo *nue, *pri;
+    tNodoLista *nue, *pri;
 
-    nue = (tNodo *)malloc(sizeof(tNodo));
+    nue = (tNodoLista *)malloc(sizeof(tNodoLista));
     if(!nue)
-        return 0;
+        return ERROR;
 
     nue->dato = malloc(tam);
     if(!(nue->dato))
     {
         free(nue);
-        return 0;
+        return ERROR;
     }
 
     memcpy(nue->dato, dato, tam);
@@ -44,5 +44,122 @@ int ponerAlFinalEnListaCircular(tLista *pl, const void *dato, unsigned tam)
 
     *pl = nue;
 
-    return 1;
+    return TODO_OK;
+}
+
+void mostrarListaDeIzqADer(tListaDobleC *pl, void (* mostrar)(const void *a))
+{
+    tNodoLista *act;
+
+    if(!(*pl))
+        return;
+    act = (*pl)->sig;
+
+    if(act)
+    {
+        do
+        {
+            mostrar(act->dato);
+            act = act->sig;
+        }while(act != (*pl)->sig);
+    }
+}
+
+int buscarEnListaCircular(tListaDobleC *pl, void *dato, unsigned tam, int (*cmp)(const void*, const void*))
+{
+    tNodoLista *act;
+    if(!(*pl))
+        return ERROR;
+
+    act = (*pl)->sig;
+    do {
+        if(cmp(act->dato, dato) == 0) {
+            memcpy(dato, act->dato, MINI(tam, act->tamDato));
+            return TODO_OK;
+        }
+        act = act->sig;
+    } while(act != (*pl)->sig);
+
+    return ERROR;
+}
+
+int actualizarEnListaCircular(tListaDobleC *pl, const void *dato, unsigned tam, int (*cmp)(const void*, const void*))
+{
+    tNodoLista *act;
+
+    if(!(*pl))
+        return ERROR;
+
+    act = (*pl)->sig;
+
+    do
+    {
+        if(cmp(act->dato, dato) == 0)
+        {
+            memcpy(act->dato, dato, MINI(tam, act->tamDato));
+            return TODO_OK;
+        }
+
+        act = act->sig;
+
+    } while(act != (*pl)->sig);
+
+    return ERROR;
+}
+
+int obtenerElementoDesplazado(tListaDobleC *pl, const void *datoOrigen, int pasos, int direccion, void *datoDestino, unsigned tam, int (*cmp)(const void*, const void*))
+{
+    tNodoLista *act;
+    int encontrado = 0;
+    int i;
+
+    if(!(*pl))
+        return ERROR;
+
+    act = (*pl)->sig;
+
+    do
+    {
+        if(cmp(act->dato, datoOrigen) == 0)
+        encontrado = 1;
+        else
+        act = act->sig;
+
+    } while(act != (*pl)->sig && !encontrado);
+
+    if(!encontrado)
+        return ERROR;
+
+    for(i = 0; i < pasos; i++)
+    {
+        if(direccion == 1)
+            act = act->sig;
+        else
+            act = act->ant;
+    }
+
+    memcpy(datoDestino, act->dato, MINI(tam, act->tamDato));
+
+    return TODO_OK;
+}
+
+int vaciarListaDoble(tListaDobleC* pld)
+{
+    tNodoLista *elim;
+
+    if (*pld == NULL)
+        return TODO_OK;
+
+    (*pld)->ant->sig = NULL;
+
+    while (*pld != NULL)
+    {
+        elim = *pld;
+        *pld = elim->sig;
+
+        free(elim->dato);
+        free(elim);
+    }
+
+    return TODO_OK;
 }

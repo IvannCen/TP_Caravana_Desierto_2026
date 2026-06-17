@@ -1,5 +1,29 @@
 #include "configuracion.h"
-#include "cola.h"
+#include "TDA_ColaDinamica.h"
+#include "TDA_ArbolBinarioBusqueda.h"
+
+int mostrarMenuPrincipal()
+{
+    int opcion;
+
+    system("cls");
+
+    printf("\n========================================\n");
+    printf("         CARAVANA DEL DESIERTO          \n");
+    printf("========================================\n\n");
+    printf("  1. Jugar una nueva partida\n");
+    printf("  2. Ver el ranking de jugadores\n");
+    printf("  3. Salir del juego\n\n");
+    printf("========================================\n");
+    printf(" Ingrese una opción: ");
+
+    if(scanf("%d", &opcion) != 1)
+        opcion = -1;
+
+    while(getchar() != '\n');
+
+    return opcion;
+}
 
 int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo)
 {
@@ -98,9 +122,272 @@ void guardarEscenario(char* vec, int tam, const char* nombArchivo)
     fclose(arch);
 }
 
-int tirarDado()
+int cmpRanking(const void *a, const void *b)
 {
-    return rand()%6 + 1;
+    tRegistroJugador* r1 = (tRegistroJugador*)a;
+    tRegistroJugador* r2 = (tRegistroJugador*)b;
+    return r1->estado - r2->estado;
 }
 
+void mostrarJugadorRanking(const void *a)
+{
+    tRegistroJugador* r = (tRegistroJugador*)a;
+    printf("Jugador: %-20s | Puntos: %d\n", r->nombre, r->estado);
+}
 
+void mostrarRanking()
+{
+    FILE* archJug = fopen("jugadores.dat", "rb");
+    FILE* archPart = fopen("partidas.dat", "rb");
+
+    if(!archJug || !archPart)
+    {
+        printf("Todavia no hay datos suficientes para armar el ranking.\n");
+        if(archJug)
+            fclose(archJug);
+        if(archPart)
+            fclose(archPart);
+        return;
+    }
+
+    fseek(archJug, 0, SEEK_END);
+    long cantJugadores = ftell(archJug) / sizeof(tRegistroJugador);
+    rewind(archJug);
+
+    if(cantJugadores == 0)
+    {
+        printf("Todavia no hay jugadores registrados.\n");
+        fclose(archJug);
+        fclose(archPart);
+        return;
+    }
+
+    tRegistroJugador* tabla = (tRegistroJugador*)calloc(cantJugadores, sizeof(tRegistroJugador));
+    if(!tabla)
+    {
+        fclose(archJug);
+        fclose(archPart);
+        return;
+    }
+
+    tRegistroJugador regJ;
+    while(fread(&regJ, sizeof(tRegistroJugador), 1, archJug))
+    {
+        tabla[regJ.idJugador-1].idJugador = regJ.idJugador;
+        strcpy(tabla[regJ.idJugador - 1].nombre, regJ.nombre);
+        tabla[regJ.idJugador-1].estado = 0;
+    }
+
+    fclose(archJug);
+
+    tRegistroPartida regP;
+    while(fread(&regP, sizeof(tRegistroPartida), 1, archPart))
+        tabla[regP.idJugador - 1].estado += regP.puntosObtenidos;
+    fclose(archPart);
+
+    tArbolBinBusq arbolRanking;
+    crearArbolBinBusq(&arbolRanking);
+
+    int i;
+    for(i = 0; i < cantJugadores; i++)
+    {
+        if(tabla[i].estado >= 0)
+            insertarEnArbolBinBusq(&arbolRanking, &tabla[i], sizeof(tRegistroJugador), cmpRanking);
+    }
+
+    printf("--------------------------------------------------\n");
+    printf("JUGADOR \t\t\tPUNTOS HISTORICOS\n");
+    printf("--------------------------------------------------\n");
+
+    if(arbolRanking == NULL)
+        printf("Ningun jugador ha sumado puntos todavia.\n");
+    else
+        recorrerArbolInOrdenInverso(&arbolRanking, mostrarJugadorRanking);
+
+    printf("--------------------------------------------------\n");
+
+    vaciarArbolBinBusq(&arbolRanking);
+    free(tabla);
+}
+
+int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice)
+{
+    FILE* arch = fopen(Indice, "rb");
+    if(!arch)
+        return ERROR;
+
+    tIndiceJugador reg;
+    while(fread(&reg, sizeof(tIndiceJugador),1,arch))
+        insertarEnArbolBinBusq(pa,&reg,sizeof(tIndiceJugador), cmpIndiceJugador);
+    fclose(arch);
+    return TODO_OK;
+}
+
+void guardarIndiceEnArchivoAux(const tArbolBinBusq* pa, FILE* arch)
+{
+    if(!*pa)
+        return;
+
+    fwrite((*pa)->dato, (*pa)->tamDato, 1, arch);
+    guardarIndiceEnArchivoAux(&(*pa)->izq, arch);
+    guardarIndiceEnArchivoAux(&(*pa)->der, arch);
+}
+
+int guardarIndiceBinario(const tArbolBinBusq* pa, const char* Indice)
+{
+    FILE* arch = fopen(Indice, "wb");
+    if(!arch)
+        return ERROR;
+
+    guardarIndiceEnArchivoAux(pa, arch);
+    fclose(arch);
+    return TODO_OK;
+}
+
+//int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* Jugadores, int* idJugador, long* posArchivo)
+//{
+//    tIndiceJugador indiceBuscado;
+//    strcpy(indiceBuscado.nombre, nombre);
+//    if (buscarEnArbolBinBusq(pa, &indiceBuscado, sizeof(tIndiceJugador), cmpIndiceJugador) == TODO_OK)
+//    {
+//        *posArchivo = indiceBuscado.posArchivo;
+//        FILE* arch = fopen(Jugadores, "rb");
+//        if(arch)
+//        {
+//            fseek(arch, *posArchivo, SEEK_SET);
+//            tRegistroJugador reg;
+//            fread(&reg, sizeof(tRegistroJugador), 1, arch);
+//            *idJugador = reg.idJugador;
+//            fclose(arch);
+//        }
+//        return TODO_OK;
+//    }
+//    else
+//    {
+//        FILE* arch = fopen(Jugadores, "a+b");
+//        if(!arch)
+//            return ERROR;
+//
+//        fseek(arch, 0, SEEK_END);
+//        long offset = ftell(arch);
+//
+//        int nuevoId = (offset / sizeof(tRegistroJugador)) + 1;
+//
+//        tRegistroJugador nuevoReg;
+//        nuevoReg.idJugador = nuevoId;
+//        strcpy(nuevoReg.nombre, nombre);
+//        nuevoReg.estado = 1;
+//
+//        fwrite(&nuevoReg, sizeof(tRegistroJugador), 1, arch);
+//        fclose(arch);
+//
+//        tIndiceJugador nuevoIndice;
+//        strcpy(nuevoIndice.nombre, nombre);
+//        nuevoIndice.posArchivo = offset;
+//
+//        insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
+//
+//        guardarIndiceBinario(pa, "indice.dat");
+//
+//        *idJugador = nuevoId;
+//        *posArchivo = offset;
+//
+//        return TODO_OK;
+//    }
+//}
+
+int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* Jugadores, int* idJugador, long* posArchivo)
+{
+    tIndiceJugador busqueda;
+    strcpy(busqueda.nombre, nombre);
+
+    // 1. Busco en Arbol nom...
+    if(buscarEnArbolBinBusq(pa, &busqueda, sizeof(tIndiceJugador), cmpIndiceJugador))
+    {
+        // === RAMA VERDADERA (Existe == V) ===
+        printf("\n¡Bienvenid@ de vuelta, %s!\n\n", nombre);
+        system("pause");
+        // Obtengo idJugador leyendo el registro físico real (mucho más seguro)
+        FILE* arch = fopen(Jugadores, "rb");
+        if(arch)
+        {
+            tRegistroJugador regLeido;
+            fseek(arch, busqueda.posArchivo, SEEK_SET);
+            fread(&regLeido, sizeof(tRegistroJugador), 1, arch);
+            *idJugador = regLeido.idJugador;
+            fclose(arch);
+        }
+
+        // Obtengo PosArch
+        *posArchivo = busqueda.posArchivo;
+        return TODO_OK;
+    }
+    else
+    {
+        printf("\n¡Bienvenid@ a Caravana en el Desierto, %s!\n\n", nombre);
+        system("pause");
+        // Abro Jugadores.dat a+b
+        FILE* arch = fopen(Jugadores, "a+b");
+        if(!arch) return ERROR;
+
+        // Me posiciono al final para obtener la Pos (offset) antes de grabar
+        fseek(arch, 0, SEEK_END);
+        long offset = ftell(arch);
+
+        // Armamos el registro
+        int nuevoId = (offset / sizeof(tRegistroJugador)) + 1;
+        tRegistroJugador nuevoReg;
+        nuevoReg.idJugador = nuevoId;
+        strcpy(nuevoReg.nombre, nombre);
+        nuevoReg.estado = 1;
+
+        // Grabo Reg
+        fwrite(&nuevoReg, sizeof(tRegistroJugador), 1, arch);
+        // Cierro Jugadores.dat
+        fclose(arch);
+
+        // Inserto en Arbol Ind
+        tIndiceJugador nuevoIndice;
+        strcpy(nuevoIndice.nombre, nombre);
+        nuevoIndice.posArchivo = offset;
+        insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
+
+        // Grabar Arbol Indice
+        guardarIndiceBinario(pa, "indice.dat");
+
+        // Devolvemos los datos del nuevo jugador
+        *idJugador = nuevoId;
+        *posArchivo = offset;
+
+        return TODO_OK;
+    }
+}
+
+int registrarNuevaPartida(const char* Partidas, int idJugador, int puntos, int movimientos)
+{
+    FILE* arch = fopen(Partidas, "a+b");
+    if(!arch)
+        return ERROR;
+
+    fseek(arch,0,SEEK_SET);
+    long offset = ftell(arch);
+    int idPartida = (offset / sizeof(tRegistroPartida)) + 1;
+
+    tRegistroPartida reg;
+    reg.idPartida = idPartida;
+    reg.idJugador = idJugador;
+    reg.puntosObtenidos = puntos;
+    reg.cantMovimientos = movimientos;
+
+    fwrite(&reg, sizeof(tRegistroPartida), 1, arch);
+    fclose(arch);
+
+    return TODO_OK;
+}
+
+int cmpIndiceJugador(const void* a, const void* b)
+{
+    tIndiceJugador* i1 = (tIndiceJugador*)a;
+    tIndiceJugador* i2 = (tIndiceJugador*)b;
+    return strcmp(i1->nombre, i2->nombre);
+}

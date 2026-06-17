@@ -1,44 +1,138 @@
+#include <windows.h> //PARA LOS ACENTOS
 #include "configuracion.h"
+#include "tablero.h"
+#define nomArch "config.txt"
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
     srand(time(NULL));
+
+    tJugador jugador;
+    tJuego juego;
+    int opcionElegida;
+    char nombre[50];
+
+    tArbolBinBusq indiceJugadores;
+    crearArbolBinBusq(&indiceJugadores);
+    cargarIndiceBinario(&indiceJugadores, "indice.dat");
+
+    // ACA SE CARGA LA CONFIG DEL MAPA
     tConfiguracion config;
-    if(cargarConfiguracion(&config,"config.txt"))
-    {
-        printf("%d\n",config.cantidad_posiciones);
-        printf("%d\n",config.vidas_inicio);
-        printf("%d\n",config.maximo_bandidos);
-        printf("%d\n",config.maximo_premios);
-        printf("%d\n",config.maximo_vidas_extra);
-        printf("%d\n",config.maximo_oasis);
-        printf("%d\n\n",config.maximo_tormentas);
-    }
-    else
+    if(!cargarConfiguracion(&config, nomArch))
     {
         printf("Error en el archivo de configuracion...");
+        return 1;
     }
 
-    char* posiciones=crearVecPos(config.cantidad_posiciones);
-
-    for(int i=0;i<config.cantidad_posiciones;i++)
+    // MENU
+    do
     {
-        printf("%02d:%c\n",i+1,*(posiciones+i));
+        opcionElegida = mostrarMenuPrincipal();
+
+        switch(opcionElegida)
+        {
+        case 1:
+            system("cls");
+            printf("\n=== NUEVA PARTIDA ===\n\n");
+            printf("Ingrese su nombre: ");
+            fflush(stdin);
+            scanf("%49s", nombre);
+            while(getchar() != '\n');
+
+            int idJugadorActual;
+            long posArchivoActual;
+            buscarODarDeAltaJugador(&indiceJugadores, nombre, "jugadores.dat", &idJugadorActual, &posArchivoActual);
+
+            system("cls");
+
+            // Creamos un escenario nuevo para ESTA partida en particular
+            char* posiciones = crearVecPos(config.cantidad_posiciones);
+
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, BANDIDO, config.maximo_bandidos);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, PREMIO, config.maximo_premios);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, VIDA_EXTRA, config.maximo_vidas_extra);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, OASIS, config.maximo_oasis);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, TORMENTA, config.maximo_tormentas);
+
+            inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
+
+            crearJugador(&jugador, nombre, config.vidas_inicio);
+
+            ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
+
+            guardarEscenario(posiciones, config.cantidad_posiciones, "caravana.txt");
+
+            free(posiciones);
+
+            int turnosJugador = 0;
+
+            mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
+
+            // Bucle de LA PARTIDA
+            while(juego.estadoPartida == 0)
+            {
+                turno(&jugador, &juego);
+                turnosJugador++;
+            }
+
+            if (juego.estadoPartida == -1)
+            {
+                printf("\nComo no lograste llegar a la ciudad refugio, perdiste los puntos acumulados en este intento.\n");
+                jugador.puntos = 0;
+            }
+            else if (juego.estadoPartida == 1)
+            {
+                printf("\n¡Sobreviviste! Tus %d puntos serán sumados a tu perfil.\n", jugador.puntos);
+            }
+
+            registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
+
+            if(juego.vecBandidos)
+            {
+                free(juego.vecBandidos);
+                juego.vecBandidos = NULL;
+            }
+
+            printf("\nPartida finalizada.\n");
+            printf("\nHistorial de movimientos:\n");
+            mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
+
+            vaciarLista(&jugador.historialMovimientos);
+            vaciarCola(&juego.colaMovimientos);
+            vaciarListaDoble(&juego.tablero);
+
+            system("pause");
+            break;
+
+        case 2:
+            system("cls");
+            printf("\n=== RANKING DE JUGADORES ===\n\n");
+
+            mostrarRanking();
+
+            printf("\n");
+            system("pause");
+            break;
+
+        case 3:
+            system("cls");
+            printf("==============================================\n");
+            printf("Saliendo del juego... ¡Hasta la próxima!\n");
+            printf("==============================================\n");
+
+            guardarIndiceBinario(&indiceJugadores, "indice.dat");
+            vaciarArbolBinBusq(&indiceJugadores);
+
+            break;
+
+        default:
+            printf("\nOpción invalida, por favor ingresar un número entre 1 y 3.\n\n");
+            system("pause");
+        }
+
     }
+    while (opcionElegida != 3);
 
-    ubicacionAleatoria(posiciones,config.cantidad_posiciones,BANDIDO,config.maximo_bandidos);
-    ubicacionAleatoria(posiciones,config.cantidad_posiciones,PREMIO,config.maximo_premios);
-    ubicacionAleatoria(posiciones,config.cantidad_posiciones,VIDA_EXTRA,config.maximo_vidas_extra);
-    ubicacionAleatoria(posiciones,config.cantidad_posiciones,OASIS,config.maximo_oasis);
-    ubicacionAleatoria(posiciones,config.cantidad_posiciones,TORMENTA,config.maximo_tormentas);
-
-    for(int i=0;i<config.cantidad_posiciones;i++)
-    {
-        printf("%02d:%c\n",i+1,*(posiciones+i));
-    }
-
-    guardarEscenario(posiciones,config.cantidad_posiciones,"caravana.txt");
-
-    free(posiciones);
     return 0;
 }

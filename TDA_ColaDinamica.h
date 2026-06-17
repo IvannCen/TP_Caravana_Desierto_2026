@@ -1,23 +1,27 @@
 #ifndef TDA_COLADINAMICA_H_INCLUDED
 #define TDA_COLADINAMICA_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MIN(X,Y) ((X)<(Y) ? (X) : (Y))
 #define COLA_VACIA 3
 #define ERROR_SIN_MEM 2
 #define TODO_OK 1
 
-typedef struct sNodo
+typedef struct sNodoCola
 {
     void *dato;
     unsigned tamDato;
-    struct sNodo *sig;
-}tNodo;
+    struct sNodoCola *sig;
+} tNodoCola;
 
 typedef struct
 {
-    tNodo *pri;
-    tNodo *ult;
-}tCola;
+    tNodoCola *pri;
+    tNodoCola *ult;
+} tCola;
 
 void crearCola(tCola *c);
 int colaVacia(const tCola *c);
