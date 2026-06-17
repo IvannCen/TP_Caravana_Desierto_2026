@@ -11,9 +11,10 @@ int mostrarMenuPrincipal()
     printf("\n========================================\n");
     printf("         CARAVANA DEL DESIERTO          \n");
     printf("========================================\n\n");
-    printf("  1. Jugar una nueva partida\n");
-    printf("  2. Ver el ranking de jugadores\n");
-    printf("  3. Salir del juego\n\n");
+    printf("  1. Jugar una nueva partida.\n");
+    printf("  2. Ver el ranking de jugadores.\n");
+    printf("  3. Ver las reglas del juego.\n");
+    printf("  4. Salir del juego.\n\n");
     printf("========================================\n");
     printf(" Ingrese una opción: ");
 
