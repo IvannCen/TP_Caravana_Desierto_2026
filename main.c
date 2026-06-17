@@ -1,4 +1,4 @@
-#include <windows.h> //PARA LOS ACENTOS
+#include <windows.h>
 #include "configuracion.h"
 #include "tablero.h"
 #define nomArch "config.txt"
@@ -15,9 +15,7 @@ int main()
 
     tArbolBinBusq indiceJugadores;
     crearArbolBinBusq(&indiceJugadores);
-    cargarIndiceBinario(&indiceJugadores, "indice.idx");
-
-    // ACA SE CARGA LA CONFIG DEL MAPA
+    cargarIndiceBinario(&indiceJugadores, "indice.dat");
     tConfiguracion config;
     if(!cargarConfiguracion(&config, nomArch))
     {
@@ -25,7 +23,6 @@ int main()
         return 1;
     }
 
-    // MENU
     do
     {
         opcionElegida = mostrarMenuPrincipal();
@@ -46,7 +43,6 @@ int main()
 
             system("cls");
 
-            // Creamos un escenario nuevo para ESTA partida en particular
             char* posiciones = crearVecPos(config.cantidad_posiciones);
 
             ubicacionAleatoria(posiciones, config.cantidad_posiciones, BANDIDO, config.maximo_bandidos);
@@ -69,7 +65,6 @@ int main()
 
             mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
-            // Bucle de LA PARTIDA
             while(juego.estadoPartida == 0)
             {
                 turno(&jugador, &juego);
@@ -82,9 +77,7 @@ int main()
                 jugador.puntos = 0;
             }
             else if (juego.estadoPartida == 1)
-            {
-                printf("\n¡Sobreviviste! Los puntos obtenidos en esta partida serán sumados a tu perfil.\n");
-            }
+                printf("\n¡Sobreviviste! Tus %d puntos serán sumados a tu perfil.\n", jugador.puntos);
 
             registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
 
@@ -121,7 +114,7 @@ int main()
             printf("Saliendo del juego... ¡Hasta la próxima!\n");
             printf("==============================================\n");
 
-            guardarIndiceBinario(&indiceJugadores, "indice.idx");
+            guardarIndiceBinario(&indiceJugadores, "indice.dat");
             vaciarArbolBinBusq(&indiceJugadores);
 
             break;

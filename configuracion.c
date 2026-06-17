@@ -96,7 +96,7 @@ void ubicacionAleatoria(char* vec, int tam, char letra, int cant)
     int ubi, i=0;
     while(i<cant)
     {
-        ubi=rand()%(tam-2)+1;//(tam-2) para no pisar la salida y el +1 para no pisar el inicio
+        ubi=rand()%(tam-2)+1;
         if(*(vec+ubi)=='.')
         {
             *(vec+ubi)=letra;
@@ -244,70 +244,16 @@ int guardarIndiceBinario(const tArbolBinBusq* pa, const char* Indice)
     return TODO_OK;
 }
 
-//int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* Jugadores, int* idJugador, long* posArchivo)
-//{
-//    tIndiceJugador indiceBuscado;
-//    strcpy(indiceBuscado.nombre, nombre);
-//    if (buscarEnArbolBinBusq(pa, &indiceBuscado, sizeof(tIndiceJugador), cmpIndiceJugador) == TODO_OK)
-//    {
-//        *posArchivo = indiceBuscado.posArchivo;
-//        FILE* arch = fopen(Jugadores, "rb");
-//        if(arch)
-//        {
-//            fseek(arch, *posArchivo, SEEK_SET);
-//            tRegistroJugador reg;
-//            fread(&reg, sizeof(tRegistroJugador), 1, arch);
-//            *idJugador = reg.idJugador;
-//            fclose(arch);
-//        }
-//        return TODO_OK;
-//    }
-//    else
-//    {
-//        FILE* arch = fopen(Jugadores, "a+b");
-//        if(!arch)
-//            return ERROR;
-//
-//        fseek(arch, 0, SEEK_END);
-//        long offset = ftell(arch);
-//
-//        int nuevoId = (offset / sizeof(tRegistroJugador)) + 1;
-//
-//        tRegistroJugador nuevoReg;
-//        nuevoReg.idJugador = nuevoId;
-//        strcpy(nuevoReg.nombre, nombre);
-//        nuevoReg.estado = 1;
-//
-//        fwrite(&nuevoReg, sizeof(tRegistroJugador), 1, arch);
-//        fclose(arch);
-//
-//        tIndiceJugador nuevoIndice;
-//        strcpy(nuevoIndice.nombre, nombre);
-//        nuevoIndice.posArchivo = offset;
-//
-//        insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
-//
-//        guardarIndiceBinario(pa, "indice.dat");
-//
-//        *idJugador = nuevoId;
-//        *posArchivo = offset;
-//
-//        return TODO_OK;
-//    }
-//}
-
 int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* Jugadores, int* idJugador, long* posArchivo)
 {
     tIndiceJugador busqueda;
     strcpy(busqueda.nombre, nombre);
 
-    // 1. Busco en Arbol nom...
     if(buscarEnArbolBinBusq(pa, &busqueda, sizeof(tIndiceJugador), cmpIndiceJugador))
     {
-        // === RAMA VERDADERA (Existe == V) ===
         printf("\n¡Bienvenid@ de vuelta, %s!\n\n", nombre);
         system("pause");
-        // Obtengo idJugador leyendo el registro físico real (mucho más seguro)
+
         FILE* arch = fopen(Jugadores, "rb");
         if(arch)
         {
@@ -318,44 +264,37 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
             fclose(arch);
         }
 
-        // Obtengo PosArch
         *posArchivo = busqueda.posArchivo;
         return TODO_OK;
     }
     else
     {
-        printf("\n¡Bienvenid@ a Caravana en el Desierto, %s!\n\n", nombre);
+        printf("\n¡Bienvenida/o a Caravana en el Desierto, %s!\n\n", nombre);
         system("pause");
-        // Abro Jugadores.dat a+b
-        FILE* arch = fopen(Jugadores, "a+b");
-        if(!arch) return ERROR;
 
-        // Me posiciono al final para obtener la Pos (offset) antes de grabar
+        FILE* arch = fopen(Jugadores, "a+b");
+        if(!arch)
+            return ERROR;
+
         fseek(arch, 0, SEEK_END);
         long offset = ftell(arch);
 
-        // Armamos el registro
         int nuevoId = (offset / sizeof(tRegistroJugador)) + 1;
         tRegistroJugador nuevoReg;
         nuevoReg.idJugador = nuevoId;
         strcpy(nuevoReg.nombre, nombre);
         nuevoReg.estado = 1;
 
-        // Grabo Reg
         fwrite(&nuevoReg, sizeof(tRegistroJugador), 1, arch);
-        // Cierro Jugadores.dat
         fclose(arch);
 
-        // Inserto en Arbol Ind
         tIndiceJugador nuevoIndice;
         strcpy(nuevoIndice.nombre, nombre);
         nuevoIndice.posArchivo = offset;
         insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
 
-        // Grabar Arbol Indice
-        guardarIndiceBinario(pa, "indice.idx");
+        guardarIndiceBinario(pa, "indice.dat");
 
-        // Devolvemos los datos del nuevo jugador
         *idJugador = nuevoId;
         *posArchivo = offset;
 

@@ -3,7 +3,6 @@
 #include "TDA_ListaSimple.h"
 #include "TDA_ColaDinamica.h"
 
-//Acondiciono todas las estructuras, seteo las stats del inicio
 void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos)
 {
     crearListaDoble(&juego->tablero);
@@ -14,7 +13,7 @@ void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos)
     juego->posSalida = cantPos;
     juego->estadoPartida = 0;
 }
-//Generacion del tablero
+
 void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos)
 {
     tCasillero casillero;
@@ -48,7 +47,7 @@ void crearJugador(tJugador *j, const char *nombreJ, int cantVidas)
     crearLista(&j->historialMovimientos);
 }
 
-void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos) ///MODIFICADA
+void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos)
 {
     int i;
     tCasillero casillero;
@@ -101,13 +100,10 @@ int pedirDireccion()
         printf("2. Atrás.\n");
         printf("Opción: ");
         scanf("%d", &dir);
-        //para limpiar el buffer porque me toma el enter como una nueva opcion
         while(getchar() != '\n');
         system("cls");
         if (dir != 1 && dir != 2)
-        {
             printf("\nOpción invalida. Por favor, ingrese 1 o 2.\n");
-        }
     }
     while(dir != 1 && dir != 2);
 
@@ -119,7 +115,7 @@ int tirarDado()
     return (rand() % 6) + 1;
 }
 
-void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)    ///MODIFICADA
+void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego)
 {
     int pasosHastaLimite, sobrantes, direccionRebote;
     tCasillero actual, destino, limite;
@@ -168,7 +164,7 @@ void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos)
     ponerEnCola(cola, &mov, sizeof(tMovimiento));
 }
 
-void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
+void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
 {
     tMovimiento mov;
     tMovHistorico movH;
@@ -189,7 +185,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)  ///MODIFICADA
         }
         else if(mov.movimientoDe == 'B')
         {
-            b = &juego->vecBandidos[mov.idBandido - 1]; // idBandido arranca en 1, el índice en 0
+            b = &juego->vecBandidos[mov.idBandido - 1];
 
             if(b->vivo)
             {
@@ -251,7 +247,6 @@ void registrarMovimiento(tJugador *j, tMovimiento *mov)
         movH.direccion = 'B';
 
     movH.pasos = mov->pasos;
-
     ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
 }
 
@@ -357,7 +352,7 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 }
 
-void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
+void turno(tJugador *j, tJuego *juego)
 {
     int pasos, direccion;
 
@@ -370,9 +365,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
         while (i < juego->cantBandidosActivos && hayBandidosVivos == 0)
         {
             if (juego->vecBandidos[i].vivo == 1)
-            {
                 hayBandidosVivos = 1;
-            }
             i++;
         }
 
@@ -395,16 +388,14 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
     printf("\nVidas actuales: ");
     for(int k = 0; k < j->cantVidas; k++)
-    {
         printf("\xE2\x99\xA5 ");
-    }
+
     printf("(x%d)", j->cantVidas);
 
     printf("\nPuntos actuales: ");
     for(int k = 0; k < j->puntos; k++)
-    {
         printf("\xE2\x98\x86 ");
-    }
+
     printf("(x%d)\n", j->puntos);
     printf("\nPresione ENTER para arrojar el dado virtual...");
 
@@ -456,14 +447,12 @@ void mostrarCasillero(const void *a)
         printf("] ");
     }
     else
-    {
         printf("[%c] ", casillero.componente);
-    }
 
     printf("\n");
 }
 
-void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)  ///MODIFICADA
+void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)
 {
     int i, pasosB, posBandido, posJugadorAnterior;
     tMovimiento mov;
@@ -487,7 +476,7 @@ void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)  
     }
 }
 
-void moverBandidoSinRebote(tBandido* b, int pasos, int direccion, tJuego* juego)    ///MODIFICADA
+void moverBandidoSinRebote(tBandido* b, int pasos, int direccion, tJuego* juego)
 {
     tCasillero actual, destino;
 
@@ -509,7 +498,7 @@ void moverBandidoSinRebote(tBandido* b, int pasos, int direccion, tJuego* juego)
     b->posActual = destino.posicion;
 }
 
-int cmpCasillero(const void *a, const void *b)  ///NUEVA
+int cmpCasillero(const void *a, const void *b)
 {
     tCasillero *casA = (tCasillero *)a;
     tCasillero *casB = (tCasillero *)b;
