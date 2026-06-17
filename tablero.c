@@ -194,7 +194,14 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                 if(b->posActual == j->posActual)
                 {
                     if(j->protegido > 0)
-                        printf("[PROTECCIÓN] Un bandido cayó en tu casillero ¡Pero la inmunidad del Oasis te protege!\n\n");
+                        if(j->posActual == juego->posInicio)
+                        {
+                            printf("[ZONA SEGURA] ¡Hay un bandido esperandote aqui pero las defensas del campamento inicial te protegen!");
+                        }
+                        else
+                        {
+                            printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
+                        }
                     else
                     {
                         printf("[EMBOSCADA] ¡Un bandido te atrapó! Perdes una vida y volves al inicio.\n\n");
@@ -272,7 +279,14 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     if (c.cantBandidos > 0)
     {
         if (j->protegido > 0)
-            printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
+            if(j->posActual == juego->posInicio)
+            {
+                printf("[ZONA SEGURA] ¡Hay un bandido esperandote aqui pero las defensas del campamento inicial te protegen!");
+            }
+            else
+            {
+                printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
+            }
         else
         {
             printf("[ATRAPADO] ¡Un bandido te estaba esperando y te atrapó! Perdés una vida y volvés al inicio.\n\n");

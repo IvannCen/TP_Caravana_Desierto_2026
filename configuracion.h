@@ -58,6 +58,7 @@ typedef struct
     long posArchivo;
 }tIndiceJugador;
 
+int validarConfiguracion(tConfiguracion* c);
 int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice);
 int guardarIndiceBinario(const tArbolBinBusq* pa, const char* Indice);
 void guardarIndiceEnArchivoAux(const tArbolBinBusq* pa, FILE* arch);

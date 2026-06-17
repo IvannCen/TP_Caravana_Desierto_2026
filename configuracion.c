@@ -72,6 +72,34 @@ int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo)
     return TODO_OK;
 }
 
+int validarConfiguracion(tConfiguracion* c)
+{
+    // Descontamos el casillero de Inicio y el de Salida
+    int espaciosLibres = c->cantidad_posiciones - 2;
+
+    // Sumamos todo lo que el usuario quiere meter en el mapa
+    int totalEntidades = c->maximo_bandidos + c->maximo_premios + c->maximo_vidas_extra + c->maximo_oasis + c->maximo_tormentas;
+
+    // 1. Validamos que haya espacio físico para todo
+    if(totalEntidades > espaciosLibres)
+    {
+        printf("\n[ERROR DE CONFIGURACION]\n");
+        printf("El archivo config.txt solicita colocar %d entidades, pero el mapa solo tiene %d casilleros libres.\n", totalEntidades, espaciosLibres);
+        return ERROR;
+    }
+
+    // 2. Validamos que el juego sea humanamente posible de ganar (Opcional pero muy profesional)
+    // Por ejemplo, que los bandidos no ocupen más de la mitad del mapa.
+    if(c->maximo_bandidos > (espaciosLibres / 2))
+    {
+        printf("\n[ADVERTENCIA DE CONFIGURACION]\n");
+        printf("Hay demasiados bandidos configurados. El escenario no tendria una solucion posible.\n");
+        return ERROR;
+    }
+
+    return TODO_OK;
+}
+
 char* crearVecPos(size_t tam)
 {
     char* vecpos = (char*)malloc(tam*sizeof(char));
