@@ -121,7 +121,7 @@ int main()
             printf("Saliendo del juego... ¡Hasta la próxima!\n");
             printf("==============================================\n");
 
-            guardarIndiceBinario(&indiceJugadores, "indice.dat");
+            guardarIndiceBinario(&indiceJugadores, "indice.idx");
             vaciarArbolBinBusq(&indiceJugadores);
 
             break;

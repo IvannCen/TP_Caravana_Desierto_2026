@@ -353,7 +353,7 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
         insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
 
         // Grabar Arbol Indice
-        guardarIndiceBinario(pa, "indice.dat");
+        guardarIndiceBinario(pa, "indice.idx");
 
         // Devolvemos los datos del nuevo jugador
         *idJugador = nuevoId;
