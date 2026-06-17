@@ -23,11 +23,9 @@ void crearLista(tListaSimple *l);
 int listaVacia(const tListaSimple *l);
 int listaLlena(const tListaSimple *l,const void *dato, unsigned tam);
 void vaciarLista(tListaSimple *l);
-
 int ponerEnListaAlFinal(tListaSimple *l, const void *dato, unsigned tam);
 int sacarDeListaAlPrincipio(tListaSimple *l, void *dato, unsigned tam);
 int verPrimeroEnLista(const tListaSimple *l, void *dato, unsigned tam);
-
 void mostrarLista(const tListaSimple *pl, void (*mostrar)(const void *a));
 
 #endif // TDA_LISTASIMPLE_H_INCLUDED

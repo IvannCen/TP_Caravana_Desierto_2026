@@ -37,8 +37,6 @@ typedef struct
     int maximo_tormentas;
 }tConfiguracion;
 
-// ESTRUCTURAS PARA LA GESTION DE DATOS
-
 typedef struct
 {
     int idJugador;
@@ -60,8 +58,6 @@ typedef struct
     long posArchivo;
 }tIndiceJugador;
 
-//PROTOTIPOS DE LAS FUNCIONES DE ARCHIVOS INDEXADOS Y ARBOLES
-
 int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice);
 int guardarIndiceBinario(const tArbolBinBusq* pa, const char* Indice);
 void guardarIndiceEnArchivoAux(const tArbolBinBusq* pa, FILE* arch);
@@ -69,10 +65,7 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
 int registrarNuevaPartida(const char* Partidas, int idJugador, int puntos, int movimientos);
 int cmpIndiceJugador(const void* a, const void* b);
 
-
-// PROTOTIPOS PARA EL RANKING
 int cmpIndice(const void *a, const void *b);
-int cmpRanking(const void *a, const void *b);
 void mostrarJugadorRanking(const void *a);
 void mostrarRanking();
 

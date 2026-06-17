@@ -5,7 +5,6 @@ void crearArbolBinBusq(tArbolBinBusq* p)
     *p = NULL;
 }
 
-// Inserta de forma recursiva: los menores a la izquierda, los mayores a la derecha
 int insertarEnArbolBinBusq(tArbolBinBusq* p, const void* d, unsigned tam, int (*cmp)(const void*, const void*))
 {
     tNodoArbol* nue;
@@ -17,8 +16,6 @@ int insertarEnArbolBinBusq(tArbolBinBusq* p, const void* d, unsigned tam, int (*
         if(comp < 0)
             return insertarEnArbolBinBusq(&(*p)->izq, d, tam, cmp);
         else
-            // si es mayor o igual lo mandamos siempre a la derecha.
-            // los empates se almacenen como nodos nuevos en el arbol.
             return insertarEnArbolBinBusq(&(*p)->der, d, tam, cmp);
     }
 
@@ -41,7 +38,6 @@ int insertarEnArbolBinBusq(tArbolBinBusq* p, const void* d, unsigned tam, int (*
     return TODO_OK;
 }
 
-// Recorre recursivamente: Derecha -> Raíz -> Izquierda (Para que salga de MAYOR a MENOR)
 void recorrerArbolInOrdenInverso(const tArbolBinBusq* p, void (*accion)(const void*))
 {
     if(!*p)

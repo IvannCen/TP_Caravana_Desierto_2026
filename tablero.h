@@ -12,10 +12,10 @@
 
 typedef struct
 {
-    int posicion;        // numero de casillero en el tablero
-    char componente;     // I J . T O S, etc..
-    int cantBandidos;    // numero de bandidos en el casillero ya que puede haber varios en uno mismo
-    int hayJugador;      // para saber si el jugador se encuentra en ese casillero
+    int posicion;
+    char componente;
+    int cantBandidos;
+    int hayJugador;
 } tCasillero;
 
 typedef struct
@@ -44,18 +44,15 @@ typedef struct
     tCola colaMovimientos;
     tListaSimple bandidos;
     int IdBandido;
-    int estadoPartida; /// 1 victoria, 0 sigue jugando, -1 perdio
-
-    //agrego  nuevas variables para almacenar los bandidos y para saber cuantos hay activos
+    int estadoPartida;
     tBandido* vecBandidos;
     int cantBandidosActivos;
-
-    int posAnteriorJugador; //para guardar donde estuvo el jugador y con eso que los bandidos se muevan
+    int posAnteriorJugador;
 } tJuego;
 
 typedef struct
 {
-    char movimientoDe; /// J o B
+    char movimientoDe;
     int idBandido;
     int direccion;
     int pasos;
@@ -67,37 +64,24 @@ typedef struct
     int pasos;
 } tMovHistorico;
 
-/// TABLERO Y CREAR JUGADOR
 void inicializarJuego(tJuego *juego, int cantPos, const char* vecpos);
 void crearTablero(tListaDobleC *pld, int cantPos, const char* vecpos);
 void crearJugador(tJugador *j, const char *nombreJ, int cantVidas);
-
-/// agrego una funcion para la ubicacion de las entidades en el tablero
 void ubicarEntidades(tJuego* juego, tJugador* jugador, int maxBandidos);
 void turno(tJugador *j, tJuego *juego);
-
 void ponerComponentesEnTablero(tJuego *juego, tConfiguracion *config, char tipo, int cantComp, int zonaExclusion);
 void ponerTodosLosComponentes(tJuego *juego, tConfiguracion *config);
-
 int pedirDireccion();
 int tirarDado();
-
-/// MOVIMIENTO DE JUGADOR
 void moverJugadorConRebote(tJugador *j, int pasos, int direccion, tJuego *juego);
 void moverJugador(tJugador *j, tJuego *juego, int pasos, int direccion);
 void mostrarCasillero(const void *a);
 void registrarMovimiento(tJugador *j, tMovimiento *mov);
-
-/// MOVIMIENTO DE BANDIDO
 void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador);
 void moverBandidoSinRebote(tBandido* b, int pasos, int direccion, tJuego* juego);
-
-/// COLA DE MOVIMIENTO
 void ponerEnColarMovimientoJugador(tCola *cola, int direccion, int pasos);
 void procesarCola(tCola *cola, tJugador *j, tJuego *juego);
-
 void aplicarEfectos(tJugador *j, tJuego *juego);
-
 int cmpCasillero(const void *a, const void *b);
 void mostrarMovimientoHistorial(const void *a);
 
