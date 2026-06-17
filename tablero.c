@@ -183,7 +183,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
             movH.pasos = mov.pasos;
             ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
         }
-        else if(mov.movimientoDe == 'B')
+        else if(mov.movimientoDe == 'B' && juego->estadoPartida != 1 && juego->estadoPartida != -1)
         {
             b = &juego->vecBandidos[mov.idBandido - 1];
 
@@ -203,7 +203,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
                         b->vivo = 0;
 
                         j->pierdeTurno = 0;
-                        j->protegido = 0;
+                        j->protegido = 1;
 
                         tCasillero casDestino;
                         casDestino.posicion = j->posActual;
@@ -299,6 +299,8 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
             actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
 
             j->posActual = juego->posInicio;
+
+            j->protegido = 1;
 
             tCasillero casInicio;
             casInicio.posicion = juego->posInicio;
@@ -417,29 +419,42 @@ void turno(tJugador *j, tJuego *juego)
     mostrarListaDeIzqADer(&juego->tablero, mostrarCasillero);
 }
 
-void mostrarCasillero(const void *a)
+void mostrarCasillero(const void* a)
 {
-    tCasillero casillero = *(const tCasillero *)a;
-    printf("%02d: ", casillero.posicion);
+    tCasillero casillero = *(const tCasillero*)a;
+    printf("%02d: [", casillero.posicion);
+
+    int impreso = 0, k;
+
+    if(casillero.componente != '.' && casillero.componente != 'B')
+    {
+        printf("%c", casillero.componente);
+        impreso = 1;
+    }
+
+    for(k = 0; k < casillero.cantBandidos; k++)
+    {
+        if(impreso)
+            printf(" ");
+
+        printf("B");
+        impreso = 1;
+    }
 
     if(casillero.hayJugador)
     {
-        if(casillero.componente == '.')
-            printf("[J] ");
-        else
-            printf("[%c J] ", casillero.componente);
+        if(impreso)
+            printf(" ");
+        printf("J");
+        impreso = 1;
     }
-    else if(casillero.cantBandidos > 0)
-    {
-        if(casillero.componente == '.' || casillero.componente == 'B')
-            printf("[B] ");
-        else
-            printf("[%c B] ", casillero.componente);
-    }
-    else
-        printf("[%c] ", casillero.componente);
 
-    printf("\n");
+    if(!impreso)
+    {
+        printf(".");
+    }
+
+    printf("]\n");
 }
 
 void encolarMovimientosBandidos(tCola* cola, tJuego* juego, tJugador* jugador)

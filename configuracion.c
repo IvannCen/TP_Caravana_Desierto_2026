@@ -93,7 +93,18 @@ char* crearVecPos(size_t tam)
 
 void ubicacionAleatoria(char* vec, int tam, char letra, int cant)
 {
-    int ubi, i=0;
+    int ubi, i=0, j;
+    int espaciosVacios = 0;
+
+    for(j=1;j<tam-1;j++)
+    {
+        if(*(vec+j) == '.')
+            espaciosVacios++;
+    }
+
+    if(cant>espaciosVacios)
+        cant=espaciosVacios;
+
     while(i<cant)
     {
         ubi=rand()%(tam-2)+1;
@@ -293,7 +304,7 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
         nuevoIndice.posArchivo = offset;
         insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
 
-        guardarIndiceBinario(pa, "indice.dat");
+        guardarIndiceBinario(pa, "indice.idx");
 
         *idJugador = nuevoId;
         *posArchivo = offset;
