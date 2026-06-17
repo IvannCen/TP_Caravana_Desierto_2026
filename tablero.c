@@ -428,6 +428,7 @@ void turno(tJugador *j, tJuego *juego)  ///MODIFICADA
 
 void mostrarCasillero(const void *a)
 {
+    int i;
     tCasillero casillero = *(const tCasillero *)a;
     printf("%02d: ", casillero.posicion);
 
@@ -445,7 +446,7 @@ void mostrarCasillero(const void *a)
         if(casillero.componente != '.' && casillero.componente != 'B')
             printf("%c ", casillero.componente);
 
-        for(int i = 0; i < casillero.cantBandidos; i++)
+        for(i = 0; i < casillero.cantBandidos; i++)
         {
             printf("B");
 
