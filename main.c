@@ -32,96 +32,107 @@ int main()
 
         switch(opcionElegida)
         {
-            case 1:
-                system("cls");
-                printf("\n=== NUEVA PARTIDA ===\n\n");
-                printf("Ingrese su nombre: ");
-                fflush(stdin);
-                scanf("%49s", nombre);
-                while(getchar() != '\n');
+        case 1:
+            system("cls");
+            printf("\n=== NUEVA PARTIDA ===\n\n");
+            printf("Ingrese su nombre: ");
+            fflush(stdin);
+            scanf("%49s", nombre);
+            while(getchar() != '\n');
 
-                int idJugadorActual;
-                long posArchivoActual;
-                buscarODarDeAltaJugador(&indiceJugadores, nombre, "jugadores.dat", &idJugadorActual, &posArchivoActual);
+            int idJugadorActual;
+            long posArchivoActual;
+            buscarODarDeAltaJugador(&indiceJugadores, nombre, "jugadores.dat", &idJugadorActual, &posArchivoActual);
 
-                system("cls");
+            system("cls");
 
-                // Creamos un escenario nuevo para ESTA partida en particular
-                char* posiciones = crearVecPos(config.cantidad_posiciones);
+            // Creamos un escenario nuevo para ESTA partida en particular
+            char* posiciones = crearVecPos(config.cantidad_posiciones);
 
-                ubicacionAleatoria(posiciones, config.cantidad_posiciones, BANDIDO, config.maximo_bandidos);
-                ubicacionAleatoria(posiciones, config.cantidad_posiciones, PREMIO, config.maximo_premios);
-                ubicacionAleatoria(posiciones, config.cantidad_posiciones, VIDA_EXTRA, config.maximo_vidas_extra);
-                ubicacionAleatoria(posiciones, config.cantidad_posiciones, OASIS, config.maximo_oasis);
-                ubicacionAleatoria(posiciones, config.cantidad_posiciones, TORMENTA, config.maximo_tormentas);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, BANDIDO, config.maximo_bandidos);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, PREMIO, config.maximo_premios);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, VIDA_EXTRA, config.maximo_vidas_extra);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, OASIS, config.maximo_oasis);
+            ubicacionAleatoria(posiciones, config.cantidad_posiciones, TORMENTA, config.maximo_tormentas);
 
-                inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
+            inicializarJuego(&juego, config.cantidad_posiciones, posiciones);
 
-                crearJugador(&jugador, nombre, config.vidas_inicio);
+            crearJugador(&jugador, nombre, config.vidas_inicio);
 
-                ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
+            ubicarEntidades(&juego, &jugador, config.maximo_bandidos);
 
-                guardarEscenario(posiciones, config.cantidad_posiciones, "caravana.txt");
+            guardarEscenario(posiciones, config.cantidad_posiciones, "caravana.txt");
 
-                free(posiciones);
+            free(posiciones);
 
-                int turnosJugador = 0;
+            int turnosJugador = 0;
 
-                mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
+            mostrarListaDeIzqADer(&juego.tablero, mostrarCasillero);
 
-                // Bucle de LA PARTIDA
-                while(juego.estadoPartida == 0)
-                {
-                    turno(&jugador, &juego);
-                    turnosJugador++;
-                }
+            // Bucle de LA PARTIDA
+            while(juego.estadoPartida == 0)
+            {
+                turno(&jugador, &juego);
+                turnosJugador++;
+            }
 
-                registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
+            if (juego.estadoPartida == -1)
+            {
+                printf("\nComo no lograste llegar a la ciudad refugio, perdiste los puntos acumulados en este intento.\n");
+                jugador.puntos = 0;
+            }
+            else if (juego.estadoPartida == 1)
+            {
+                printf("\n¡Sobreviviste! Tus %d puntos serán sumados a tu perfil.\n", jugador.puntos);
+            }
 
-                if(juego.vecBandidos)
-                {
-                    free(juego.vecBandidos);
-                    juego.vecBandidos = NULL;
-                }
+            registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
 
-                printf("\nPartida finalizada.\n");
-                printf("\nHistorial de movimientos:\n");
-                mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
+            if(juego.vecBandidos)
+            {
+                free(juego.vecBandidos);
+                juego.vecBandidos = NULL;
+            }
 
-                vaciarLista(&jugador.historialMovimientos);
-                vaciarCola(&juego.colaMovimientos);
-                vaciarListaDoble(&juego.tablero);
+            printf("\nPartida finalizada.\n");
+            printf("\nHistorial de movimientos:\n");
+            mostrarLista(&jugador.historialMovimientos, mostrarMovimientoHistorial);
 
-                system("pause");
-                break;
+            vaciarLista(&jugador.historialMovimientos);
+            vaciarCola(&juego.colaMovimientos);
+            vaciarListaDoble(&juego.tablero);
 
-            case 2:
-                system("cls");
-                printf("\n=== RANKING DE JUGADORES ===\n\n");
+            system("pause");
+            break;
 
-                mostrarRanking();
+        case 2:
+            system("cls");
+            printf("\n=== RANKING DE JUGADORES ===\n\n");
 
-                printf("\n");
-                system("pause");
-                break;
+            mostrarRanking();
 
-            case 3:
-                system("cls");
-                printf("==============================================\n");
-                printf("Saliendo del juego... ¡Hasta la próxima!\n");
-                printf("==============================================\n");
+            printf("\n");
+            system("pause");
+            break;
 
-                guardarIndiceBinario(&indiceJugadores, "indice.dat");
-                vaciarArbolBinBusq(&indiceJugadores);
+        case 3:
+            system("cls");
+            printf("==============================================\n");
+            printf("Saliendo del juego... ¡Hasta la próxima!\n");
+            printf("==============================================\n");
 
-                break;
+            guardarIndiceBinario(&indiceJugadores, "indice.dat");
+            vaciarArbolBinBusq(&indiceJugadores);
 
-            default:
-                printf("\nOpción invalida, por favor ingresar un número entre 1 y 3.\n\n");
-                system("pause");
+            break;
+
+        default:
+            printf("\nOpción invalida, por favor ingresar un número entre 1 y 3.\n\n");
+            system("pause");
         }
 
-    } while (opcionElegida != 3);
+    }
+    while (opcionElegida != 3);
 
     return 0;
 }
