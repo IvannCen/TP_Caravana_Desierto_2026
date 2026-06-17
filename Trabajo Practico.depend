@@ -1,11 +1,10 @@
 # depslib dependency file v1.0
-1781390119 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
-	"configuracion.h"
-	"TDA_ListaDobleCircular.h"
-	"tablero.h"
+1781717918 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\main.c
 	<windows.h>
+	"configuracion.h"
+	"tablero.h"
 
-1781381931 c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.h
+1781717918 c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -13,11 +12,12 @@
 	"TDA_ListaDobleCircular.h"
 	"TDA_ColaDinamica.h"
 	"TDA_ListaSimple.h"
+	"TDA_ArbolBinarioBusqueda.h"
 
-1781382591 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
+1781717918 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.c
 	"TDA_ListaDobleCircular.h"
 
-1781382577 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
+1781717918 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listadoblecircular.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -28,7 +28,7 @@
 
 1779628634 c:\users\cristian\documents\github\tp_caravana_desierto_2026\cola.h
 
-1781381596 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_coladinamica.c
+1781716067 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_coladinamica.c
 	"TDA_ColaDinamica.h"
 
 1781381624 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\menu.c
@@ -39,17 +39,18 @@
 	<stdlib.h>
 	<string.h>
 
-1781381870 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.c
+1781717918 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
+	"TDA_ArbolBinarioBusqueda.h"
 
-1781382535 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.c
+1781723970 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"
 	"TDA_ColaDinamica.h"
 
-1781382039 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.h
+1781717918 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tablero.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -58,15 +59,15 @@
 	"TDA_ColaDinamica.h"
 	"TDA_ListaSimple.h"
 
-1781381596 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_coladinamica.h
+1781716067 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_coladinamica.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1781382466 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
+1781716067 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.c
 	"TDA_ListaSimple.h"
 
-1781382173 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.h
+1781716067 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_listasimple.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -212,5 +213,13 @@
 	<string.h>
 
 1781645789 source:c:\users\camm\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
+	"TDA_ArbolBinarioBusqueda.h"
+
+1781717918 c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1781717918 source:c:\users\cristian\documents\github\tp_caravana_desierto_2026\tda_arbolbinariobusqueda.c
 	"TDA_ArbolBinarioBusqueda.h"
 

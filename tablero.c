@@ -440,10 +440,20 @@ void mostrarCasillero(const void *a)
     }
     else if(casillero.cantBandidos > 0)
     {
-        if(casillero.componente == '.' || casillero.componente == 'B')
-            printf("[B] ");
-        else
-            printf("[%c B] ", casillero.componente);
+        printf("[");
+
+        if(casillero.componente != '.' && casillero.componente != 'B')
+            printf("%c ", casillero.componente);
+
+        for(int i = 0; i < casillero.cantBandidos; i++)
+        {
+            printf("B");
+
+            if(i < casillero.cantBandidos - 1)
+                printf(" ");
+        }
+
+        printf("] ");
     }
     else
     {
