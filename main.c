@@ -15,7 +15,7 @@ int main()
 
     tArbolBinBusq indiceJugadores;
     crearArbolBinBusq(&indiceJugadores);
-    cargarIndiceBinario(&indiceJugadores, "indice.dat");
+    cargarIndiceBinario(&indiceJugadores, "indice.idx");
 
     // ACA SE CARGA LA CONFIG DEL MAPA
     tConfiguracion config;
@@ -83,7 +83,7 @@ int main()
             }
             else if (juego.estadoPartida == 1)
             {
-                printf("\n¡Sobreviviste! Tus %d puntos serán sumados a tu perfil.\n", jugador.puntos);
+                printf("\n¡Sobreviviste! Los puntos obtenidos en esta partida serán sumados a tu perfil.\n");
             }
 
             registrarNuevaPartida("partidas.dat", idJugadorActual, jugador.puntos, turnosJugador);
