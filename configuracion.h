@@ -75,4 +75,5 @@ int cargarConfiguracion(tConfiguracion* c, const char* nombArchivo);
 char* crearVecPos(size_t tam);
 void ubicacionAleatoria(char* vec, int tam, char letra, int cant);
 void guardarEscenario(char* vec, int tam, const char* nombArchivo);
+void mostrarReglas(const char* nombreArchivo);
 #endif // CONFIGURACION

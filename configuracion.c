@@ -316,7 +316,7 @@ int buscarODarDeAltaJugador(tArbolBinBusq* pa, const char* nombre, const char* J
         nuevoIndice.posArchivo = offset;
         insertarEnArbolBinBusq(pa, &nuevoIndice, sizeof(tIndiceJugador), cmpIndiceJugador);
 
-        guardarIndiceBinario(pa, "indice.dat");
+        guardarIndiceBinario(pa, "indice.idx");
 
         *idJugador = nuevoId;
         *posArchivo = offset;
@@ -352,4 +352,26 @@ int cmpIndiceJugador(const void* a, const void* b)
     tIndiceJugador* i1 = (tIndiceJugador*)a;
     tIndiceJugador* i2 = (tIndiceJugador*)b;
     return strcmp(i1->nombre, i2->nombre);
+}
+
+void mostrarReglas(const char* nombreArchivo)
+{
+    FILE* arch = fopen(nombreArchivo, "rt");
+
+    if (!arch)
+    {
+        printf("==============================================\n");
+        printf("              REGLAS DEL JUEGO                \n");
+        printf("==============================================\n\n");
+        printf("[!] Error: No se encontro el archivo '%s'.\n", nombreArchivo);
+        printf("Asegurese de crearlo en la misma carpeta que el programa.\n\n");
+        return;
+    }
+
+    char linea[256];
+    while (fgets(linea, sizeof(linea), arch))
+        printf("%s", linea);
+
+    printf("\n");
+    fclose(arch);
 }

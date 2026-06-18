@@ -1,0 +1,20 @@
+REGLAS DE CARAVANA DEL DESIERTO
+
+OBJETIVO PRINCIPAL
+Tu misión es atravesar la ruta comercial de forma segura y llegar a la Ciudad Refugio (S) desde el Campamento Inicial (I). La partida finaliza si logras llegar a la meta o si pierdes todas tus vidas en el intento.
+
+MOVIMIENTO DE LA CARAVANA
+En cada turno arrojaras un dado virtual (del 1 al 6) y elegirás la dirección de tu movimiento: adelante o atrás. Debes llegar a la salida con la cantidad exacta de pasos; si tu tirada supera la posición de la Ciudad Refugio, rebotaras y retrocederás los pasos sobrantes.
+
+LOS BANDIDOS
+Los bandidos (B) patrullan la ruta y se mueven de forma autónoma después de tu turno, intentando atraparte. Si caes en su misma casilla, o si un bandido te alcanza moviéndose hacia ti, sufrirás una emboscada. Como consecuencia perderás una vida, volverás al Campamento Inicial y el bandido morirá.
+TERRENO Y PRIORIDAD DE EVENTOS
+El desierto esta lleno de peligros y tesoros. Al finalizar tu movimiento en un casillero, los efectos del entorno se aplican con un orden de prioridad estricto:
+
+Prioridad Máxima - OASIS (O): Es el lugar mas seguro. Te otorga un escudo de inmunidad inmediata para el turno actual y el turno siguiente. Si un bandido te estaba esperando en el oasis, o si intenta atraparte en tu próximo turno, el escudo te salvara y no sufrirás ningún daño.
+
+Prioridad Alta - EMBOSCADA: Si no tienes la inmunidad del oasis y hay un bandido esperándote en tu casilla, sufres el ataque. La emboscada es tan rápida que anula cualquier otro efecto del terreno (no recoges premios ni sufres el clima, simplemente vuelves al inicio).
+
+Prioridad Media - TORMENTA (T): Si caes aquí sin la protección del oasis, la arena te atrapara y perderás tu próximo turno. ¡Debes tener cuidado! Durante tu aturdimiento, los bandidos seguirán tirando sus dados y moviéndose libremente hacia tu posición.
+
+Prioridad Baja - BOTIN (P o V): Si el casillero esta libre de peligros, podrás recoger los recursos abandonados. Puedes encontrar Premios (P) que se sumaran a tu puntaje al ganar la partida, o Vidas Extra (V). Una vez recogidos, el casillero quedara vacío.

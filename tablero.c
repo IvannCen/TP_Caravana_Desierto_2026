@@ -183,7 +183,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
             movH.pasos = mov.pasos;
             ponerEnListaAlFinal(&j->historialMovimientos, &movH, sizeof(tMovHistorico));
         }
-        else if(mov.movimientoDe == 'B')
+        else if(mov.movimientoDe == 'B' && juego->estadoPartida != 1 && juego->estadoPartida != -1)
         {
             b = &juego->vecBandidos[mov.idBandido - 1];
 
@@ -191,7 +191,7 @@ void procesarCola(tCola *cola, tJugador *j, tJuego *juego)
             {
                 moverBandidoSinRebote(b, mov.pasos, mov.direccion, juego);
 
-                if(b->posActual == j->posActual)
+                if(b->posActual == j->posActual && j->posActual != juego->posSalida)
                 {
                     if(j->protegido > 0)
                         if(j->posActual == juego->posInicio)
@@ -279,14 +279,9 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
     if (c.cantBandidos > 0)
     {
         if (j->protegido > 0)
-            if(j->posActual == juego->posInicio)
-            {
-                printf("[ZONA SEGURA] ¡Hay un bandido esperandote aqui pero las defensas del campamento inicial te protegen!");
-            }
-            else
-            {
-                printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
-            }
+        {
+            printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
+        }
         else
         {
             printf("[ATRAPADO] ¡Un bandido te estaba esperando y te atrapó! Perdés una vida y volvés al inicio.\n\n");
@@ -356,7 +351,10 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         break;
 
     case '.':
-        printf("[SIN EFECTOS] El casillero se encuentra vacío por el momento.\n\n");
+        if (c.cantBandidos == 0)
+        {
+            printf("[SIN EFECTOS] El casillero se encuentra vacío por el momento.\n\n");
+        }
         break;
     case 'I':
     case 'O':
