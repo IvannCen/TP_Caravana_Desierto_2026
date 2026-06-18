@@ -139,7 +139,7 @@
 	"TDA_ListaSimple.h"
 	"TDA_ColaDinamica.h"
 
-1781744500 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tablero.c
+1781747432 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tablero.c
 	"tablero.h"
 	"TDA_ListaDobleCircular.h"
 	"TDA_ListaSimple.h"
@@ -154,7 +154,7 @@
 	"TDA_ColaDinamica.h"
 	"TDA_ListaSimple.h"
 
-1781743482 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.h
+1781746055 c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -188,7 +188,7 @@
 1781558634 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\tda_listasimple.c
 	"TDA_ListaSimple.h"
 
-1781743652 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.c
+1781746055 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\configuracion.c
 	"configuracion.h"
 	"TDA_ColaDinamica.h"
 	"TDA_ArbolBinarioBusqueda.h"
@@ -198,7 +198,7 @@
 	<stdlib.h>
 	<string.h>
 
-1781743653 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\main.c
+1781746140 source:c:\users\ivanc\onedrive\escritorio\primer cuatri 2026\algoritmos\trabajo practico\tp_caravana_desierto_2026\main.c
 	<windows.h>
 	"configuracion.h"
 	"tablero.h"
