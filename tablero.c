@@ -274,51 +274,51 @@ void aplicarEfectos(tJugador *j, tJuego *juego)
         j->protegido = 2;
     }
 
-//    if (c.cantBandidos > 0)
-//    {
-//        if (j->protegido > 0)
-//            printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
-//        else
-//        {
-//            printf("[ATRAPADO] ¡Un bandido te estaba esperando y te atrapó! Perdés una vida y volvés al inicio.\n\n");
-//            j->cantVidas--;
-//
-//            int k = 0;
-//            int bandidoEncontrado = 0;
-//            while (k < juego->cantBandidosActivos && !bandidoEncontrado)
-//            {
-//                if (juego->vecBandidos[k].vivo == 1 && juego->vecBandidos[k].posActual == j->posActual)
-//                {
-//                    juego->vecBandidos[k].vivo = 0;
-//                    c.cantBandidos--;
-//
-//                    if (c.componente == 'B' && c.cantBandidos == 0)
-//                        c.componente = '.';
-//
-//                    bandidoEncontrado = 1;
-//                }
-//                k++;
-//            }
-//
-//            c.hayJugador = 0;
-//            actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
-//
-//            j->posActual = juego->posInicio;
-//
-//            tCasillero casInicio;
-//            casInicio.posicion = juego->posInicio;
-//            buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
-//            casInicio.hayJugador = 1;
-//            actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
-//
-//            if (j->cantVidas == 0)
-//            {
-//                printf("[DERROTA] ¡Te quedaste sin vidas! \n\n\t GAME OVER\n\n");
-//                juego->estadoPartida = -1;
-//            }
-//            return;
-//        }
-//    }
+    if (c.cantBandidos > 0)
+    {
+        if (j->protegido > 0)
+            printf("[PROTECCIÓN] ¡Hay un bandido en este casillero, pero la protección del Oasis te hace inmune!\n\n");
+        else
+        {
+            printf("[ATRAPADO] ¡Un bandido te estaba esperando y te atrapó! Perdés una vida y volvés al inicio.\n\n");
+            j->cantVidas--;
+
+            int k = 0;
+            int bandidoEncontrado = 0;
+            while (k < juego->cantBandidosActivos && !bandidoEncontrado)
+            {
+                if (juego->vecBandidos[k].vivo == 1 && juego->vecBandidos[k].posActual == j->posActual)
+                {
+                    juego->vecBandidos[k].vivo = 0;
+                    c.cantBandidos--;
+
+                    if (c.componente == 'B' && c.cantBandidos == 0)
+                        c.componente = '.';
+
+                    bandidoEncontrado = 1;
+                }
+                k++;
+            }
+
+            c.hayJugador = 0;
+            actualizarEnListaCircular(&juego->tablero, &c, sizeof(tCasillero), cmpCasillero);
+
+            j->posActual = juego->posInicio;
+
+            tCasillero casInicio;
+            casInicio.posicion = juego->posInicio;
+            buscarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+            casInicio.hayJugador = 1;
+            actualizarEnListaCircular(&juego->tablero, &casInicio, sizeof(tCasillero), cmpCasillero);
+
+            if (j->cantVidas == 0)
+            {
+                printf("[DERROTA] ¡Te quedaste sin vidas! \n\n\t GAME OVER\n\n");
+                juego->estadoPartida = -1;
+            }
+            return;
+        }
+    }
 
     switch (c.componente)
     {
