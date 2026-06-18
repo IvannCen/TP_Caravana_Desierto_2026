@@ -450,9 +450,7 @@ void mostrarCasillero(const void* a)
     }
 
     if(!impresoAlgo)
-    {
         printf(".");
-    }
 
     printf("]\n");
 }

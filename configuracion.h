@@ -35,14 +35,14 @@ typedef struct
     int maximo_vidas_extra;
     int maximo_oasis;
     int maximo_tormentas;
-}tConfiguracion;
+} tConfiguracion;
 
 typedef struct
 {
     int idJugador;
     char nombre[50];
     int estado;
-}tRegistroJugador;
+} tRegistroJugador;
 
 typedef struct
 {
@@ -50,13 +50,13 @@ typedef struct
     int idJugador;
     int puntosObtenidos;
     int cantMovimientos;
-}tRegistroPartida;
+} tRegistroPartida;
 
 typedef struct
 {
     char nombre[50];
     long posArchivo;
-}tIndiceJugador;
+} tIndiceJugador;
 
 int validarConfiguracion(tConfiguracion* c);
 int cargarIndiceBinario(tArbolBinBusq* pa, const char* Indice);
